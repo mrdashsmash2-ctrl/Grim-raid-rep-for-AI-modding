@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+	<string id="st_raid_shelter_upgrade_heli_title">
+		<text>Radio</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_heli_descr">
+		<text>Buy radio that will allow you to call for a helicopter. \n
+		Raid time +20 minutes when used.</text>
+	</string>
+
+	<string id="st_raid_shelter_upgrade_btr_title">
+		<text>BTR</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_btr_descr">
+		<text>Repair BTR engine that will allow you to use vehicle. \n
+		Raid time +10 minutes when used.</text>
+	</string>
+
+	<string id="st_raid_shelter_upgrade_clock_title">
+		<text>Emission analyzer</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_clock_descr">
+		<text>Special electronic device for more precise estimation of emission time. \n
+		Raid time +5 minutes.</text>
+	</string>
+
+	<string id="st_raid_shelter_upgrade_workbench_title">
+		<text>Workbench</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_workbench_descr">
+		<text>Buy workbench for repairing and upgrades.</text>
+	</string>
+
+	<string id="st_raid_shelter_upgrade_mechanic_title">
+		<text>Mechanic</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_mechanic_descr">
+		<text>Hire a mechanic that can repair your gear and sell repair items.</text>
+	</string>
+
+	<string id="st_raid_shelter_upgrade_bed_title">
+		<text>Couch</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_bed_descr">
+		<text>Buy a couch that is more comfortable than sleeping bag. \n
+		Gives some bonus after sleeping.</text>
+	</string>
+
+	<string id="st_raid_shelter_upgrade_medic_title">
+		<text>Medic</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_medic_descr">
+		<text>Hire a medic that can heal you and sell medicine.</text>
+	</string>
+
+	<string id="st_raid_shelter_upgrade_butcher_title">
+		<text>Butcher</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_butcher_descr">
+		<text>Hire butcher that can buy mutant's meat and parts for best price. \n
+		Bonus: \n
+		Adding butcher. 
+		</text>
+	</string>
+
+	<string id="st_raid_shelter_upgrade_buy">
+		<text>Buy %s ru</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_bought">
+		<text>Bought</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_required">
+		<text>Required:</text>
+	</string>
+
+	<string id="st_raid_mechanic_name">
+		<text>Mechanic</text>
+	</string>
+
+	<string id="st_raid_medic_name">
+		<text>Medic</text>
+	</string>
+
+	<string id="st_raid_butcher_name">
+		<text>Butcher</text>
+	</string>
+
+
+	<!-- GUI -->
+	<string id="st_raid_shelter_upgrade_gui_btr">
+		<text>Buy BTR for the next raid \n \n %s ru or 1 fuel</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_gui_heli">
+		<text>Buy helicopter for the next raid \n \n %s ru or 1 fuel</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_gui_ok">
+		<text>Buy (money)</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_gui_ok_fuel">
+		<text>Buy (fuel)</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_gui_exit">
+		<text>Exit</text>
+	</string>
+	<string id="st_raid_shelter_upgrade_gui_bought">
+		<text>Bought for the next raid.</text>
+	</string>
+
+
+</string_table>

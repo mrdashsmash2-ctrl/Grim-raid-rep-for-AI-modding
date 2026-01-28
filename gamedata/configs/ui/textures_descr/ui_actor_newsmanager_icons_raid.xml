@@ -1,0 +1,33 @@
+<w>
+	<file name="ui\raid_textures\achivments\ui_actor_newsmanager_icons_raid">
+
+		<texture id="ui_inGame2_Reaper_news" x="83" y="141" width="83" height="47" />
+		<texture id="ui_inGame2_True_veteran_news" x="0" y="0" width="83" height="47" />
+		<texture id="ui_inGame2_True_expert_news" x="83" y="0" width="83" height="47" />
+		<texture id="ui_inGame2_True_master_news" x="166" y="0" width="83" height="47" />
+		<texture id="ui_inGame2_True_legend_news" x="249" y="0" width="83" height="47" />
+		<texture id="ui_inGame2_Savage_news" x="83" y="188" width="83" height="47" />
+		<texture id="ui_inGame2_Trader_sidorovich_news" x="0" y="47" width="83" height="47" />
+		<texture id="ui_inGame2_Trader_freedom_news" x="83" y="47" width="83" height="47" />
+		<texture id="ui_inGame2_Trader_duty_news" x="166" y="47" width="83" height="47" />
+		<texture id="ui_inGame2_Trader_sakharov_news" x="249" y="47" width="83" height="47" />
+		<texture id="ui_inGame2_Trader_nimble_news" x="332" y="47" width="83" height="47" />
+		<texture id="ui_inGame2_Killler_news" x="0" y="141" width="83" height="47" />
+		<texture id="ui_inGame2_Sekach_news" x="0" y="188" width="83" height="47" />
+		<texture id="ui_inGame2_Achiev_1_news" x="415" y="188" width="83" height="47" />
+		<texture id="ui_inGame2_Achiev_2_news" x="332" y="188" width="83" height="47" />
+		<texture id="ui_inGame2_Achiev_3_news" x="332" y="141" width="83" height="47" />
+		<texture id="ui_inGame2_Achiev_4_news" x="415" y="141" width="83" height="47" />
+		<texture id="ui_inGame2_Traders_all_news" x="415" y="47" width="83" height="47" />
+		<texture id="ui_inGame2_Sucful_compl_raids_news" x="0" y="94" width="83" height="47" />
+		<texture id="ui_inGame2_Tasks_one_raid_news" x="83" y="94" width="83" height="47" />
+		<texture id="ui_inGame2_Sucful_nights_raids_news" x="166" y="94" width="83" height="47" />
+	</file>
+   
+    <file name="ui\raid_textures\achivments\ui_actor_newsmanager_icons_raid">
+		<texture id="ui_inGame2_noTrue_veteran_news" x="0" y="0" width="83" height="47" />
+		<texture id="ui_inGame2_noTrue_expert_news" x="83" y="0" width="83" height="47" />
+		<texture id="ui_inGame2_noTrue_master_news" x="166" y="0" width="83" height="47" />
+		<texture id="ui_inGame2_noTrue_legend_news" x="249" y="0" width="83" height="47" />   
+	</file>
+</w>

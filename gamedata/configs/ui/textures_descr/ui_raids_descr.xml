@@ -1,0 +1,440 @@
+<w>
+
+	<!-- -------------------------------------------- -->
+	<!-- -------------- GENERAL ----------------- -->
+	<!-- -------------------------------------------- -->
+
+
+
+	<!-- -------------------------------------------- -->
+	<!-- ---------------- LAPTOP ----------------- -->
+	<!-- -------------------------------------------- -->
+
+	<file name = "ui\raid_textures\raid_notebook_main_bg">
+		<!-- pic bg -->
+		<texture id="raid_notebook_main_bg" x="0" y="0" width="1297" height="683" />
+	</file>
+
+
+	<file name = "ui\raid_textures\raid_notebook_main_buttons">
+		<!-- task btn -->
+		<texture id="raid_notebook_task_btn_h" x="0" y="150" width="150" height="150" />
+		<texture id="raid_notebook_task_btn_t" x="0" y="150" width="150" height="150" />
+		<texture id="raid_notebook_task_btn_d" x="0" y="0" width="150" height="150" />
+		<texture id="raid_notebook_task_btn_e" x="0" y="0" width="150" height="150" />
+
+		<!-- upgrades btn -->
+		<texture id="raid_notebook_upgr_btn_h" x="150" y="150" width="150" height="150" />
+		<texture id="raid_notebook_upgr_btn_t" x="150" y="150" width="150" height="150" />
+		<texture id="raid_notebook_upgr_btn_d" x="150" y="0" width="150" height="150" />
+		<texture id="raid_notebook_upgr_btn_e" x="150" y="0" width="150" height="150" />
+
+		<!-- items btn -->
+		<texture id="raid_notebook_items_btn_h" x="300" y="150" width="150" height="150" />
+		<texture id="raid_notebook_items_btn_t" x="300" y="150" width="150" height="150" />
+		<texture id="raid_notebook_items_btn_d" x="300" y="0" width="150" height="150" />
+		<texture id="raid_notebook_items_btn_e" x="300" y="0" width="150" height="150" />
+	</file>
+
+
+	<file name = "ui\raid_textures\raid_notebook_main_buttons_eng">
+		<!-- task btn -->
+		<texture id="raid_notebook_task_eng_btn_h" x="0" y="150" width="150" height="150" />
+		<texture id="raid_notebook_task_eng_btn_t" x="0" y="150" width="150" height="150" />
+		<texture id="raid_notebook_task_eng_btn_d" x="0" y="0" width="150" height="150" />
+		<texture id="raid_notebook_task_eng_btn_e" x="0" y="0" width="150" height="150" />
+
+		<!-- upgrades btn -->
+		<texture id="raid_notebook_upgr_eng_btn_h" x="150" y="150" width="150" height="150" />
+		<texture id="raid_notebook_upgr_eng_btn_t" x="150" y="150" width="150" height="150" />
+		<texture id="raid_notebook_upgr_eng_btn_d" x="150" y="0" width="150" height="150" />
+		<texture id="raid_notebook_upgr_eng_btn_e" x="150" y="0" width="150" height="150" />
+
+		<!-- items btn -->
+		<texture id="raid_notebook_items_eng_btn_h" x="300" y="150" width="150" height="150" />
+		<texture id="raid_notebook_items_eng_btn_t" x="300" y="150" width="150" height="150" />
+		<texture id="raid_notebook_items_eng_btn_d" x="300" y="0" width="150" height="150" />
+		<texture id="raid_notebook_items_eng_btn_e" x="300" y="0" width="150" height="150" />
+	</file>
+
+	<!-- Tasks container and header -->
+	<file name = "ui\raid_textures\raid_notebook_tasks">
+		<texture id="raid_notebook_task_cont" x="0" y="0" width="1150" height="185" />
+		<texture id="raid_notebook_task_header_cont" x="0" y="190" width="872" height="83" />
+		<texture id="raid_notebook_task_informant_btn_cont" x="0" y="280" width="284" height="82" />
+
+		<!-- task informant btn -->
+		<texture id="raid_notebook_informant_main_btn_h" x="0" y="370" width="120" height="64" />
+		<texture id="raid_notebook_informant_main_btn_t" x="0" y="370" width="120" height="64" />
+		<texture id="raid_notebook_informant_main_btn_d" x="0" y="435" width="120" height="64" />
+		<texture id="raid_notebook_informant_main_btn_e" x="0" y="435" width="120" height="64" />
+
+		<!-- task details hover btn -->
+		<texture id="raid_notebook_task_accept_btn_h" x="125" y="370" width="255" height="43" />
+		<texture id="raid_notebook_task_accept_btn_t" x="125" y="370" width="255" height="43" />
+		<texture id="raid_notebook_task_accept_btn_d" x="125" y="420" width="255" height="43" />
+		<texture id="raid_notebook_task_accept_btn_e" x="125" y="420" width="255" height="43" />
+	</file>
+
+	<!-- Tasks details -->
+	<file name = "ui\raid_textures\raid_notebook_task_info">
+		<texture id="raid_notebook_task_info_bg" x="0" y="0" width="859" height="459" />
+	</file>
+
+	<!-- Tasks informant -->
+	<file name = "ui\raid_textures\raid_notebook_informant">
+		<!-- pic bg -->
+		<texture id="raid_notebook_informant_bg" x="0" y="0" width="350" height="550" />
+
+		<!-- btn -->
+		<texture id="raid_notebook_informant_opt_btn_h" x="360" y="80" width="258" height="74" />
+		<texture id="raid_notebook_informant_opt_btn_t" x="360" y="80" width="258" height="74" />
+		<texture id="raid_notebook_informant_opt_btn_d" x="360" y="0" width="258" height="74" />
+		<texture id="raid_notebook_informant_opt_btn_e" x="360" y="0" width="258" height="74" />
+	</file>
+
+
+	<file name = "ui\raid_textures\raid_misc">
+		<!-- Blank button (plug) -->
+		<texture id="raid_blank_btn_h" x="0" y="450" width="1" height="1" />
+		<texture id="raid_blank_btn_t" x="0" y="450" width="1" height="1" />
+		<texture id="raid_blank_btn_d" x="0" y="450" width="1" height="1" />
+		<texture id="raid_blank_btn_e" x="0" y="450" width="1" height="1" />
+
+		<!-- Button -->
+		<texture id="raid_btn_h" x="0" y="0" width="70" height="70" />	<!-- hovered -->
+		<texture id="raid_btn_t" x="70" y="0" width="70" height="70" />	<!-- pressed -->
+		<texture id="raid_btn_d" x="140" y="0" width="70" height="70" />	<!-- disabled -->
+		<texture id="raid_btn_e" x="210" y="0" width="70" height="70" />	<!-- normal -->
+
+		<!-- task cont -->
+		<texture id="raid_task_cont" x="0" y="70" width="860" height="150" />
+
+		<!-- back button -->
+		<texture id="raid_back_btn_h" x="50" y="365" width="50" height="50" />
+		<texture id="raid_back_btn_t" x="50" y="365" width="50" height="50" />
+		<texture id="raid_back_btn_d" x="0" y="365" width="50" height="50" />
+		<texture id="raid_back_btn_e" x="0" y="365" width="50" height="50" />
+
+		<!-- close button -->
+		<texture id="raid_close_btn_h" x="50" y="315" width="50" height="50" />
+		<texture id="raid_close_btn_t" x="50" y="315" width="50" height="50" />
+		<texture id="raid_close_btn_d" x="0" y="315" width="50" height="50" />
+		<texture id="raid_close_btn_e" x="0" y="315" width="50" height="50" />
+
+		<!-- hint circles -->
+		<texture id="raid_hint_btn_h" x="50" y="265" width="50" height="50" />
+		<texture id="raid_hint_btn_t" x="50" y="265" width="50" height="50" />
+		<texture id="raid_hint_btn_d" x="0" y="265" width="50" height="50" />
+		<texture id="raid_hint_btn_e" x="0" y="265" width="50" height="50" />
+
+		<texture id="raid_hint_cont2_h" x="42" y="220" width="42" height="42" />
+		<texture id="raid_hint_cont2_t" x="42" y="220" width="42" height="42" />
+		<texture id="raid_hint_cont2_d" x="0" y="220" width="42" height="42" />
+		<texture id="raid_hint_cont2_e" x="0" y="220" width="42" height="42" />
+	</file>
+
+
+	<!-- timer background -->
+	<file name = "ui\raid_textures\raid_timer_bg">
+		<texture id="raid_timer_background" x="0" y="0" width="86" height="36" />
+	</file>
+
+
+	<!-- shelter upgrades and items container -->
+	<file name = "ui\raid_textures\raid_item_cont">
+		<texture id="raid_item_cont" x="0" y="0" width="1110" height="300" />
+
+		<!-- buy button -->
+		<texture id="raid_item_buy_btn_h" x="0" y="305" width="226" height="55" />
+		<texture id="raid_item_buy_btn_t" x="0" y="305" width="226" height="55" />
+		<texture id="raid_item_buy_btn_d" x="0" y="360" width="226" height="55" />
+		<texture id="raid_item_buy_btn_e" x="0" y="360" width="226" height="55" />
+	</file>
+
+
+	<!-- shelter upgrades notebook -->
+	<file name = "ui\raid_textures\raid_shelter_upgrades">
+		<texture id="raid_shelter_upgrade_icon_heli" x="0" y="0" width="413" height="260" />
+		<texture id="raid_shelter_upgrade_icon_btr" x="413" y="0" width="413" height="260" />
+		<texture id="raid_shelter_upgrade_icon_clock" x="826" y="0" width="413" height="260" />
+		<texture id="raid_shelter_upgrade_icon_workbench" x="0" y="260" width="413" height="260" />
+		<texture id="raid_shelter_upgrade_icon_mechanic" x="413" y="260" width="413" height="260" />
+		<texture id="raid_shelter_upgrade_icon_bed" x="826" y="260" width="413" height="260" />
+		<texture id="raid_shelter_upgrade_icon_medic" x="0" y="520" width="413" height="260" />
+		<texture id="raid_shelter_upgrade_icon_butcher" x="413" y="520" width="413" height="260" />
+	</file>
+
+
+	<!-- special items notebook -->
+	<file name = "ui\raid_textures\raid_special_items_ui">
+		<texture id="raid_special_items_icon_ammo" x="0" y="0" width="413" height="260" />
+		<texture id="raid_special_items_icon_pill" x="413" y="0" width="413" height="260" />
+		<texture id="raid_special_items_icon_injector_1" x="826" y="0" width="413" height="260" />
+		<texture id="raid_special_items_icon_injector_2" x="0" y="260" width="413" height="260" />
+		<texture id="raid_special_items_icon_injector_3" x="413" y="260" width="413" height="260" />
+		<texture id="raid_special_items_icon_injector_4" x="826" y="260" width="413" height="260" />
+		<texture id="raid_special_items_icon_injector_5" x="0" y="520" width="413" height="260" />
+		<texture id="raid_special_items_icon_bulldog" x="413" y="520" width="413" height="260" />
+		<texture id="raid_special_items_icon_rpg" x="826" y="520" width="413" height="260" />
+		<texture id="raid_special_items_icon_visor" x="0" y="780" width="413" height="260" />
+	</file>
+
+
+
+	<!-- -------------------------------------------- -->
+	<!-- ----------------- MAP -------------------- -->
+	<!-- -------------------------------------------- -->
+
+	<!-- map details -->
+	<file name = "ui\raid_textures\raid_map_details">
+		<texture id="raid_map_details_bg" x="0" y="0" width="1373" height="772" />
+		<texture id="raid_map_details_event_bg" x="0" y="773" width="456" height="92" />
+
+		<!-- main Buttons -->
+		<texture id="raid_map_details_btn_h" x="0" y="933" width="225" height="65" />	<!-- hovered -->
+		<texture id="raid_map_details_btn_t" x="0" y="933" width="225" height="65" />	<!-- pressed -->
+		<texture id="raid_map_details_btn_d" x="0" y="866" width="225" height="65" />	<!-- disabled -->
+		<texture id="raid_map_details_btn_e" x="0" y="866" width="225" height="65" />	<!-- normal -->
+
+		<!-- informant button -->
+		<texture id="raid_map_informant_btn_h" x="457" y="813" width="260" height="40" />	<!-- hovered -->
+		<texture id="raid_map_informant_btn_t" x="457" y="813" width="260" height="40" />	<!-- pressed -->
+		<texture id="raid_map_informant_btn_d" x="457" y="773" width="260" height="40" />	<!-- disabled -->
+		<texture id="raid_map_informant_btn_e" x="457" y="773" width="260" height="40" />	<!-- normal -->
+	</file>
+
+	<!-- task descr levels -->
+	<file name = "map\map_marsh">
+		<texture id="raid_map_k00_marsh" x="0" y="0" width="2048" height="2048" />
+	</file>
+	<file name = "map\map_escape">
+		<texture id="raid_map_l01_escape" x="0" y="0" width="1024" height="2048" />
+	</file>
+	<file name = "map\map_garbage">
+		<texture id="raid_map_l02_garbage" x="0" y="0" width="1024" height="1024" />
+	</file>
+	<file name = "map\map_poselok_ug">
+		<texture id="raid_map_poselok_ug" x="0" y="0" width="2048" height="2048" />
+	</file>
+	<file name = "map\map_agroprom">
+		<texture id="raid_map_l03_agroprom" x="0" y="0" width="1024" height="1024" />
+	</file>
+	<file name = "map\map_k02_trucks_cemetery">
+		<texture id="raid_map_k02_trucks_cemetery" x="408" y="0" width="1640" height="2048" />
+	</file>
+	<file name = "map\map_promzona">
+		<texture id="raid_map_promzona" x="0" y="0" width="2048" height="2048" />
+	</file>
+	<file name = "map\map_darkvalley">
+		<texture id="raid_map_l04_darkvalley" x="0" y="0" width="512" height="1024" />
+	</file>
+	<file name = "map\map_l07_military">
+		<texture id="raid_map_l07_military" x="0" y="0" width="1024" height="1024" />
+	</file>
+	<file name = "map\map_grimwood">
+		<texture id="raid_map_grimwood" x="0" y="0" width="2048" height="2048" />
+	</file>
+	<file name = "map\map_red_forest">
+		<texture id="raid_map_l10_red_forest" x="0" y="0" width="1024" height="1024" />
+	</file>
+	<file name = "map\map_jupiter">
+		<texture id="raid_map_jupiter" x="0" y="0" width="2048" height="2048" />
+	</file>
+	<file name = "map\map_zaton">
+		<texture id="raid_map_zaton" x="0" y="0" width="2048" height="2048" />
+	</file>
+	<file name = "map\map_pripyat">
+		<texture id="raid_map_pripyat" x="0" y="0" width="2048" height="2048" />
+	</file>
+
+	<!-- event images -->
+	<file name = "ui\raid_textures\raid_map_details_events">
+		<texture id="raid_event_image_rad_1" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_rad_2" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_raid_army" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_raid_merc" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_raid_stalker" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_raid_mono" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_raid_bandit" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_raid_sci" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_raid_csky" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_runner" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_predators" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_dog" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_lurker" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_contoller" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_burer" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_hunt" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_mutants" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_psi_horde" x="0" y="0" width="100" height="100" />
+		<texture id="raid_event_image_giant" x="0" y="0" width="100" height="100" />
+	</file>
+
+
+	<!-- map global -->
+	<file name = "ui\raid_textures\ui_raid_global_map">
+		<texture id="raid_global_map" x="0" y="0" width="1024" height="2048" />
+	</file>
+
+	<!-- map exclamation mark -->
+	<file name = "ui\raid_textures\raid_exclamation">
+		<texture id="raid_exclamation_mark" x="0" y="0" width="350" height="450" />
+	</file>
+
+	<!-- maps mask -->
+	<file name = "ui\raid_textures\raid_map_mask_e">
+		<!-- T1 -->
+		<texture id="raid_map_mask_k00_marsh_e" x="33" y="1461" width="263" height="196" />
+		<texture id="raid_map_mask_k00_marsh_d" x="33" y="1461" width="263" height="196" />
+		
+		<texture id="raid_map_mask_l01_escape_e" x="301" y="1397" width="208" height="272" />
+		<texture id="raid_map_mask_l01_escape_d" x="301" y="1397" width="208" height="272" />
+		
+		<texture id="raid_map_mask_l03_agroprom_e" x="119" y="1220" width="220" height="172" />
+		<texture id="raid_map_mask_l03_agroprom_d" x="119" y="1220" width="220" height="172" />
+
+		<texture id="raid_map_mask_poselok_ug_e" x="442" y="991" width="221" height="186" />
+		<texture id="raid_map_mask_poselok_ug_d" x="442" y="991" width="221" height="186" />
+
+		<!-- T2 -->
+		<texture id="raid_map_mask_k02_trucks_cemetery_e" x="676" y="928" width="219" height="243" />
+		<texture id="raid_map_mask_k02_trucks_cemetery_d" x="676" y="928" width="219" height="243" />
+
+		<texture id="raid_map_mask_l02_garbage_e" x="345" y="1197" width="166" height="162" />
+		<texture id="raid_map_mask_l02_garbage_d" x="345" y="1197" width="166" height="162" />
+
+		<texture id="raid_map_mask_promzona_e" x="562" y="776" width="172" height="150" />
+		<texture id="raid_map_mask_promzona_d" x="562" y="776" width="172" height="150" />
+
+		<texture id="raid_map_mask_l04_darkvalley_e" x="640" y="1177" width="143" height="191" />
+		<texture id="raid_map_mask_l04_darkvalley_d" x="640" y="1177" width="143" height="191" />
+
+		<!-- T3 -->
+		<texture id="raid_map_mask_l07_military_e" x="366" y="821" width="173" height="152" />
+		<texture id="raid_map_mask_l07_military_d" x="366" y="821" width="173" height="152" />
+
+		<texture id="raid_map_mask_grimwood_e" x="201" y="846" width="148" height="179" />
+		<texture id="raid_map_mask_grimwood_d" x="201" y="846" width="148" height="179" />
+
+		<texture id="raid_map_mask_l10_red_forest_e" x="184" y="667" width="179" height="173" />
+		<texture id="raid_map_mask_l10_red_forest_d" x="184" y="667" width="179" height="173" />
+
+		<texture id="raid_map_mask_jupiter_e" x="215" y="523" width="207" height="141" />
+		<texture id="raid_map_mask_jupiter_d" x="215" y="523" width="207" height="141" />
+		
+		<texture id="raid_map_mask_zaton_e" x="242" y="366" width="193" height="155" />
+		<texture id="raid_map_mask_zaton_d" x="242" y="366" width="193" height="155" />
+
+		<texture id="raid_map_mask_pripyat_e" x="585" y="467" width="190" height="197" />
+		<texture id="raid_map_mask_pripyat_d" x="585" y="467" width="190" height="197" />
+	</file>
+
+	<file name = "ui\raid_textures\raid_map_mask_h">
+		<!-- T1 -->
+		<texture id="raid_map_mask_k00_marsh_h" x="33" y="1461" width="263" height="196" />
+		<texture id="raid_map_mask_k00_marsh_t" x="33" y="1461" width="263" height="196" />
+		
+		<texture id="raid_map_mask_l01_escape_h" x="301" y="1397" width="208" height="272" />
+		<texture id="raid_map_mask_l01_escape_t" x="301" y="1397" width="208" height="272" />
+		
+		<texture id="raid_map_mask_l03_agroprom_h" x="119" y="1220" width="220" height="172" />
+		<texture id="raid_map_mask_l03_agroprom_t" x="119" y="1220" width="220" height="172" />
+
+		<texture id="raid_map_mask_poselok_ug_h" x="442" y="991" width="221" height="186" />
+		<texture id="raid_map_mask_poselok_ug_t" x="442" y="991" width="221" height="186" />
+
+		<!-- T2 -->
+		<texture id="raid_map_mask_k02_trucks_cemetery_h" x="676" y="928" width="219" height="243" />
+		<texture id="raid_map_mask_k02_trucks_cemetery_t" x="676" y="928" width="219" height="243" />
+
+		<texture id="raid_map_mask_l02_garbage_h" x="345" y="1197" width="166" height="162" />
+		<texture id="raid_map_mask_l02_garbage_t" x="345" y="1197" width="166" height="162" />
+
+		<texture id="raid_map_mask_promzona_h" x="562" y="776" width="172" height="150" />
+		<texture id="raid_map_mask_promzona_t" x="562" y="776" width="172" height="150" />
+
+		<texture id="raid_map_mask_l04_darkvalley_h" x="640" y="1177" width="143" height="191" />
+		<texture id="raid_map_mask_l04_darkvalley_t" x="640" y="1177" width="143" height="191" />
+
+		<!-- T3 -->
+		<texture id="raid_map_mask_l07_military_h" x="366" y="821" width="173" height="152" />
+		<texture id="raid_map_mask_l07_military_t" x="366" y="821" width="173" height="152" />
+
+		<texture id="raid_map_mask_grimwood_h" x="201" y="846" width="148" height="179" />
+		<texture id="raid_map_mask_grimwood_t" x="201" y="846" width="148" height="179" />
+
+		<texture id="raid_map_mask_l10_red_forest_h" x="184" y="667" width="179" height="173" />
+		<texture id="raid_map_mask_l10_red_forest_t" x="184" y="667" width="179" height="173" />
+
+		<texture id="raid_map_mask_jupiter_h" x="215" y="523" width="207" height="141" />
+		<texture id="raid_map_mask_jupiter_t" x="215" y="523" width="207" height="141" />
+
+		<texture id="raid_map_mask_zaton_h" x="242" y="366" width="193" height="155" />
+		<texture id="raid_map_mask_zaton_t" x="242" y="366" width="193" height="155" />
+
+		<texture id="raid_map_mask_pripyat_h" x="585" y="467" width="190" height="197" />
+		<texture id="raid_map_mask_pripyat_t" x="585" y="467" width="190" height="197" />
+	</file>
+
+
+	<!-- Events -->
+	<file name = "ui\raid_textures\events\rad_1">
+		<texture id="raid_event_image_rad_1" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\rad_2">
+		<texture id="raid_event_image_rad_2" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\raid_army">
+		<texture id="raid_event_image_raid_army" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\raid_merc">
+		<texture id="raid_event_image_raid_merc" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\raid_stalker">
+		<texture id="raid_event_image_raid_stalker" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\raid_mono">
+		<texture id="raid_event_image_raid_mono" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\raid_bandit">
+		<texture id="raid_event_image_raid_bandit" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\raid_sci">
+		<texture id="raid_event_image_raid_sci" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\raid_csky">
+		<texture id="raid_event_image_raid_csky" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\runner">
+		<texture id="raid_event_image_runner" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\predators">
+		<texture id="raid_event_image_predators" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\dog">
+		<texture id="raid_event_image_dog" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\lurker">
+		<texture id="raid_event_image_lurker" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\contoller">
+		<texture id="raid_event_image_contoller" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\burer">
+		<texture id="raid_event_image_burer" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\hunt">
+		<texture id="raid_event_image_hunt" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\mutants">
+		<texture id="raid_event_image_mutants" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\psi_horde">
+		<texture id="raid_event_image_psi_horde" x="0" y="0" width="456" height="249" />
+	</file>
+	<file name = "ui\raid_textures\events\giant">
+		<texture id="raid_event_image_giant" x="0" y="0" width="456" height="249" />
+	</file>
+
+</w> 

@@ -1,0 +1,228 @@
+<w>
+
+	<!-- 1920/1.875 = 1024;		1080/1.4 = 768 -->
+
+	<!-- main background -->
+	<bg x="0" y="0" width="1024" height="768" stretch="1">
+		<texture r="15" g="15" b="15" a="255">none.dds</texture>
+	</bg>
+
+
+	<!-- close button -->
+	<map_main_close_btn x="974" y="52" width="20" height="25" stretch="1">
+		<texture>raid_close_btn</texture>
+		<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18"></text>
+	</map_main_close_btn>
+
+	<!-- hint tooltip -->
+	<hint_tooltip x="31" y="55" width="26" height="35" stretch="1">
+		<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica25"></text>
+		<texture>raid_hint_btn</texture>
+	</hint_tooltip>
+
+	<!-- hint tooltip bg -->
+	<hint_tooltip_bg x="160" y="60" width="690" height="660" stretch="1">
+		<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica25"></text>
+		<texture r="120" g="120" b="120" a="200">none.dds</texture>
+
+		<!-- hint tooltip text -->
+		<hint_tooltip_text x="40" y="40" width="610" height="580">
+			<text complex_mode="1" r="190" g="190" b="190" vert_align="t" align="l" font="letterica18">st_raid_map_hint_text</text>
+		</hint_tooltip_text>
+
+	</hint_tooltip_bg>
+
+
+	<!-- MAP -->
+	<map_main_cont x="26" y="47" width="973" height="683" stretch="1">
+
+		<!-- scroll -->
+		<map_scroll x="0" y="0" width="765" height="680" right_ident="0" left_ident="0" top_indent="0" bottom_indent="0" vert_interval="0" always_show_scroll="0" stretch="1"/>
+
+		<!-- cont for scroll -->
+		<map_cont x="0" y="0" width="765" height="1800" stretch="1">
+			<map x="0" y="0" width="720" height="1800" stretch="1">		<!-- 900x1800 in dds -->
+				<texture>raid_global_map</texture>
+			</map>
+		</map_cont>
+
+		<!-- map mark (for tasks) -->
+		<map_task_mark x="0" y="0" width="75" height="115" stretch="1">
+			<texture r="255" g="255" b="255" a="255">raid_exclamation_mark</texture>
+		</map_task_mark>
+
+		<!-- map buttons (attached to "map") -->
+			<!-- T1 -->
+		<map_k00_marsh_btn x="25" y="1461" width="197" height="196" stretch="1">
+			<texture>raid_map_mask_k00_marsh</texture>
+			<text complex_mode="1" r="230" g="230" b="0" vert_align="c" align="c" font="graffiti22"></text>
+		</map_k00_marsh_btn>
+		<map_l01_escape_btn x="226" y="1397" width="156" height="272" stretch="1"> 
+			<texture>raid_map_mask_l01_escape</texture>
+			<text complex_mode="1" r="230" g="230" b="0" vert_align="c" align="c" font="graffiti22"></text>
+		</map_l01_escape_btn>
+		<map_l03_agroprom_btn x="89" y="1220" width="165" height="172" stretch="1">
+			<texture>raid_map_mask_l03_agroprom</texture>
+			<text complex_mode="1" r="230" g="230" b="0" vert_align="c" align="c" font="graffiti22"></text>
+		</map_l03_agroprom_btn>
+		<map_poselok_ug_btn x="332" y="991" width="166" height="186" stretch="1">
+			<texture>raid_map_mask_poselok_ug</texture>
+			<text complex_mode="1" r="230" g="230" b="0" vert_align="c" align="c" font="graffiti22"></text>
+		</map_poselok_ug_btn>
+
+			<!-- T2 -->
+		<map_k02_trucks_cemetery_btn x="507" y="928" width="164" height="243" stretch="1">
+			<texture>raid_map_mask_k02_trucks_cemetery</texture>
+			<text complex_mode="1" r="230" g="230" b="0" vert_align="c" align="c" font="graffiti22"></text>
+		</map_k02_trucks_cemetery_btn>
+		<map_l02_garbage_btn x="259" y="1197" width="125" height="162" stretch="1">
+			<texture>raid_map_mask_l02_garbage</texture>
+			<text complex_mode="1" r="230" g="230" b="0" vert_align="c" align="c" font="graffiti22"></text>
+		</map_l02_garbage_btn>
+		<map_promzona_btn x="422" y="776" width="129" height="150" stretch="1">
+			<texture>raid_map_mask_promzona</texture>
+			<text complex_mode="1" r="230" g="230" b="0" vert_align="c" align="c" font="graffiti22"></text>
+		</map_promzona_btn>
+		<map_l04_darkvalley_btn x="480" y="1177" width="107" height="191" stretch="1">
+			<texture>raid_map_mask_l04_darkvalley</texture>
+			<text complex_mode="1" r="230" g="230" b="0" vert_align="c" align="c" font="graffiti22"></text>
+		</map_l04_darkvalley_btn>
+
+			<!-- T3 -->
+		<map_l07_military_btn x="275" y="821" width="130" height="152" stretch="1">
+			<texture>raid_map_mask_l07_military</texture>
+			<text complex_mode="1" r="230" g="230" b="0" vert_align="c" align="c" font="graffiti22"></text>
+		</map_l07_military_btn>
+		<map_grimwood_btn x="151" y="846" width="111" height="179" stretch="1">
+			<texture>raid_map_mask_grimwood</texture>
+			<text complex_mode="1" r="230" g="230" b="0" vert_align="c" align="c" font="graffiti22"></text>
+		</map_grimwood_btn>
+		<map_l10_red_forest_btn x="138" y="667" width="134" height="173" stretch="1">
+			<texture>raid_map_mask_l10_red_forest</texture>
+			<text complex_mode="1" r="230" g="230" b="0" vert_align="c" align="c" font="letterica25"></text>
+		</map_l10_red_forest_btn>
+		<map_jupiter_btn x="161" y="523" width="155" height="141" stretch="1">
+			<texture>raid_map_mask_jupiter</texture>
+			<text complex_mode="1" r="230" g="230" b="0" vert_align="c" align="c" font="graffiti22"></text>
+		</map_jupiter_btn>
+
+			<!-- T4 -->
+		<map_zaton_btn x="182" y="366" width="145" height="155" stretch="1">
+			<texture>raid_map_mask_zaton</texture>
+			<text complex_mode="1" r="230" g="230" b="0" vert_align="c" align="c" font="graffiti22"></text>
+		</map_zaton_btn>
+		<map_pripyat_btn x="439" y="467" width="143" height="197" stretch="1">
+			<texture>raid_map_mask_pripyat</texture>
+			<text complex_mode="1" r="230" g="230" b="0" vert_align="c" align="c" font="graffiti22"></text>
+		</map_pripyat_btn>
+
+	</map_main_cont>
+
+
+	<!-- DETAILS -->
+
+	<!-- details bg -->
+	<details_bg x="0" y="0" width="1024" height="768" stretch="1">
+		<texture>raid_map_details_bg</texture>
+	</details_bg>
+
+	<map_details_cont x="26" y="47" width="973" height="683" stretch="1">
+
+		<!-- back button -->
+		<map_details_back_btn x="923" y="5" width="20" height="25" stretch="1">
+			<texture>raid_back_btn</texture>
+			<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18"></text>
+		</map_details_back_btn>
+
+		<!-- level header -->
+		<map_level_header x="286" y="25" width="400" height="18" stretch="1">
+			<text complex_mode="1" r="90" g="60" b="40" vert_align="c" align="c" font="letterica18"></text>
+		</map_level_header>
+
+		<!-- level image -->
+		<map_level_cont x="71" y="96" width="342" height="342" stretch="1">
+			<map_image x="0" y="0" width="342" height="342" stretch="1">
+			</map_image>
+		</map_level_cont>
+
+		<!-- events -->
+		<map_event_cont x="105" y="457" width="262" height="150" stretch="1">
+			<event_header x="0" y="0" width="262" height="40" stretch="1">
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18">st_raid_map_events_title</text>
+			</event_header>
+			<event_1 x="25" y="40" width="212" height="30" stretch="1">
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="l" font="letterica18"></text>
+			</event_1>
+			<event_2 x="25" y="70" width="212" height="30" stretch="1">
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="l" font="letterica18"></text>
+			</event_2>
+			<event_3 x="25" y="100" width="212" height="30" stretch="1">
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="l" font="letterica18"></text>
+			</event_3>
+			<event_4 x="25" y="130" width="212" height="30" stretch="1">
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="l" font="letterica18"></text>
+			</event_4>
+		</map_event_cont>
+
+		<!-- event tooltip -->
+		<event_tooltip_cont x="73" y="96" width="342" height="342" stretch="1">
+			<event_image x="0" y="0" width="342" height="249" stretch="1">
+				<texture>none.dds</texture>
+			</event_image>
+			<event_tooltip_descr_cont x="0" y="249" width="342" height="93" stretch="1">
+				<texture>raid_map_details_event_bg</texture>
+				<event_title x="0" y="0" width="342" height="24" stretch="1">
+					<text complex_mode="1" r="45" g="45" b="45" vert_align="c" align="c" font="letterica18">event_title</text>
+				</event_title>
+				<event_descr x="15" y="24" width="312" height="62" stretch="1">
+					<text complex_mode="1" r="45" g="45" b="45" vert_align="c" align="c" font="letterica16">event_descr</text>
+				</event_descr>
+			</event_tooltip_descr_cont>
+		</event_tooltip_cont>
+
+		<!-- informant button -->
+		<map_informant_btn x="125" y="624" width="234" height="40" stretch="1">
+			<texture>raid_map_informant_btn</texture>
+			<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18">st_raid_map_informant</text>
+		</map_informant_btn>
+
+		<!-- informant menu -->
+		<map_informant_cont x="0" y="0" width="262" height="550" stretch="1">
+			<texture>raid_notebook_informant_bg</texture>
+			<informant_opt_btn x="35" y="92" width="193" height="60" stretch="1">
+				<texture>raid_notebook_informant_opt_btn</texture>
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18"></text>
+			</informant_opt_btn>
+			<informant_close_btn x="218" y="65" width="20" height="25" stretch="1">
+				<texture>raid_close_btn</texture>
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18"></text>
+			</informant_close_btn>
+		</map_informant_cont>
+		
+
+		<!-- descr -->
+		<map_descr x="457" y="101" width="417" height="164" stretch="1">
+			<text complex_mode="1" r="45" g="45" b="45" vert_align="t" align="l" font="letterica18"></text>
+		</map_descr>
+
+		<!-- long descr -->
+		<map_long_descr x="457" y="255" width="417" height="164" stretch="1">
+			<text complex_mode="1" r="45" g="45" b="45" vert_align="t" align="l" font="letterica18"></text>
+		</map_long_descr>
+
+		<!-- another back button -->
+		<map_back_btn x="590" y="495" width="169" height="65" stretch="1">
+			<texture>raid_map_details_btn</texture>
+			<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18">st_raid_map_back</text>
+		</map_back_btn>
+
+		<!-- go button -->
+		<map_go_btn x="590" y="589" width="169" height="65" stretch="1">
+			<texture>raid_map_details_btn</texture>
+			<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18">st_raid_map_go</text>
+		</map_go_btn>
+
+	</map_details_cont>
+
+
+</w>

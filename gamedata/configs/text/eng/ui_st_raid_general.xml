@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+	<!-- new game string -->
+	<string id="ui_st_raid_new_game">
+		<text>Radar (Shelter)</text>
+	</string>
+
+
+	<!-- shelter -->
+	<string id="st_raid_exit">
+		<text>Use map to start the raid.</text>
+	</string>
+	<string id="st_raid_notebook_use">
+		<text>Use ($$ACTION_USE$$)</text>
+	</string>
+	<string id="st_raid_map_use">
+		<text>Use map ($$ACTION_USE$$)</text>
+	</string>
+
+
+	<!-- trader -->
+	<string id="st_raid_nimble_trade">
+		<text>[Nimble's assortment]</text>
+	</string>
+	<string id="st_raid_barman_trade">
+		<text>[Barman's assortment]</text>
+	</string>
+	<string id="st_raid_skryaga_trade">
+		<text>[Skinflint's assortment]</text>
+	</string>
+	<string id="st_raid_sidorovich_trade">
+		<text>[Sidorovich's assortment]</text>
+	</string>
+	<string id="st_raid_herman_trade">
+		<text>[Herman's assortment]</text>
+	</string>
+	<string id="st_raid_nimble_answer">
+		<text>Getting it.</text>
+	</string>
+	<string id="st_raid_general_answer_buy">
+		<text>Sell specialization:</text>
+	</string>
+	<string id="st_raid_general_answer_sell">
+		<text>Buy specialization:</text>
+	</string>
+	<string id="st_raid_general_answer_for">
+		<text>for</text>
+	</string>
+	<string id="st_raid_general_answer_none">
+		<text>None</text>
+	</string>
+	<string id="st_raid_trade">
+		<text>[Trade]</text>
+	</string>
+	<string id="st_raid_back">
+		<text>Back</text>
+	</string>
+	<string id="st_raid_check_quest_box">
+		<text>Check table for quest items.</text>
+	</string>
+	<string id="st_raid_nimble_cooldown_ask">
+		<text>Tell me when the tasks and events will be updated.</text>
+	</string>
+	<string id="st_raid_nimble_cooldown_answer">
+		<text>Update \n
+		Tasks: %s h. \n
+		Events: %s h.</text>
+	</string>
+	<string id="st_raid_nimble_cooldown_answer_with_treasures">
+		<text>Update \n
+		Tasks: %s h. \n
+		Events: %s h. \n
+		Treasures: 1-2 d.</text> 
+	</string>
+
+	<!-- misc -->
+	<string id="st_raid_got_lucky">
+		<text>I was lucky this time!</text>
+	</string>
+
+
+	<!-- item -->
+	<string id="st_raid_fuel">
+		<text>Fuel</text>
+	</string>
+	<string id="st_raid_fuel_descr">
+		<text>Fuel that can be used for vehicles.\n \n
+		%c[ui_gray_3]PROPERTIES:\n
+		%c[d_blue] • %c[ui_gray_2] technological item\n
+		%c[d_green] • %c[ui_gray_2] hi-tier fuel\n</text>
+	</string>
+
+	<string id="st_stalker_event_package_name">
+		<text>Item1</text>
+	</string>
+	<string id="st_stalker_event_package_desc">
+		<text>Event item from stalkers.</text>
+	</string>
+
+	<string id="st_eco_event_package_name">
+		<text>Item2</text>
+	</string>
+	<string id="st_eco_event_package_desc">
+		<text>Event item from ecologists.</text>
+	</string>
+
+
+	<!-- hint text -->
+	<string id="st_raid_notebook_hint_text">
+		<text>Hint text \n \n
+		-trade etc shlyapa \n \n
+		-upgrades etc shlyapa \n \n</text>
+	</string>
+
+	<string id="st_raid_map_hint_text">
+		<text>Hint text \n \n
+		-Map shlyapa1 \n \n
+		-Map shlyapa2 \n \n</text>
+	</string>
+
+
+	<!-- new restrictor hint -->
+	<string id="st_raid_new_lc_hint">
+		<text>Leave location</text>
+	</string>
+
+
+	<!-- item donations -->
+	<string id="st_raid_item_donation">
+		<text>Goodwill with %s has increased by +%s</text>
+	</string>
+
+</string_table>

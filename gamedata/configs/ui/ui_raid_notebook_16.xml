@@ -1,0 +1,325 @@
+<w>
+
+	<!-- 1920/1.875 = 1024;		1080/1.4 = 768 -->
+
+	<!-- main background -->
+	<bg x="0" y="0" width="1024" height="768" stretch="1">
+		<texture r="40" g="40" b="40" a="255">ui_inGame2_pda_texture</texture>
+	</bg>
+
+
+	<!-- picture background -->
+	<main_pic_bg x="26" y="47" width="973" height="683" stretch="1">
+		<texture r="255" g="255" b="255" a="255">raid_notebook_main_bg</texture>
+	</main_pic_bg>
+
+	<!-- main buttons -->
+	<main_task_btn x="5" y="110" width="105" height="140" stretch="1">
+		<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18"></text>
+		<texture>raid_notebook_task_btn</texture>
+	</main_task_btn>
+	<main_shelter_btn x="5" y="270" width="105" height="140" stretch="1">
+		<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18"></text>
+		<texture>raid_notebook_upgr_btn</texture>
+	</main_shelter_btn>
+	<main_items_btn x="5" y="430" width="105" height="140" stretch="1">
+		<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18"></text>
+		<texture>raid_notebook_items_btn</texture>
+	</main_items_btn>
+
+	<!-- back button -->
+	<back_btn x="950" y="55" width="20" height="25" stretch="1">
+		<texture>raid_back_btn</texture>
+		<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18"></text>
+	</back_btn>
+
+	<!-- close button -->
+	<close_btn x="975" y="55" width="20" height="25" stretch="1">
+		<texture>raid_close_btn</texture>
+		<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18"></text>
+	</close_btn>
+
+	<!-- cd timer -->
+	<cd_tmr x="870" y="50" width="150" height="100" stretch="1">
+		<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="l" font="letterica18"></text>
+	</cd_tmr>
+
+	<!-- hint tooltip -->
+	<hint_tooltip x="31" y="55" width="26" height="35" stretch="1">
+		<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica25"></text>
+		<texture>raid_hint_btn</texture>
+	</hint_tooltip>
+
+	<!-- hint tooltip bg -->
+	<hint_tooltip_bg x="160" y="60" width="690" height="660" stretch="1">
+		<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica25"></text>
+		<texture r="120" g="120" b="120" a="255">none.dds</texture>
+
+		<!-- hint tooltip text -->
+		<hint_tooltip_text x="40" y="40" width="610" height="580">
+			<text complex_mode="1" r="190" g="190" b="190" vert_align="t" align="l" font="letterica18">st_raid_notebook_hint_text</text>
+		</hint_tooltip_text>
+
+	</hint_tooltip_bg>
+
+
+	<!------------------------------>
+	<!---------- TASKS ---------->
+	<!------------------------------>
+	<task_menu_cont x="26" y="47" width="973" height="683" stretch="1">
+
+		<!-- descr cont -->
+		<header_cont x="50" y="15" width="654" height="70" stretch="1">
+			<texture>raid_notebook_task_header_cont</texture>
+			<icon_header x="0" y="0" width="150" height="70">
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18">st_raid_task_title_giver</text>
+			</icon_header>
+			<descr_header x="185" y="0" width="222" height="70">
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18">st_raid_task_title_descr</text>
+			</descr_header>
+			<reward_header x="442" y="0" width="180" height="70">
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18">st_raid_task_title_headreward</text>
+			</reward_header>
+		</header_cont>
+
+		<!-- informant btn-->
+		<informant_btn_cont x="704" y="15" width="213" height="82" stretch="1">
+			<texture>raid_notebook_task_informant_btn_cont</texture>
+			<informant_btn x="56" y="9" width="100" height="64" stretch="1">
+				<texture>raid_notebook_informant_main_btn</texture>
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18">st_raid_task_title_informant</text>
+			</informant_btn>
+		</informant_btn_cont>
+
+		<informant_cont x="289" y="101" width="262" height="550" stretch="1">		<!-- attached to "task_menu_cont" -->
+			<texture>raid_notebook_informant_bg</texture>
+			<informant_opt_btn x="35" y="92" width="193" height="74" stretch="1">
+				<texture>raid_notebook_informant_opt_btn</texture>
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18"></text>
+			</informant_opt_btn>
+			<informant_close_btn x="218" y="65" width="20" height="25" stretch="1">
+				<texture>raid_close_btn</texture>
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="c" font="letterica18"></text>
+			</informant_close_btn>
+		</informant_cont>
+
+
+		<!-- scrollbar -->
+		<tasks_scrollbar x="50" y="100" width="874" height="584" right_ident="0" left_ident="0" top_indent="0" bottom_indent="0" vert_interval="0" always_show_scroll="0" stretch="1"/>
+
+		<!-- cont for scrollbar -->
+		<scroll_cont x="0" y="0" width="860" height="0" stretch="1"></scroll_cont>
+
+		<!-- task container -->
+		<task_cont x="0" y="0" width="860" height="180" stretch="1">
+			<!-- <texture r="0" g="0" b="200" a="140">none.dds</texture>	-->
+			<texture>raid_notebook_task_cont</texture>
+
+			<icon x="17" y="7" width="122" height="120" stretch="1">
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="b" align="c" font="letterica18"></text>
+			<!--	<texture r="0" g="190" b="0" a="150">none.dds</texture>  -->
+			</icon>
+
+			<reputation_cont x="17" y="134" width="124" height="27" stretch="1">
+			<!--	<texture r="0" g="190" b="0" a="150">none.dds</texture> -->
+				<bar x="2" y="2" width="119" height="22" stretch="1" horz="1" min="0" max="1" pos="0">
+					<progress stretch="1">
+						<texture r="190" g="190" b="190" a="200">none.dds</texture>
+					</progress>
+					<min_color r="180" g="0" b="0"/>
+					<middle_color r="180" g="180" b="0"/>
+					<max_color r="0" g="180" b="0"/>
+				</bar>
+
+				<bar_text x="0" y="0" width="119" height="27" stretch="1">
+					<text complex_mode="1" align="c" vert_align="c" font="letterica18"></text>
+				</bar_text>
+
+				<rep_threshold_1 x="35" y="-5" width="2" height="5" stretch="1">
+					<texture r="0" g="0" b="0" a="0">none.dds</texture>
+				</rep_threshold_1>
+				<rep_threshold_2 x="52" y="-5" width="2" height="5" stretch="1">
+					<texture r="0" g="0" b="0" a="0">none.dds</texture>
+				</rep_threshold_2>
+				<rep_threshold_3 x="69" y="-5" width="2" height="5" stretch="1">
+					<texture r="0" g="0" b="0" a="0">none.dds</texture>
+				</rep_threshold_3>
+				<rep_threshold_4 x="86" y="-5" width="2" height="5" stretch="1">
+					<texture r="0" g="0" b="0" a="0">none.dds</texture>
+				</rep_threshold_4>
+			</reputation_cont>
+
+			<descr_cont x="166" y="12" width="270" height="155" stretch="1">
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="l" font="letterica18"></text>
+				<!--	<texture r="0" g="190" b="0" a="150">none.dds</texture>  -->
+			</descr_cont>
+
+			<reward_cont x="462" y="9" width="170" height="155" stretch="1">
+				<text complex_mode="1" r="190" g="190" b="190" vert_align="c" align="l" font="letterica18"></text>
+				<!--	<texture r="0" g="190" b="0" a="150">none.dds</texture>  -->
+			</reward_cont>
+
+			<details_hover x="662" y="37" width="187" height="42" stretch="1">
+				<!--	<texture r="0" g="190" b="0" a="150">none.dds</texture>  -->
+				<texture>raid_notebook_task_accept_btn</texture>
+				<text complex_mode="1" align="c" vert_align="c" font="letterica18">st_raid_task_title_details</text>
+			</details_hover>
+			<accept_btn x="662" y="111" width="187" height="42" stretch="1">
+				<texture>raid_notebook_task_accept_btn</texture>
+				<text complex_mode="1" align="c" vert_align="c" font="letterica18">st_raid_task_title_accept</text>
+			</accept_btn>
+
+		</task_cont>
+
+
+
+		<!-- task tooltip -->
+		<task_tooltip_cont x="38" y="103" width="640" height="460" stretch="1">
+			<texture>raid_notebook_task_info_bg</texture>
+
+			<tooltip_icon x="19" y="28" width="122" height="110" stretch="1">
+			<!--	<texture r="0" g="190" b="0" a="150">none.dds</texture> -->
+			</tooltip_icon>
+
+			<tooltip_descr x="160" y="22" width="225" height="80" stretch="1">
+				<text complex_mode="1" r="45" g="45" b="45" vert_align="c" align="l" font="letterica18"></text>
+			<!--	<texture r="0" g="190" b="0" a="150">none.dds</texture> -->
+			</tooltip_descr>
+
+			<tooltip_rep x="160" y="103" width="225" height="35" stretch="1">
+				<text complex_mode="1" r="45" g="45" b="45" vert_align="c" align="c" font="letterica18"></text>
+			<!--	<texture r="0" g="190" b="0" a="150">none.dds</texture> -->
+			</tooltip_rep>
+
+			<tooltip_long_descr x="14" y="155" width="365" height="150" stretch="1">
+				<text complex_mode="1" r="45" g="45" b="45" vert_align="c" align="l" font="letterica18"></text>
+			<!--	<texture r="0" g="190" b="0" a="150">none.dds</texture> -->
+			</tooltip_long_descr>
+
+			<tooltip_map_cont x="400" y="14" width="217" height="294" stretch="1">
+			<!--	<texture r="0" g="190" b="0" a="150">none.dds</texture> -->
+				<map_title x="0" y="0" width="217" height="53" stretch="1">
+					<text complex_mode="1" r="45" g="45" b="45" vert_align="c" align="c" font="letterica18"></text>
+				<!--	<texture r="0" g="0" b="190" a="150">none.dds</texture> -->
+				</map_title>
+				<map_cont x="7" y="61" width="205" height="232" stretch="1">
+				<!--	<texture r="190" g="0" b="0" a="150">none.dds</texture> -->
+					<map_map x="0" y="0" width="205" height="232" stretch="1">
+						<texture>none.dds</texture>
+					</map_map>
+				</map_cont>
+			</tooltip_map_cont>
+
+			<tooltip_reward_cont x="90" y="313" width="451" height="131" stretch="1">
+			<!--	<texture r="0" g="190" b="0" a="150">none.dds</texture> -->
+				<reward_title x="0" y="1" width="194" height="25" stretch="1">
+					<text complex_mode="1" r="45" g="45" b="45" vert_align="c" align="c" font="letterica18">st_raid_task_title_reward</text>
+				<!--	<texture r="0" g="0" b="190" a="150">none.dds</texture> -->
+				</reward_title>
+				<reward_reward x="0" y="26" width="214" height="104" stretch="1">
+					<text complex_mode="1" r="45" g="45" b="45" vert_align="c" align="c" font="letterica18"></text>
+				<!--	<texture r="0" g="0" b="190" a="150">none.dds</texture>  -->
+					<reward_text x="0" y="0" width="214" height="104">		<!-- text -->
+						<text complex_mode="1" r="45" g="45" b="45" vert_align="c" align="l" font="letterica16"></text>
+					</reward_text>
+				</reward_reward>
+
+				<penalty_title x="270" y="1" width="194" height="25" stretch="1">
+					<text complex_mode="1" r="45" g="45" b="45" vert_align="c" align="c" font="letterica18">st_raid_task_title_penalties</text>
+				<!--	<texture r="0" g="0" b="190" a="150">none.dds</texture> -->
+				</penalty_title>
+				<penalty_penalty x="270" y="27" width="194" height="104" stretch="1">
+					<text complex_mode="1" r="45" g="45" b="45" vert_align="c" align="c" font="letterica18"></text>
+				<!--	<texture r="0" g="0" b="190" a="150">none.dds</texture> -->
+				</penalty_penalty>
+			</tooltip_reward_cont>
+
+		</task_tooltip_cont>
+
+	</task_menu_cont>
+
+
+
+
+	<!------------------------------>
+	<!--------- SHELTER --------->
+	<!------------------------------>
+	<shelter_menu_cont x="26" y="47" width="973" height="683" stretch="1">
+
+		<!-- scrollbar -->
+		<shelter_scrollbar x="0" y="0" width="920" height="683" right_ident="0" left_ident="0" top_indent="0" bottom_indent="0" vert_interval="0" always_show_scroll="0" stretch="1"/>
+
+		<!-- cont for scrollbar -->
+		<scroll_cont x="0" y="0" width="833" height="0" stretch="1"></scroll_cont>
+
+		<!-- cont -->
+		<cont x="70" y="15" width="833" height="300" stretch="1">
+			<texture>raid_item_cont</texture>
+
+			<icon x="20" y="20" width="310" height="260" stretch="1">
+			</icon>
+
+			<title x="350" y="20" width="465" height="40" stretch="1">
+				<text complex_mode="1" r="210" g="210" b="210" vert_align="c" align="c" font="letterica18">Title</text>
+			</title>
+
+			<descr x="355" y="60" width="455" height="150" stretch="1">
+				<text complex_mode="1" r="130" g="130" b="130" vert_align="c" align="c" font="letterica16">Descr</text>
+			</descr>
+
+			<req x="350" y="230" width="180" height="50" stretch="1">
+				<text complex_mode="1" r="255" g="70" b="70" vert_align="c" align="c" font="letterica18"></text>
+			</req>
+
+			<btn x="590" y="230" width="170" height="50" stretch="1">
+				<texture>raid_item_buy_btn</texture>
+				<text complex_mode="1" align="c" vert_align="c" font="letterica18">Buy</text>
+			</btn>
+
+		</cont>
+
+	</shelter_menu_cont>
+
+
+
+
+	<!------------------------------>
+	<!----------- ITEMS ---------->
+	<!------------------------------>
+	<items_menu_cont x="26" y="47" width="973" height="683" stretch="1">
+
+		<!-- scrollbar -->
+		<items_scrollbar x="0" y="0" width="920" height="683" right_ident="0" left_ident="0" top_indent="0" bottom_indent="0" vert_interval="0" always_show_scroll="0" stretch="1"/>
+
+		<!-- cont for scrollbar -->
+		<scroll_cont x="0" y="0" width="833" height="0" stretch="1"></scroll_cont>
+
+		<!-- cont -->
+		<cont x="70" y="15" width="833" height="300" stretch="1">
+			<texture>raid_item_cont</texture>
+
+			<icon x="20" y="20" width="310" height="260" stretch="1">
+			</icon>
+
+			<title x="350" y="20" width="465" height="40" stretch="1">
+				<text complex_mode="1" r="210" g="210" b="210" vert_align="c" align="c" font="letterica18">Title</text>
+			</title>
+
+			<descr x="355" y="60" width="455" height="150" stretch="1">
+				<text complex_mode="1" r="130" g="130" b="130" vert_align="c" align="c" font="letterica16">Descr</text>
+			</descr>
+
+			<req x="350" y="230" width="180" height="50" stretch="1">
+				<text complex_mode="1" r="255" g="70" b="70" vert_align="c" align="c" font="letterica18"></text>
+			</req>
+
+			<btn x="590" y="230" width="170" height="50" stretch="1">
+				<texture>raid_item_buy_btn</texture>
+				<text complex_mode="1" align="c" vert_align="c" font="letterica18">Buy</text>
+			</btn>
+
+		</cont>
+
+	</items_menu_cont>
+
+</w>
