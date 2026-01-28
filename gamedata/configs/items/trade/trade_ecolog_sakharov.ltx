@@ -1,0 +1,227 @@
+#include "presets\trade_discounts.ltx"
+#include "presets\trade_presets.ltx"
+
+[discount_raid_sci]
+buy = 1
+sell = 1
+
+[trader]
+buy_condition =  trade_generic_buy
+sell_condition = trade_generic_sell
+buy_supplies = {=raid_goodwill_check(ecolog:1000)} supplies_5, {=raid_goodwill_check(ecolog:800)} supplies_4, {=raid_goodwill_check(ecolog:600)} supplies_3, {=raid_goodwill_check(ecolog:400)} supplies_2,  supplies_1
+buy_item_condition_factor = 0.60
+buy_item_exponent = 2.25
+sell_item_exponent = 0.75
+
+discounts = discount_raid_sci
+
+[trade_generic_buy]:trasher
+[trade_generic_sell]:trasher
+
+[supplies_1]:common_stock												;0
+
+;Ремкомплект
+toolkit_p				= 1, 1			
+glue_b                  = 2, 1
+gun_oil_ru              = 2, 1
+armor_repair_fa         = 2, 1
+sewing_kit_b            = 2, 1
+
+detector_radio          = 1, 1
+detector_geiger         = 1, 1
+device_pda_1			= 1, 1
+device_torch_dummy 		= 1, 1
+device_torch_nv_1 		= 1, 1
+batteries_dead			= 6, 1
+
+;Патроны
+ammo_9x18_fmj			= 5, 1
+ammo_9x18_ap			= 4, 1
+ammo_9x18_pmm			= 4, 1
+ammo_9x19_fmj			= 5, 1
+ammo_9x19_ap			= 4, 1
+ammo_9x19_pbp			= 4, 1
+ammo_5.7x28_ss190		= 5, 1
+ammo_5.7x28_ss195		= 5, 1
+ammo_11.43x23_fmj		= 5, 1
+ammo_11.43x23_hydro		= 4, 1
+ammo_9x21_sp10          = 4, 1     ;BaS
+
+;Пистолеты
+
+wpn_fort				= 1, 1 ;hit*rpm: 108
+wpn_cz75				= 1, 1 ;118.68
+wpn_hpsa				= 1, 1 ;121.9
+wpn_gsh18				= 1, 1 ;121.9
+wpn_sig220_n            = 1, 1     ;BaS
+wpn_walther_p99         = 1, 1     ;BaS
+wpn_fort_snag			= 1, 1 ;108
+wpn_cz52				= 1, 1 ;137.25
+wpn_usp					= 1, 1 ;132
+
+;Ппшки
+wpn_mp5					= 1, 1 ;376
+wpn_vz61_scorpion       = 1, 1     ;BaS
+
+bolts_pack				= 2, 1
+medkit					= 4, 1
+medkit_ai1				= 3, 1
+medkit_ai2				= 3, 1
+medkit_ai3				= 3, 1
+antirad_kalium			= 2, 1
+antirad_cystamine		= 2, 1
+antibio_sulfad			= 2, 1
+antiemetic				= 2, 1
+antibio_chlor			= 2, 1
+jgut					= 2, 1
+yadylin					= 2, 1
+analgetic				= 2, 1
+medkit_scientic			= 2, 1
+bandage					= 5, 1
+antirad					= 5, 1
+stimpack_army			= 4, 1
+stimpack_scientic		= 3, 1
+survival_kit			= 2, 1
+salicidic_acid			= 2, 1
+morphine				= 2, 1
+tetanus					= 3, 1
+adrenalin				= 3, 1
+drug_booster			= 3, 1
+drug_coagulant			= 3, 1
+drug_antidot			= 3, 1
+drug_radioprotector		= 3, 1
+drug_psy_blockade		= 3, 1
+drug_sleepingpills		= 3, 1
+
+;Предметы
+af_camelbak				= 1, 1
+af_cooler				= 1, 1
+af_surge				= 1, 1
+af_freon                = 1, 1
+af_frames               = 1, 1
+af_grid                 = 1, 1
+af_kevlar				= 2, 1
+af_plates				= 2, 1
+af_aac					= 2, 1
+af_aam					= 2, 1
+lead_box				= 3, 1
+ecolog_guard_outfit     = 1, 1
+ecolog_outfit_orange    = 1, 1
+helm_respirator         = 1, 1
+helm_m40                = 1, 1
+detector_simple         = 1, 1
+detector_advanced       = 1, 1
+
+[supplies_2]:supplies_1												;1
+equ_small_pack          = 1, 1
+
+;Ремкомплект
+toolkit_s				= 1, 1
+helmet_repair_kit		= 1, 1
+light_repair_kit		= 1, 1
+
+;Пистолеты
+wpn_aps_bas             = 1, 1     ;BaS
+wpn_beretta_modern		= 1, 1 ;157.78
+wpn_colt1911_n          = 1, 1     ;BaS
+wpn_fnp45				= 1, 1 ;139.15
+wpn_fnx45				= 1, 1 ;143
+wpn_mp443				= 1, 1 ;134.78
+wpn_mp412				= 1, 1 ;135
+wpn_usp_custom			= 1, 1 ;150.15
+wpn_beretta				= 1, 1 ;149.5
+wpn_glock17             = 1, 1     ;BaS
+wpn_korth               = 1, 1     ;BaS
+
+;Ппшки
+wpn_kiparis_s           = 1, 1     ;BaS
+wpn_vityaz				= 1, 1 ;329
+wpn_ump45				= 1, 1 ;336
+
+helm_protective         = 1, 1
+ecolog_outfit_green     = 1, 1
+detector_elite          = 2, 1
+
+[supplies_3]:supplies_2												;2
+device_torch_nv_2		= 1, 1
+equ_small_military_pack = 1, 1
+device_pda_2			= 1, 1
+
+;Ремкомплект
+toolkit_r5				= 1, 1
+medium_repair_kit		= 1, 1
+
+;Пистолеты
+wpn_cz75_auto			= 1, 1 ;460
+wpn_desert_eagle		= 1, 1 ;144
+wpn_fn57_bas            = 1, 1     ;BaS
+wpn_glock17_m1          = 1, 1     ;BaS
+wpn_oc33				= 1, 1 ;360
+wpn_usp_match			= 1, 1 ;143
+wpn_usp_tac             = 1, 1     ;BaS
+wpn_sig226              = 1, 1     ;BaS
+wpn_korth_custom        = 1, 1     ;BaS
+wpn_howa20                 = 1, 1     ;BaS
+wpn_kiparis_m1             = 1, 1     ;BaS
+wpn_vz61_scorpion_m1       = 1, 1     ;BaS
+wpn_ppsh_bas               = 1, 1     ;BaS
+
+;Ппшки
+wpn_pp2000				= 1, 1 ;352.5
+wpn_bizon				= 1, 1 ;312.8
+wpn_vz61_alt			= 1, 1 ;397.9
+wpn_ump45_custom		= 1, 1 ;358.4
+wpn_mp5sd				= 1, 1 ;376
+
+drug_anabiotic			= 2, 1
+ecolog_outfit_white		= 1, 1
+
+[supplies_4]:supplies_3												;3
+device_torch_nv_3		= 1, 1
+equ_military_pack       = 1, 1
+device_pda_3			= 1, 1
+
+;Ремкомплект
+toolkit_r7				= 1, 1
+heavy_repair_kit		= 1, 1
+
+wpn_p90					= 1, 1 ;414
+wpn_mp5sd_new			= 1, 1 ;385.4
+wpn_famas3				= 1, 1 ;475
+wpn_mp5sd_custom 		= 1, 1 ;392.45
+wpn_mp7					= 1, 1 ;446.5
+wpn_mp5_custom			= 1, 1 ;390.1
+wpn_glock_modern		= 1, 1 ;241.5
+wpn_sr2_m1              = 1, 1     ;BaS
+wpn_kiparis_m2             = 1, 1     ;BaS
+wpn_vz61_scorpion_m2       = 1, 1     ;BaS
+
+ecolog_outfit_blue		= 1, 1
+ecolog_outfit_red		= 1, 1
+ecolog_outfit_yello		= 1, 1
+scientific_outfit		= 1, 1
+ecolog_proto_exo_outfit = 1, 1
+
+af_cooler_up            = 1, 1
+af_camelbak_up          = 1, 1
+af_freon_up             = 1, 1
+af_frames_up            = 1, 1
+af_grid_up              = 1, 1
+af_surge_up             = 1, 1
+
+[supplies_5]:supplies_4												;4
+
+exo_repair_kit			= 1, 1
+
+equ_tourist_pack		= 1, 1 
+
+wpn_ks23                = 1, 1     ;BaS
+wpn_saiga12s_m1         = 1, 1     ;BaS
+wpn_galil_custom		= 1, 1;519.84
+wpn_sr25				= 1, 1;700
+wpn_mk14				= 1, 1;551
+wpn_sr2_veresk          = 1, 1     ;BaS
+wpn_kiparis_m3             = 1, 1     ;BaS
+
+detector_scientific		= 1, 1
+ecolog_exo_outfit		= 1, 1

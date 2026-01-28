@@ -1,0 +1,73 @@
+[raid_mechanic_task_1]
+
+icon = ui_inGame2_Instrumenti
+storyline = false
+prior = 15
+precondition = {-raid_mechanic_upgrade_tier_1} true, false
+
+title = raid_mechanic_task_1_name
+title_functor = general_fetch_task
+descr = raid_mechanic_task_1_text
+descr_functor = general_fetch_task
+job_descr = raid_mechanic_task_1_about
+fetch_descr = raid_mechanic_task_1_fetch_about
+task_complete_descr = raid_mechanic_task_1_fetch_finish
+
+stage_complete = 1
+target_functor = general_fetch_task
+status_functor = actor_has_fetch_item
+condlist_0 = {!task_giver_alive(raid_mechanic_task_1)} fail
+
+fetch_func = %=setup_generic_fetch_task(raid_mechanic_task_1_fetch:1:itm_basickit)%
+on_complete = %=fetch_reward_and_remove(raid_mechanic_task_1_fetch) =inc_task_stage(raid_mechanic_task_1) +raid_mechanic_upgrade_tier_1 =drx_sl_unregister_task_giver(raid_mechanic_task_1)%
+on_fail = %=drx_sl_unregister_task_giver(raid_mechanic_task_1)%
+
+;------------------------------------------------
+[raid_mechanic_task_2]
+
+icon = ui_inGame2_Instrumenti
+storyline = false
+prior = 16
+precondition = {+raid_mechanic_upgrade_tier_1 -raid_mechanic_upgrade_tier_2} true, false
+
+title = raid_mechanic_task_2_name
+title_functor = general_fetch_task
+descr = raid_mechanic_task_2_text
+descr_functor = general_fetch_task
+job_descr = raid_mechanic_task_2_about
+fetch_descr = raid_mechanic_task_2_fetch_about
+task_complete_descr = raid_mechanic_task_2_fetch_finish
+
+stage_complete = 1
+target_functor = general_fetch_task
+status_functor = actor_has_fetch_item
+condlist_0 = {!task_giver_alive(raid_mechanic_task_2)} fail
+
+fetch_func = %=setup_generic_fetch_task(raid_mechanic_task_2_fetch:1:itm_advancedkit)%
+on_complete = %=fetch_reward_and_remove(raid_mechanic_task_2_fetch) =inc_task_stage(raid_mechanic_task_2) +raid_mechanic_upgrade_tier_2 =drx_sl_unregister_task_giver(raid_mechanic_task_2)%
+on_fail = %=drx_sl_unregister_task_giver(raid_mechanic_task_2)%
+
+;------------------------------------------------
+[raid_mechanic_task_3]
+
+icon = ui_inGame2_Instrumenti
+storyline = false
+prior = 17
+precondition = {+raid_mechanic_upgrade_tier_2 -raid_mechanic_upgrade_tier_3} true, false
+
+title = raid_mechanic_task_3_name
+title_functor = general_fetch_task
+descr = raid_mechanic_task_3_text
+descr_functor = general_fetch_task
+job_descr = raid_mechanic_task_3_about
+fetch_descr = raid_mechanic_task_3_fetch_about
+task_complete_descr = raid_mechanic_task_3_fetch_finish
+
+stage_complete = 1
+target_functor = general_fetch_task
+status_functor = actor_has_fetch_item
+condlist_0 = {!task_giver_alive(raid_mechanic_task_3)} fail
+
+fetch_func = %=setup_generic_fetch_task(raid_mechanic_task_3_fetch:1:itm_expertkit)%
+on_complete = %=fetch_reward_and_remove(raid_mechanic_task_3_fetch) =inc_task_stage(raid_mechanic_task_3) +raid_mechanic_upgrade_tier_3 =drx_sl_unregister_task_giver(raid_mechanic_task_3)%
+on_fail = %=drx_sl_unregister_task_giver(raid_mechanic_task_3)%

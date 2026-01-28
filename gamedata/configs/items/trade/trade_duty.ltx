@@ -1,0 +1,363 @@
+#include "presets\trade_discounts.ltx"
+#include "presets\trade_presets.ltx"
+
+[discount_raid_duty]
+buy = 1   
+sell = 1
+
+[trader]
+buy_condition =  trade_generic_buy
+sell_condition = trade_generic_sell
+buy_supplies = {=raid_goodwill_check(dolg:1000)} supplies_5, {=raid_goodwill_check(dolg:800)} supplies_4, {=raid_goodwill_check(dolg:600)} supplies_3, {=raid_goodwill_check(dolg:400)} supplies_2,  supplies_1
+buy_item_condition_factor = 0.55	;0.40
+buy_item_exponent = 2.25
+sell_item_exponent = 0.75
+
+discounts = discount_raid_duty
+
+[trade_generic_buy]:trasher
+[trade_generic_sell]:trasher
+
+
+[supplies_1]:common_stock												;0
+detector_radio          = 1, 1
+detector_geiger         = 1, 1
+device_pda_1			= 1, 1
+bolts_pack				= 2, 1
+
+;Ремкомплект
+toolkit_p				= 1, 1	
+glue_b                  = 2, 1
+gun_oil_ru              = 2, 1
+armor_repair_fa         = 2, 1
+sewing_kit_b            = 2, 1
+sharpening_stones 			= 1, 1
+
+itm_tent                = 1, 1
+
+;items
+batteries_dead			= 6, 1
+itm_sleepbag			= 1, 1
+compression_bag			= 1, 1
+itm_backpack			= 1, 1
+device_flashlight		= 1, 1
+device_torch_dummy		= 1, 1
+
+;еда
+ration_ru				= 1, 1
+
+;ћедикаменты
+bandage					= 4, 1
+survival_kit			= 1, 1
+medkit					= 3, 1
+stimpack				= 2, 1
+antirad					= 2, 1
+salicidic_acid			= 2, 1
+morphine				= 2, 1
+
+;Ѕустеры
+drug_booster			= 2, 1
+drug_coagulant			= 1, 1
+drug_antidot			= 1, 1
+drug_radioprotector		= 1, 1
+drug_psy_blockade		= 1, 1
+drug_sleepingpills		= 1, 1
+
+;pistol
+
+wpn_tt33_modern         = 1, 1 ;hit*rpm:108
+wpn_colt1911_new		= 1, 1 ;127.6
+wpn_pmm_bas             = 1, 1     ;BaS
+wpn_beretta             = 1, 1 ;149.5
+wpn_hpsa                = 1, 1 ;121.9
+wpn_fort                = 1, 1 ;108
+wpn_gsh18               = 1, 1 ;128.8
+wpn_colt1911_n          = 1, 1     ;BaS
+wpn_pm_bas              = 1, 1 ;BaS
+wpn_pb_bas              = 1, 1     ;BaS
+wpn_tt33	            = 1, 1 ;94.5
+
+;rifle
+wpn_ak74u_n1            = 1, 1     ;BaS
+wpn_akms_bas            = 1, 1     ;BaS
+wpn_ak74_n              = 1, 1     ;BaS
+wpn_aks74               = 1, 1 ;325
+wpn_ak74m_n             = 1, 1     ;BaS
+wpn_toz106              = 1, 1     ;BaS
+
+wpn_wincheaster1300		= 1, 1 ;39.5
+
+;misc
+wpn_knife               = 1, 1
+mine_new                = 3, 1
+ied_rpg_new             = 3, 1
+ied_new                 = 3, 1
+wpn_binoc_inv           = 1, 1
+
+;Ѕроники
+helm_rp_bala            = 1, 1
+helm_cloth_mask			= 1, 1
+helm_respirator_gp5     = 1, 1
+helm_respirator_old     = 1, 1
+dolg_outfit				= 1, 1
+dolg_scout_outfit 		= 1, 1
+dolg_red_outfit			= 1, 1
+dolg_voin_outfit		= 1, 1
+helm_ppm88				= 1, 1
+dolg_novice_outfit		= 1, 1
+lead_box				= 2, 1
+
+;јммуници¤
+ammo_9x18_fmj                   = 4, 1
+ammo_9x18_ap                    = 3, 1
+ammo_9x18_pmm                   = 3, 1
+ammo_9x19_fmj                   = 4, 1
+ammo_9x19_ap                    = 3, 1
+ammo_9x19_pbp                   = 3, 1
+ammo_11.43x23_fmj               = 4, 1
+ammo_11.43x23_hydro             = 3, 1
+ammo_12x70_buck					= 8, 1
+ammo_12x76_zhekan				= 6, 1
+ammo_12x76_dart					= 3, 1
+ammo_5.45x39_fmj                = 4, 1
+ammo_5.45x39_ep					= 3, 1
+ammo_5.45x39_ap                 = 3, 1
+ammo_5.56x45_fmj				= 3, 1
+ammo_5.56x45_ss190              = 2, 1
+ammo_5.56x45_ap                 = 2, 1
+ammo_7.62x39_fmj                = 4, 1
+ammo_7.62x39_ap                 = 3, 1
+ammo_7.62x51_fmj                = 4, 1
+ammo_7.62x51_ap                 = 4, 1
+ammo_7.62x25_p                  = 4, 1
+ammo_7.62x25_ps                 = 4, 1
+ammo_9x39_pab9                  = 5, 1
+ammo_9x39_ap                    = 4, 1
+ammo_7.62x54_ap                 = 3, 1
+ammo_7.62x54_7h1                = 3, 1
+ammo_7.62x54_7h14               = 3, 1
+ammo_357_hp_mag                 = 3, 1
+ammo_magnum_300                 = 3, 1
+ammo_12.7x55_fmj                = 3, 1
+ammo_12.7x55_ap         		= 2, 1
+grenade_rgd5                    = 2, 1
+grenade_gd-05                   = 2, 1
+grenade_smoke                   = 2, 1
+grenade_f1                      = 2, 1
+ammo_og-7b                      = 2, 1
+ammo_vog-25                     = 2, 1
+ammo_m209                       = 2, 1
+ammo_23x75_barrikada       		= 3, 1     ;BaS
+ammo_23x75_shrapnel        = 3, 1     ;BaS
+ammo_9x21_sp10             = 4, 1     ;BaS
+ammo_20x70_buck            = 3, 1     ;BaS
+ammo_vog-30                = 1, 1     ;BaS
+ammo_pkm_100			   = 3, 1
+
+;јддоны
+wpn_sil_9mm      	= 1, 1
+wpn_sil_45      	= 1, 1
+wpn_sil_pbs1      	= 1, 1
+wpn_sil_pbs4      	= 1, 1
+wpn_sil_tgp-a      	= 1, 1
+wpn_sil_kzrzp      	= 1, 1
+wpn_sil_atg      	= 1, 1
+wpn_aps_bas         = 1, 1     ;BaS
+wpn_sil_6p9      	= 1, 1
+
+;ѕредметы
+detector_simple			= 1, 1
+fieldcooker				= 1, 1
+
+cooking					= 1, 1
+kerosene                = 1, 1
+charcoal                = 2, 1
+explo_balon_gas         = 1, 1
+explo_jerrycan_fuel     = 1, 1
+
+[supplies_2]:supplies_1												;1
+device_torch_nv_1		= 1, 1
+equ_small_pack          = 1, 1
+
+;Ремкомплект
+toolkit_s				= 1, 1
+helmet_repair_kit		= 1, 1
+light_repair_kit		= 1, 1
+
+wpn_pb_bas_custom       = 1, 1     ;BaS
+wpn_pm_bas_custom       = 1, 1     ;BaS
+wpn_akm               	= 1, 1 ;348
+wpn_aps                 = 1, 1 ;292.5
+wpn_mp133               = 1, 1 ;47.4
+wpn_protecta            = 1, 1 ;120.9
+wpn_rpk                	= 1, 1 ;351
+wpn_akm_bas             = 1, 1     ;BaS
+wpn_ak105_sp            = 1, 1     ;BaS
+wpn_fort500				= 1, 1 ;47.4
+wpn_bizon				= 1, 1 ;312.8
+wpn_toz106_m1           = 1, 1     ;BaS
+wpn_abakan_n            = 1, 1     ;BaS
+
+
+
+wpn_addon_scope_po4x34  = 1, 1
+wpn_addon_scope_pu      = 1, 1
+wpn_addon_scope_zf4     = 1, 1
+1p29      				= 1, 1
+kobra      				= 1, 1
+ps01      				= 1, 1
+pso1m21      			= 1, 1
+
+detector_advanced		= 2, 1
+army_bowler             = 1, 1
+
+
+;медикаменты
+medkit_ai1			    = 2, 1
+antirad_kalium			= 2, 1
+antirad_cystamine		= 1, 1
+antibio_sulfad			= 2, 1
+antiemetic				= 1, 1
+antibio_chlor			= 2, 1
+jgut					= 1, 1
+yadylin					= 2, 1
+analgetic				= 2, 1
+
+
+;Броники
+ghillie_outfit          		= 1, 1
+nbc_dolg_outfit         		= 1, 1
+trenchcoat_dolg_brown_outfit 	= 1, 1
+specops_dolg_outfit    	 		= 1, 1
+dolg_specops_red_outfit 		= 1, 1
+dolg_pantsir_outfit				= 1, 1
+helm_hardhat					= 1, 1
+helm_m40						= 1, 1
+helm_m50						= 1, 1
+af_kevlar						= 1, 1
+af_plates						= 1, 1
+af_frames						= 1, 1
+af_camelbak						= 1, 1
+
+[supplies_3]:supplies_2												;2
+device_torch_nv_2				= 1, 1
+equ_small_military_pack 		= 1, 1
+device_pda_2					= 1, 1
+ammo_12x76_bull					= 2, 1
+
+;Ремкомплект
+toolkit_r5						= 1, 1
+medium_repair_kit				= 1, 1
+
+wpn_oc33                	= 1, 1 ;360
+wpn_aks74_new          		= 1, 1 ;327.5
+wpn_ak74_modern        		= 1, 1 ;340
+wpn_ak103          			= 1, 1 ;348
+wpn_ak104        			= 1, 1 ;342
+wpn_ak103_camo            	= 1, 1 ;365.4
+wpn_rpk74_16                = 1, 1     ;BaS
+wpn_protecta            	= 1, 1 ;120.9
+wpn_remington870			= 1, 1 ;35.55
+wpn_mossberg590				= 1, 1 ;47.4
+wpn_rpd 					= 1, 1 ;354
+wpn_akms_alt           		= 1, 1 ;359.6
+wpn_ak12                   = 1, 1     ;BaS
+wpn_spas12        			= 1, 1 ;90.85
+wpn_ak105_bas              = 1, 1     ;BaS
+
+wpn_addon_grenade_launcher      = 1, 1
+
+;Броня
+dolg_heavy_outfit		= 1, 1
+dolg_heavy_redline_outfit = 1, 1
+light_dolg_outfit       = 1, 1
+helm_tactic				= 1, 1
+helm_metro              = 1, 1
+
+af_freon_up             = 1, 1
+af_frames_up            = 1, 1
+af_camelbak_up          = 1, 1
+;медикоменты
+medkit_ai2				= 1, 1
+stimpack_army			= 2, 1
+medkit_army				= 2, 1
+
+[supplies_4]:supplies_3												;3
+device_torch_nv_3		= 1, 1
+equ_military_pack       = 1, 1
+device_pda_3			= 1, 1
+
+;Ремкомплект
+toolkit_r7				= 1, 1
+heavy_repair_kit		= 1, 1
+
+wpn_ak74_pmc            = 1, 1     ;BaS
+wpn_aks74_new          	= 1, 1 ;327.5
+wpn_aek              	= 1, 1 ;450
+wpn_groza               = 1, 1 ;434
+wpn_vsk94               = 1, 1 ;434
+wpn_vintorez_m1         = 1, 1     ;BaS
+wpn_val                 = 1, 1 ;558
+wpn_sv98                = 1, 1 ;33
+wpn_aek_camo            = 1, 1 ;425
+wpn_mp153               = 1, 1 ;160
+wpn_saiga12s            = 1, 1 ;171.6
+wpn_pkm                 = 1, 1 ;500.5
+wpn_pkm_siber           = 1, 1     ;BaS
+wpn_9a91				= 1, 1 ;434
+wpn_protecta_custom     = 1, 1 ;131.04
+wpn_ppsh_bas            = 1, 1     ;BaS
+wpn_ak74u_tac           = 1, 1     ;BaS
+wpn_ks23                = 1, 1     ;BaS
+wpn_ak12_bas                = 1, 1     ;BaS
+
+
+;медикоменты
+medkit_ai3				= 1, 1
+
+;Броня
+dolg_scientific_outfit	= 1, 1
+dolg_scientific_red_outfit	= 1, 1
+dolg_scientific_wood_outfit	= 1, 1
+dolg_proto_exo_outfit	= 1, 1
+dolg_exolight_outfit	= 1, 1
+exo_dolg_wood_outfit	= 1, 1
+exo_dolg_urban_outfit	= 1, 1
+dolg_heavy_proto_exo_outfit	= 1, 1
+helm_protective			= 1, 1
+helm_exo                = 1, 1
+
+af_grid_up              = 1, 1
+af_surge_up             = 1, 1
+
+
+[supplies_5]:supplies_4												;4
+
+equ_tourist_pack      = 1, 1
+
+exo_repair_kit			= 1, 1
+
+wpn_sr2_m1              = 1, 1     ;BaS
+wpn_akm_alfa            = 1, 1     ;BaS
+wpn_vihr            	= 1, 1 ;558
+wpn_aek_duty            = 1, 1 ;522
+wpn_sv98_custom         = 1, 1 ;36.3
+wpn_galil_modern        = 1, 1 ;490.2
+wpn_mp153               = 1, 1 ;160
+wpn_val_tac             = 1, 1     ;BaS
+wpn_pkp_siber           = 1, 1     ;BaS
+wpn_pkp_tac_siber       = 1, 1     ;BaS
+wpn_vepr			   	= 1, 1 ;187.2
+wpn_toz34_mark4			= 1, 1 ;656
+wpn_ak12_custom         = 1, 1     ;BaS
+wpn_vintorez_m2         = 1, 1     ;BaS
+wpn_vintorez_n1         = 1, 1     ;BaS
+wpn_pkm_zenit_siber        = 1, 1     ;BaS
+wpn_pkm_zenit_shorty       = 1, 1     ;BaS
+
+
+;броня
+dolg_exo_outfit			= 1, 1
+helm_spartan			= 1, 1
+
+af_cooler_up            = 1, 1

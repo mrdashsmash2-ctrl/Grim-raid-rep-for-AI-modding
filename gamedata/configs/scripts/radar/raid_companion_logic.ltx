@@ -1,0 +1,117 @@
+[beh@general]
+;sound_idle = state
+behavior_state = beh_move
+target = waypoint
+walk_dist = 100
+jog_dist = 220
+wait_anim = walk
+walk_anim = walk
+jog_anim = walk
+run_anim = walk
+delay_anim = guard
+gather_items_enabled = true
+help_wounded_enabled = true
+corpse_detection_enabled = true
+meet = meet@general
+wounded = wounded@ignore
+use_camp = false
+path_end = loop
+
+[meet@general]
+close_anim 		= nil
+close_victim 	= nil
+far_anim 		= nil
+far_victim 		= nil
+close_distance  = 0
+far_distance 	= 0
+use = {=actor_enemy} false, {=dist_to_actor_le(3)} true, false
+snd_on_use = {!dist_to_actor_le(3)} nil
+meet_on_talking = false
+
+[wounded@ignore]
+hp_state        = 0|wounded_heavy@help_heavy
+hp_state_see    = 0|wounded_heavy@help_heavy
+hp_victim       = 0|nil
+hp_fight        = 0|false
+hp_cover        = 0|false
+
+
+
+[logic@raid_comp_1]
+active = beh@comp_1
+suitable = {=check_npc_name(sim_default)} true
+prior = 59
+
+[beh@comp_1]:beh@general
+pt1 = 20000, sit_ass | 		pos: 631.4, -42.8412, 191.1          look: 632.4926, -43.8475, 195.0513
+
+
+[logic@raid_comp_2]
+active = beh@comp_2
+suitable = {=check_npc_name(sim_default)} true
+prior = 59
+
+[beh@comp_2]:beh@general
+pt1 = 20000, smoking_sit | 		pos: 632.1, -42.7539, 189.7          look: 632.0773, -43.837, 191.8551
+
+
+[logic@raid_comp_3]
+active = beh@comp_3
+suitable = {=check_npc_name(sim_default)} true
+prior = 59
+
+[beh@comp_3]:beh@general
+pt1 = 20000, sit_ass_drink_vodka | 		pos: 632.1, -42.7539, 189.7          look: 632.0773, -43.837, 191.8551
+
+
+[logic@raid_comp_4]
+active = beh@comp_4
+suitable = {=check_npc_name(sim_default)} true
+prior = 59
+
+[beh@comp_4]:beh@general
+pt1 = 20000, sit_ass | 		pos: 630, -42.7613, 194.6          look: 631.6681, -43.8439, 193.6801
+
+
+[logic@raid_comp_5]
+active = beh@comp_5
+suitable = {=check_npc_name(sim_default)} true
+prior = 59
+
+[beh@comp_5]:beh@general
+pt1 = 20000, smoking_sit | 		pos: 632.1, -42.7806, 196          look: 632.2949, -43.8571, 194.0745
+
+
+[logic@raid_comp_6]
+active = beh@comp_6
+suitable = {=check_npc_name(sim_default)} true
+prior = 59
+
+[beh@comp_6]:beh@general
+pt1 = 20000, sit_ass | 		pos: 634.9, -42.7613, 193.2          look: 633.4994, -43.8402, 192.61
+
+
+[logic@raid_comp_7]
+active = beh@comp_7
+suitable = {=check_npc_name(sim_default)} true
+prior = 59
+
+[beh@comp_7]:beh@general
+pt1 = 20000, sit | 		pos: 630, -42.8412, 191.1          look: 631.179, -43.8361, 192.3014
+
+
+[logic@raid_comp_8]
+active = beh@comp_8
+suitable = {=check_npc_name(sim_default)} true
+prior = 59
+
+[beh@comp_8]:beh@general
+pt1 = 20000, sit | 		pos: 634.9, -42.8604, 195.3          look: 632.705, -43.8421, 193.497
+
+[logic@raid_comp_9]
+active = beh@comp_9
+suitable = {=check_npc_name(sim_default)} true
+prior = 59
+
+[beh@comp_9]:beh@general
+pt1 = 20000, sit | 		pos: 634.9, -42.8368, 190.4          look: 633.066, -43.8359, 192.0547

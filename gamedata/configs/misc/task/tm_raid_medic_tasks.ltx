@@ -1,0 +1,23 @@
+[raid_medic_task_1]
+
+icon = ui_inGame2_Instrumenti
+storyline = false
+prior = 15
+precondition = {-raid_medic_drugkit_done} true, false
+
+title = raid_medic_task_1_name
+title_functor = general_fetch_task
+descr = raid_medic_task_1_text
+descr_functor = general_fetch_task
+job_descr = raid_medic_task_1_about
+fetch_descr = raid_medic_task_1_fetch_about
+task_complete_descr = raid_medic_task_1_fetch_finish
+
+stage_complete = 1
+status_functor = actor_has_fetch_item
+target_functor = general_fetch_task
+
+fetch_func = %=setup_generic_fetch_task(raid_medic_task_1_fetch:1:itm_drugkit)%
+on_complete = %=fetch_reward_and_remove(raid_medic_task_1_fetch) =inc_task_stage(raid_medic_task_1) +raid_medic_drugkit_done =drx_sl_unregister_task_giver(raid_medic_task_1)%
+on_fail = %=drx_sl_unregister_task_giver(raid_medic_task_1)%
+condlist_0 = {!task_giver_alive(raid_medic_task_1)} fail

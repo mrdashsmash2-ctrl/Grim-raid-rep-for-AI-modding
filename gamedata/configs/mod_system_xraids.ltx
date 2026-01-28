@@ -1,0 +1,307 @@
+; -----------------------------------------------------------
+; -------------------- Rank / NPCs ------------------------
+; -----------------------------------------------------------
+
+![game_relations]
+rating				= novice, 74, trainee, 314, experienced, 774, professional, 1499, veteran, 2499, expert, 3799, master, 5599, legend
+rating_names		= st_rank_novice, 74, st_rank_trainee, 314, st_rank_experienced, 774, st_rank_professional, 1499, st_rank_veteran, 2499, st_rank_expert, 3799, st_rank_master, 5599, st_rank_legend 
+
+![rank_kill_points]
+novice       =  0
+trainee      =  1
+experienced  =  1
+professional = 2
+veteran      =  2
+expert       = 3
+master       = 3
+legend       = 4
+
+
+![dialogs]
+>files = dialogs_raid_trade
+
+![profiles]
+>files = npc_profile_raid_trader, npc_profile_raid_mechanic, npc_profile_raid_medic, npc_profile_raid_butcher
+>specific_characters_files = character_desc_raid_trader, character_desc_raid_mechanic, character_desc_raid_medic, character_desc_raid_butcher
+
+[raid_trader]:stalker_strong
+$spawn                      = "respawn\raid_trader"
+story_id                    = raid_trader
+character_profile           = raid_trader
+spec_rank                   = regular
+community                   = stalker
+
+
+
+; -----------------------------------------------------------
+; -------------------- Shelter items -------------------------
+; -----------------------------------------------------------
+[raid_shelter_restrictor]:space_restrictor
+story_id = raid_shelter_restrictor
+
+[raid_shelter_general]:physic_object
+fixed_bones							= link
+custom_data 		      = models\objects\ignore_static.ltx
+
+; 638.4, -36.95, 182.5		0, 0, -3.14
+[raid_shelter_gates]:raid_shelter_general
+visual                        = dynamics\door\door_katakomb_big_3.ogf
+
+[raid_shelter_gates_1]:raid_shelter_general
+fixed_bones							= germo
+visual                        = dynamics\raid_meshes\labx1_germo.ogf
+
+[raid_shelter_gates_2]:raid_shelter_general
+fixed_bones							= germo
+visual                        = dynamics\raid_meshes\labx1_germo.ogf
+
+[raid_shelter_cellar_1]:raid_shelter_general
+visual                        = dynamics\scene_objects\hospital\hospital_wooden_board_01.ogf
+
+[raid_shelter_cellar_2]:raid_shelter_cellar_1
+[raid_shelter_cellar_3]:raid_shelter_cellar_1
+[raid_shelter_cellar_4]:raid_shelter_cellar_1
+[raid_shelter_cellar_5]:raid_shelter_cellar_1
+
+
+; 649.3, -43.9, 187.9		0, 0, 0
+[raid_shelter_shkaf]:raid_shelter_general
+visual                        = dynamics\raid_meshes\shkaff_phys.ogf
+
+[raid_shelter_tumba]:raid_shelter_general
+visual                        = dynamics\raid_meshes\tumba_1.ogf
+
+; 649.1, -43.8, 187.6		0, -3.14, 0
+[raid_shelter_box_1]:inventory_box	;raid_shelter_general
+visual                        = dynamics\equipments\blue_box.ogf
+
+; 649.35, -42.7, 187.65		0, 0, 0
+[raid_shelter_box_2]:inventory_box	;raid_shelter_general
+visual                        = dynamics\equipments\green_box.ogf
+story_id = raid_shelter_box_2
+
+[raid_shelter_box_3]:inventory_box	;raid_shelter_general
+visual                        = dynamics\box\box_1a.ogf
+
+; 650.6, -43.9, 177.6		0, 3.14, 0
+[raid_shelter_freezer]:raid_shelter_general
+visual                        = dynamics\kitchen_room\freezer.ogf
+fixed_bones							= root
+
+; 652.7, -43.9, 178.6		0, 1.95, 0
+[raid_shelter_notebook_table]:raid_shelter_general
+visual                        = dynamics\raid_meshes\tumba_1.ogf
+
+; 652.5, -42.9, 178.6		0, -2.74, 0
+[raid_shelter_notebook]:physic_object
+fixed_bones							= link
+visual                        = dynamics\el_tehnika\notebook.ogf
+
+; 653, -42.9, 178.6		0, -1.95, 0
+[raid_shelter_lamp]:raid_shelter_general
+visual                        = dynamics\el_tehnika\table_lamp_01.ogf
+
+; 652.6, -43.9, 179.35		0, 1.95, 0
+[raid_shelter_chair]:raid_shelter_general
+visual                        = dynamics\stul\taburet_wood_01.ogf
+
+; 655.2, -44.45, 182		-1.57, -1.57, 0
+[raid_shelter_bunker_background]:raid_shelter_general
+visual                        = dynamics\door\door_katakomb_big_4.ogf
+
+; 655.1, -43.75, 181.5		0, 1.57, 0
+[raid_shelter_bunker_door]:raid_shelter_general
+visual                        = dynamics\door\door_trader.ogf
+
+[raid_shelter_bunker_door_2]:raid_shelter_general
+visual                        = dynamics\raid_meshes\door_garbage_02.ogf
+
+; 650.8, -43.9, 187.9		0, -1.95, 0
+[raid_shelter_map]:physic_object
+fixed_bones							= link
+visual                        = dynamics\raid_meshes\py_blackboard_short.ogf
+
+[raid_shelter_wall_lamp_1]:lights_hanging_lamp
+visual = dynamics\light\light_alarm_glass
+fixed_bones							= link
+
+[raid_shelter_wall_lamp_2]:raid_shelter_wall_lamp_1
+[raid_shelter_wall_lamp_3]:raid_shelter_wall_lamp_1
+[raid_shelter_wall_lamp_4]:raid_shelter_wall_lamp_1
+[raid_shelter_wall_lamp_5]:raid_shelter_wall_lamp_1
+[raid_shelter_wall_lamp_6]:raid_shelter_wall_lamp_1
+[raid_shelter_wall_lamp_7]:raid_shelter_wall_lamp_1
+visual = dynamics\light\light_alarm_white_glass
+
+[raid_shelter_wall_lamp_8]:raid_shelter_wall_lamp_1
+[raid_shelter_wall_lamp_9]:raid_shelter_wall_lamp_1
+
+[raid_shelter_quest_table]:raid_shelter_general
+visual                        = dynamics\raid_meshes\stol_7.ogf
+
+[raid_shelter_npc_chair]:raid_shelter_general
+visual                        = dynamics\stul\taburet_wood_01.ogf
+
+[raid_shelter_quest_box]:inventory_box
+story_id = raid_shelter_quest_box
+visual                        = dynamics\equipment_cache\equipment_zaz968_case.ogf
+
+[raid_shelter_sleepbag]:physic_object
+fixed_bones							= link
+visual                        = dynamics\raid_meshes\mattress02.ogf
+story_id = raid_shelter_sleepbag
+script_binding			= bind_physic_object.init
+
+[raid_shelter_bunker_background_2]:raid_shelter_general
+visual                        = dynamics\raid_meshes\door_garbage_02.ogf
+
+[raid_shelter_stash_1]:inventory_box
+visual                        = dynamics\equipment_cache\equipment_cross_2_case.ogf
+
+[raid_shelter_stash_2]:inventory_box
+visual                        = dynamics\equipment_cache\equipment_cross_3_case.ogf
+
+[raid_shelter_stash_3]:inventory_box
+visual                        = dynamics\equipment_cache\equipment_cross_3_case.ogf
+
+
+
+; -----------------------------------------------------------
+; ---------------------- Upgrades --------------------------
+; -----------------------------------------------------------
+; heli
+[raid_shelter_upgrade_radio_table]:raid_shelter_general
+visual                        = dynamics\medical_object\med_stolik_01.ogf
+
+[raid_shelter_upgrade_radio]:physic_object
+fixed_bones = link
+visual                        = dynamics\el_tehnika\transiver.ogf
+
+[raid_shelter_upgrade_radio_lamp]:lights_hanging_lamp
+visual = dynamics\light\light_alarm_glass
+fixed_bones							= link
+
+
+; btr
+[raid_shelter_upgrade_btr]:physic_object
+fixed_bones							= root
+visual                        = dynamics\raid_meshes\invisible_btr.ogf
+
+
+; device
+[raid_shelter_upgrade_clock]:raid_shelter_general
+visual                        = dynamics\el_tehnika\krisagenerator.ogf
+
+[raid_shelter_upgrade_konteyner]:raid_shelter_general
+fixed_bones							= bones_00
+visual                        = dynamics\raid_meshes\raid_konteyner.ogf
+
+
+; workbench
+[raid_shelter_upgrade_workbench]:physic_object
+fixed_bones = link
+visual                        = dynamics\raid_meshes\stol_6.ogf	
+
+[raid_shelter_upgrade_w_goggles]:raid_shelter_general
+fixed_bones							= bone01
+visual                        = dynamics\equipments\trade\goggles.ogf
+
+[raid_shelter_upgrade_w_riffler]:raid_shelter_general
+visual                        = dynamics\workshop_room\riffler.ogf
+
+[raid_shelter_upgrade_w_tiski]:raid_shelter_general
+visual                        = dynamics\workshop_room\tiski.ogf
+
+[raid_shelter_upgrade_w_wire]:raid_shelter_general
+visual                        = dynamics\equipments\quest\materials_wire.ogf
+
+[raid_shelter_upgrade_w_box]:raid_shelter_general
+fixed_bones							= bone01
+visual                        = dynamics\equipments\trade\parts.ogf
+
+[raid_shelter_upgrade_w_key]:raid_shelter_general
+visual                        = dynamics\workshop_room\keyga.ogf
+
+[raid_shelter_upgrade_w_resistors]:raid_shelter_general
+visual                        = dynamics\equipments\quest\box_resistors.ogf
+
+[raid_shelter_upgrade_w_condensers]:raid_shelter_general
+visual                        = dynamics\equipments\quest\box_condensers.ogf
+
+
+; mechanic
+[raid_mechanic]:stalker_strong
+$spawn                      = "respawn\raid_mechanic"
+story_id                    = raid_mechanic
+character_profile           = raid_mechanic
+spec_rank                   = regular
+community                   = stalker
+
+
+; bed
+[raid_shelter_upgrade_bed]:physic_object
+fixed_bones							= link
+visual                        = dynamics\raid_meshes\divan_1.ogf
+script_binding			= bind_physic_object.init
+
+
+; medic
+[raid_medic]:stalker_strong
+$spawn                      = "respawn\raid_medic"
+story_id                    = raid_medic
+character_profile           = raid_medic
+spec_rank                   = regular
+community                   = stalker
+
+[raid_shelter_upgrade_medic_table]:raid_shelter_general
+visual                        = dynamics\medical_object\med_stolik_01.ogf
+
+[raid_shelter_upgrade_medic_kolba1]:raid_shelter_general
+visual                        = dynamics\medical\kolba_1_green.ogf
+fixed_bones							= wpn_body
+
+[raid_shelter_upgrade_medic_kolba2]:raid_shelter_general
+visual                        = dynamics\medical\kolba_2.ogf
+fixed_bones							= wpn_body
+
+[raid_shelter_upgrade_medic_wire]:raid_shelter_general
+visual                        = dynamics\equipments\quest\materials_wire.ogf
+
+[raid_shelter_upgrade_medic_bag]:raid_shelter_general
+visual                        = dynamics\equipments\medical\item_aptechka3.ogf
+
+[raid_shelter_upgrade_medic_pills]:raid_shelter_general
+visual                        = dynamics\equipments\medical\drug_psyhodelin.ogf
+fixed_bones							= bone01
+
+
+; butcher
+[raid_butcher]:stalker_strong
+$spawn                      = "respawn\raid_butcher"
+story_id                    = raid_butcher
+character_profile           = raid_butcher
+spec_rank                   = regular
+community                   = stalker
+
+[raid_shelter_upgrade_butcher_table]:raid_shelter_general
+visual                        = dynamics\raid_meshes\tumba_1.ogf
+
+[raid_shelter_upgrade_butcher_ckit]:raid_shelter_general
+visual                        = dynamics\equipments\trade\ckit.ogf
+fixed_bones							= bone01
+
+[raid_shelter_upgrade_butcher_tail]:raid_shelter_general
+visual                        = equipments\item_psevdodog_tail.ogf
+
+[raid_shelter_upgrade_butcher_leg]:raid_shelter_general
+visual                        = equipments\item_boar_leg.ogf
+
+[raid_shelter_upgrade_butcher_banka]:raid_shelter_general
+visual                        = dynamics\kitchen_room\bottle_3l.ogf
+
+[raid_shelter_upgrade_butcher_kastrula]:raid_shelter_general
+visual                        = dynamics\kitchen_room\kitchen_kastrula.ogf
+
+[raid_shelter_upgrade_butcher_head]:raid_shelter_general
+visual                        = dynamics\equipments\item_tushkano_head.ogf
+fixed_bones							= kost													   
