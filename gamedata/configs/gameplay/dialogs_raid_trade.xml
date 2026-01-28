@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+
+<game_dialogs>
+
+	<dialog id="raid_order_nimble">
+		<precondition>raid_trade.check_nimble_goodwill</precondition>
+		<phrase_list>
+			<phrase id="0">
+				<text>st_raid_nimble_trade</text>
+				<next>1</next>
+			</phrase>
+
+			<phrase id="1">
+				<script_text>raid_trade.get_nimble_str</script_text>
+				<action>raid_trade.set_nimble_profile</action>
+				<next>21</next>		<!-- trade -->
+				<next>22</next>		<!-- back -->
+			</phrase>
+
+		    <phrase id="21">
+                <text>st_raid_trade</text>
+				<action>dialogs.npc_is_trader</action>
+				<action>dialogs.break_dialog</action>
+            </phrase>
+
+			 <phrase id="22">
+                <text>st_raid_back</text>
+			 </phrase>
+
+		</phrase_list>
+	</dialog>
+
+	<dialog id="raid_order_barman">
+		<precondition>raid_trade.check_barman_goodwill</precondition>
+		<phrase_list>
+			<phrase id="0">
+				<text>st_raid_barman_trade</text>
+				<next>1</next>
+			</phrase>
+
+			<phrase id="1">
+				<script_text>raid_trade.get_barman_str</script_text>
+				<action>raid_trade.set_barman_profile</action>
+				<next>21</next>		<!-- trade -->
+				<next>22</next>		<!-- back -->
+			</phrase>
+
+		    <phrase id="21">
+                <text>st_raid_trade</text>
+				<action>dialogs.npc_is_trader</action>
+				<action>dialogs.break_dialog</action>
+            </phrase>
+
+			 <phrase id="22">
+                <text>st_raid_back</text>
+			 </phrase>
+
+		</phrase_list>
+	</dialog>
+
+	<dialog id="raid_order_skryaga">
+		<precondition>raid_trade.check_skryaga_goodwill</precondition>
+		<phrase_list>
+			<phrase id="0">
+				<text>st_raid_skryaga_trade</text>
+				<next>1</next>
+			</phrase>
+
+			<phrase id="1">
+				<script_text>raid_trade.get_skryaga_str</script_text>
+				<action>raid_trade.set_skryaga_profile</action>
+				<next>21</next>		<!-- trade -->
+				<next>22</next>		<!-- back -->
+			</phrase>
+
+		    <phrase id="21">
+                <text>st_raid_trade</text>
+				<action>dialogs.npc_is_trader</action>
+				<action>dialogs.break_dialog</action>
+            </phrase>
+
+			 <phrase id="22">
+                <text>st_raid_back</text>
+			 </phrase>
+
+		</phrase_list>
+	</dialog>
+
+	<dialog id="raid_order_sidorovich">
+		<precondition>raid_trade.check_sidorovich_goodwill</precondition>
+		<phrase_list>
+			<phrase id="0">
+				<text>st_raid_sidorovich_trade</text>
+				<next>1</next>
+			</phrase>
+
+			<phrase id="1">
+				<script_text>raid_trade.get_sidorovich_str</script_text>
+				<action>raid_trade.set_sidorovich_profile</action>
+				<next>21</next>		<!-- trade -->
+				<next>22</next>		<!-- back -->
+			</phrase>
+
+		    <phrase id="21">
+                <text>st_raid_trade</text>
+				<action>dialogs.npc_is_trader</action>
+				<action>dialogs.break_dialog</action>
+            </phrase>
+
+			 <phrase id="22">
+                <text>st_raid_back</text>
+			 </phrase>
+
+		</phrase_list>
+	</dialog>
+
+	<dialog id="raid_order_herman">
+		<precondition>raid_trade.check_herman_goodwill</precondition>
+		<phrase_list>
+			<phrase id="0">
+				<text>st_raid_herman_trade</text>
+				<next>1</next>
+			</phrase>
+
+			<phrase id="1">
+				<script_text>raid_trade.get_herman_str</script_text>
+				<action>raid_trade.set_herman_profile</action>
+				<next>21</next>		<!-- trade -->
+				<next>22</next>		<!-- back -->
+			</phrase>
+
+		    <phrase id="21">
+                <text>st_raid_trade</text>
+				<action>dialogs.npc_is_trader</action>
+				<action>dialogs.break_dialog</action>
+            </phrase>
+
+			 <phrase id="22">
+                <text>st_raid_back</text>
+			 </phrase>
+
+		</phrase_list>
+	</dialog>
+
+	<dialog id="raid_order_spore">
+		<precondition>raid_trade.check_hideout_furniture</precondition>
+		<phrase_list>
+			<phrase id="0">
+				<text>st_raid_spore_trade</text>
+				<next>1</next>
+			</phrase>
+
+			<phrase id="1">
+				<script_text>raid_trade.get_spore_str</script_text>
+				<action>raid_trade.set_spore_profile</action>
+				<next>21</next>		<!-- trade -->
+				<next>22</next>		<!-- back -->
+			</phrase>
+
+		    <phrase id="21">
+                <text>st_raid_trade</text>
+				<action>dialogs.npc_is_trader</action>
+				<action>dialogs.break_dialog</action>
+            </phrase>
+
+			 <phrase id="22">
+                <text>st_raid_back</text>
+			 </phrase>
+
+		</phrase_list>
+	</dialog>
+	
+	<dialog id="raid_mechanic_hello">
+		<phrase_list>
+			<phrase id="0">
+				<script_text>raid_trade.get_mechanic_str</script_text>
+			</phrase>
+		</phrase_list>
+	</dialog>
+
+	<dialog id="raid_medic_hello">
+		<phrase_list>
+			<phrase id="0">
+				<script_text>raid_trade.get_medic_str</script_text>
+			</phrase>
+		</phrase_list>
+	</dialog>
+
+	<dialog id="raid_butcher_hello">
+		<phrase_list>
+			<phrase id="0">
+				<script_text>raid_trade.get_butcher_str</script_text>
+			</phrase>
+		</phrase_list>
+	</dialog>
+
+
+	<dialog id="check_quest_box">
+		<phrase_list>
+			<phrase id="0">
+				<text>st_raid_check_quest_box</text>
+				<action>raid_tasks_find.check_quest_box</action>
+			</phrase>
+		</phrase_list>
+	</dialog>
+
+
+</game_dialogs>

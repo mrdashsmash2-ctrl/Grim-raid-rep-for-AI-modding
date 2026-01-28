@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding="UTF-8"?>
+<xml>
+	<character id="raid_trader">
+		<class>raid_trader</class>
+		<specific_character>raid_trader</specific_character>
+	</character>
+</xml>
