@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding="UTF-8"?>
+<xml>
+	<character id="raid_medic">
+		<class>raid_medic</class>
+		<specific_character>raid_medic</specific_character>
+	</character>
+</xml>
