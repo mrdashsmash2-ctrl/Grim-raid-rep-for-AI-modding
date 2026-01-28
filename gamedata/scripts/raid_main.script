@@ -1,0 +1,286 @@
+
+raid_timer = 0
+
+actor_not_died = false
+
+raid_prev_level = ""
+
+HUD = nil
+
+local HI = has_alife_info
+local GI = give_info
+local DI = disable_info
+local was_already_dying = false
+local first_update_surge = false								
+function actor_on_first_update()
+	-- joined raid - set timer to raid time
+	if raid_prev_level == raid_utils.raid_home_level and level.name() ~= raid_utils.raid_home_level then
+		raid_timer = raid_utils.calc_raid_time()
+	end
+
+	-- at home - set timer to 0
+	if level.name() == raid_utils.raid_home_level then
+		raid_timer = 0
+	end
+
+	-- in raid - enable timer HUD
+	if level.name() ~= raid_utils.raid_home_level then
+		activate_timer_hud()
+	end
+
+	-- returned home
+	if raid_prev_level ~= level.name() and level.name() == raid_utils.raid_home_level then
+		-- save game
+		raid_save_manager.raid_save("Home", 5)
+
+		-- reset info portions (for travel time and timers)
+		raid_utils.reset_raid_time_info_portions()
+
+		-- reset special items info portions
+		raid_special_items_effects.remove_special_items_info_portions()
+
+		-- update radiation after travel
+		if raid_travel_manager.raid_home_radiation_cache then
+			db.actor.radiation = raid_travel_manager.raid_home_radiation_cache
+		end
+		-- notify about radiation damage after travel
+		if (raid_travel_manager.flag_died_radiation_during_travel == true) then
+			raid_utils.raid_send_info(game.translate_string("st_raid_radiation_died"), game.translate_string("st_raid_radiation_died_text") .. " %c[0,255, 126, 61]"  .. tostring(math.modf(raid_travel_manager.raid_rad_hit_damage * 100)), nil, 8000, "ui_inGame2_Vozmezdie")		
+		elseif (raid_travel_manager.flag_hit_radiation_during_travel == true) then
+			raid_utils.raid_send_info(game.translate_string("st_raid_radiation_damage"), game.translate_string("st_raid_radiation_damage_text") .. " %c[0,255, 126, 61]" .. tostring(math.modf(raid_travel_manager.raid_rad_hit_damage * 100)), nil, 6000, "ui_inGame2_Fallout_rad")		
+		end		
+		raid_travel_manager.flag_died_radiation_during_travel = false
+		raid_travel_manager.flag_hit_radiation_during_travel = false									   														  
+	end
+
+	raid_prev_level = level.name()
+
+	-- actor not died - send message
+	if actor_not_died then
+		actor_not_died = false
+		news_manager.send_tip(db.actor, game.translate_string("st_raid_got_lucky"), 3, nil, 7500)
+	end
+
+
+	-- misc
+	raid_utils.raid_misc_first_update()
+
+end
+
+function activate_timer_hud()
+	if HUD == nil then
+		HUD = RaidTimer()
+		get_hud():AddDialogToRender(HUD)
+	end
+end
+
+function deactivate_timer_hud()
+	if HUD ~= nil then
+		get_hud():RemoveDialogToRender(HUD)
+		HUD = nil
+	end
+end
+
+class "RaidTimer" (CUIScriptWnd)
+
+function RaidTimer:__init() super()
+	self:InitControls()
+end
+
+function RaidTimer:InitControls()
+	self:SetWndRect(Frect():set(0, 0, 1024, 768))
+	self:SetAutoDelete(true)
+
+	self.xml = CScriptXmlInit()
+	local xml = self.xml
+	xml:ParseFile("ui_raid_timer.xml")
+
+	self.bg = xml:InitStatic("bg", self)
+	self.tmr_text = xml:InitTextWnd("bg:timer", self.bg)
+
+	self.tg_tmr = 0
+end
+
+function RaidTimer:Update()
+	CUIScriptWnd.Update(self)
+
+	local tg = time_global()
+	if self.tg_tmr > tg then return end
+	self.tg_tmr = tg + 1000
+
+	-- show / hide
+	self.bg:Show(main_hud_shown())
+
+	raid_timer = raid_timer - 1
+
+	-- update string
+	local minutes = math.floor(raid_timer / 60)
+	local seconds = raid_timer - (minutes * 60)
+	minutes = minutes >= 10 and tostring(minutes) or ("0" .. tostring(minutes))
+	seconds = seconds >= 10 and tostring(seconds) or ("0" .. tostring(seconds))
+	self.tmr_text:SetText(minutes .. ":" .. seconds)
+
+	-- kill if time is out (xcvb will callback prevent this?)
+	if raid_timer <= 0 then
+		db.actor:kill(db.actor)
+	end
+
+end
+
+function RaidTimer:__finalize()
+end
+
+function actor_on_update()
+	-- Call surge
+	if level.name() == raid_utils.raid_home_level then return end
+
+	if (raid_tables.raid_start_super_surge >= raid_timer and raid_timer > 0) then 
+		if not (first_update_surge) then
+			raid_super_surge_manager.start_super_surge()
+			first_update_surge = true
+		end
+	end
+
+											   
+											   
+											   
+
+																			  
+
+	--local cur_val = weather.get_value_vector("sky_color")
+	--local add_val = normalize(raid_timer, start_change_at, 0) * 0.5
+	--local new_x = clamp(cur_val.x + add_val, 0, 1)
+	--local new_y = clamp(cur_val.y - add_val, 0, 1)
+	--local new_z = clamp(cur_val.z - add_val, 0, 1)
+	--local new_val = vector():set(new_z, new_y, new_x)		-- bgr for whatever reason
+	--weather.set_value_vector("sky_color", new_val.x, new_val.y, new_val.z)
+end
+
+
+-- on_death
+function actor_on_before_death(whoID, flags)		-- thanks to Yonte and his respawn mode
+
+	-- disable hud
+	deactivate_timer_hud()
+
+	-- release all items (if died from timer then have a chance to keep items)
+	actor_not_died = true
+	    if (raid_timer > 0 or raid_utils.calc_survive_chance() < math.random(1, 100)) and ("l10_radar" ~= level.name()) and (not was_already_dying) then
+        was_already_dying = true
+
+		-- for hardcore mode raid, delete saves
+		raid_save_manager.really_died()
+		
+		-- Increase in death counter
+		raid_achievements.increment_death_count_raid()					  								
+		-- get slot items
+		local slots_t = raid_utils.get_equipped_items_with_belt()
+
+		-- change rank
+		local cur_rank_val = raid_utils.get_actor_rank_val()
+		local rank_loss = (100 - raid_tables.rank_loss_on_death) * 0.01
+		local new_rank = cur_rank_val * rank_loss
+	--	printf("~ rank lost: %s% | new rank: %s", (100 - raid_tables.rank_loss_on_death), math.ceil(new_rank))
+		db.actor:set_character_rank(math.ceil(new_rank))
+		game_statistics.check_for_rank_change()
+	--	game_statistics.increment_rank(-60)
+
+		-- enable informant insurance button
+		if HI(raid_notebook_gui.informant_options_ar[2].info) then
+			DI(raid_notebook_gui.informant_options_ar[2].info)
+		end
+
+		actor_not_died = false
+	end
+
+	-- task fail and anim
+	if not actor_not_died then
+		raid_tasks_main.set_all_tasks_to("fail", level.name())
+
+		level.add_cam_effector("camera_effects\\surge_02.anm", 444, false, "", 0, false)
+		level.add_pp_effector("actor_death.ppe", 445, false)
+		level.add_pp_effector("rcom_actor_death_quick.ppe", 446, false)
+	end
+
+	-- set health to full
+	bind_stalker_ext.invulnerable_time = time_global() + 30000
+	db.actor:set_health_ex(1)
+	db.actor.power = 1
+	db.actor.radiation = 0
+	db.actor.bleeding = 999
+	db.actor.satiety = 1
+	arszi_psy.set_psy_health(1)
+
+	-- disable input
+	level.disable_input()
+
+	-- teleport (and enable input before tp)
+	CreateTimeEvent("raid_on_death_e", "raid_on_death_a", 3, function()
+
+		level.enable_input()
+
+		local ini_ng = ini_file("plugins\\new_game_start_locations.ltx")
+		local function get_val(v)
+			local ret_v = ini_ng:r_string_ex("raid_new_game", v)
+			return tonumber(ret_v)
+		end
+
+		local pos = vector():set(get_val("x"), get_val("y"), get_val("z"))
+		local lvid, gvid = get_val("lvid"), get_val("gvid")
+
+		if level.name() ~= raid_utils.raid_home_level then
+			level.add_pp_effector("sleep_fade.ppe", 1313, false)
+			ChangeLevel(pos, lvid, gvid, VEC_ZERO)
+		else
+			db.actor:set_actor_position(pos)
+		end
+
+		return true
+	end)
+
+	flags.ret_value = false
+
+	SendScriptCallback("on_before_level_changing")		-- just in case
+end
+function IsRaidMode()
+	return alife_storage_manager.get_state().enable_raid_mode == true
+end
+function on_before_level_changing()
+	if("l10_radar" == alife():level_name(game_graph():vertex(alife():actor().m_game_vertex_id):level_id())) then
+		first_update_surge = false
+	end 
+end
+
+function actor_on_item_use(item,sec)
+	if (sec == "drug_anabiotic") then 
+		if (raid_tables.raid_start_super_surge > raid_main.raid_timer) then 
+			raid_main.raid_timer = 0
+		else
+			raid_main.raid_timer = raid_main.raid_timer - 120
+		end
+	end
+end
+function save_state(m_data)
+	m_data.raid_raid_timer = raid_timer
+	m_data.raid_actor_not_died = actor_not_died
+	m_data.raid_prev_level = raid_prev_level
+	m_data.first_update_surge = first_update_surge										   
+end
+
+function load_state(m_data)
+	raid_timer = m_data.raid_raid_timer or 0
+	actor_not_died = m_data.raid_actor_not_died or false
+	raid_prev_level = m_data.raid_prev_level or ""
+	first_update_surge = m_data.first_update_surge or false												
+end
+
+function on_game_start()
+	RegisterScriptCallback("save_state", save_state)
+	RegisterScriptCallback("load_state", load_state)
+	RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
+	RegisterScriptCallback("actor_on_update", actor_on_update)
+	RegisterScriptCallback("actor_on_net_destroy", deactivate_timer_hud)
+	RegisterScriptCallback("actor_on_before_death", actor_on_before_death)
+	RegisterScriptCallback("on_before_level_changing",on_before_level_changing)
+	RegisterScriptCallback("actor_on_item_use", actor_on_item_use)																																	   
+end

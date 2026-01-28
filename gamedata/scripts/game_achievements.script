@@ -1,0 +1,1730 @@
+--------------------------------
+----- Written by Darryl123 -----
+--------------------------------
+
+-------------------------
+----- Miscellaneous -----
+-------------------------
+
+-- Check if achievements can be unlocked.
+function can_unlock()
+	return (db.actor and db.actor.afterFirstUpdate)
+end
+
+-- Counts how many achievements exist.
+local achievements_count = nil
+function get_achievements_count()
+	-- Check if a count has already been made.
+	if (achievements_count) then
+		return achievements_count
+	end
+	-- Scan the achievements section for achievements.
+	achievements_count = -4
+	local line_count = ini_sys:line_count("achievements") or 0
+	for i = 0, line_count - 1 do
+		-- Check whether the achievement requires story mode.
+		local junk1, section, junk2 = ini_sys:r_line("achievements", i, "", "")
+		
+		local ignore = ini_sys:r_bool_ex(section, "ignore", false)
+		local story = ini_sys:r_bool_ex(section, "story", false)
+		local ironman = ini_sys:r_bool_ex(section, "ironman", false)
+		local warfare = ini_sys:r_bool_ex(section, "warfare", false)
+		
+		local is_story = (story and not has_alife_info("story_mode_disabled"))
+		local is_ironman = (ironman and IsHardcoreMode())
+		local is_warfare = (warfare and _G.WARFARE) 
+		
+		if (not (story or ironman or warfare)) -- if achievement has no restricted mode
+		or (is_story and not ironman) -- if achievement for story mode only
+		or (is_story and is_ironman) 
+		or (is_warfare)
+		then
+			if (not ignore) then
+				achievements_count = achievements_count + 1
+			end
+		end
+	end
+	return achievements_count
+end
+
+-- Counts how many achievements are locked.
+function get_achievements_locked_count()
+	return get_achievements_count() - get_achievements_unlocked_count()
+end
+
+-- Counts how many achievements are unlocked.
+function get_achievements_unlocked_count()
+	return game_statistics.get_actor_achievements_count()
+end
+
+-- Checks whether an achievement is unlocked.
+function has_achievement(achievement)
+	return game_statistics.has_actor_achievement(achievement)
+end
+
+--------------------
+----- Functors -----
+--------------------
+
+-- Bookworm Food
+function bookworm_food_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("bookworm_food")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (bookworm_food_requirements()) then
+		bookworm_food_rewards()
+		return true
+	end
+end
+
+-- Completionist.
+function completionist_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("completionist")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (completionist_requirements()) then
+		completionist_rewards()
+		return true
+	end
+end
+
+-- Down to Earth.
+function down_to_earth_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("down_to_earth")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (down_to_earth_requirements()) then
+		down_to_earth_rewards()
+		return true
+	end
+end
+
+-- Duga Free.
+function duga_free_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("duga_free")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (duga_free_requirements()) then
+		duga_free_rewards()
+		return true
+	end
+end
+
+-- Geologist.
+function geologist_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("geologist")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (geologist_requirements()) then
+		geologist_rewards()
+		return true
+	end
+end
+
+-- Heavy Pockets.
+function heavy_pockets_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("heavy_pockets")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (heavy_pockets_requirements()) then
+		heavy_pockets_rewards()
+		return true
+	end
+end
+
+-- Infopreneur.
+function infopreneur_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("infopreneur")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (infopreneur_requirements()) then
+		infopreneur_rewards()
+		return true
+	end
+end
+
+-- Mechanized Warfare.
+function mechanized_warfare_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("mechanized_warfare")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (mechanized_warfare_requirements()) then
+		mechanized_warfare_rewards()
+		return true
+	end
+end
+
+-- Patriarch.
+function patriarch_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("patriarch")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (patriarch_requirements()) then
+		patriarch_rewards()
+		return true
+	end
+end
+
+-- Radiotherapy.
+function radiotherapy_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("radiotherapy")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (radiotherapy_requirements()) then
+		radiotherapy_rewards()
+		return true
+	end
+end
+
+-- Rag and Bone.
+function rag_and_bone_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("rag_and_bone")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (rag_and_bone_requirements()) then
+		rag_and_bone_rewards()
+		return true
+	end
+end
+
+-- Silver or Lead.
+function silver_or_lead_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("silver_or_lead")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (silver_or_lead_requirements()) then
+		silver_or_lead_rewards()
+		return true
+	end
+end
+
+-- Tourist.
+function tourist_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("tourist")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (has_alife_info("tourist_achievement_delay")) then
+		tourist_rewards()
+		return true
+	end
+	-- An infoportion delays the achievement.
+	-- Without this it often unlocks during level transition.
+	if (tourist_requirements()) then
+		db.actor:give_info_portion("tourist_achievement_delay")
+		return false
+	end
+end
+
+-- Well Dressed.
+function well_dressed_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("well_dressed")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (well_dressed_requirements()) then
+		well_dressed_rewards()
+		return true
+	end
+end
+
+-- Wishful Thinking.
+function wishful_thinking_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("wishful_thinking")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (wishful_thinking_requirements()) then
+		wishful_thinking_rewards()
+		return true
+	end
+end
+
+-- Infantile Pleasure.
+function infantile_pleasure_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("infantile_pleasure")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (infantile_pleasure_requirements()) then
+		infantile_pleasure_rewards()
+		return true
+	end
+end
+
+-- Recycler.
+function recycler_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("recycler")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (recycler_requirements()) then
+		recycler_rewards()
+		return true
+	end
+end
+
+-- Artificer Eagerness.
+function artificer_eagerness_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("artificer_eagerness")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (artificer_eagerness_requirements()) then
+		artificer_eagerness_rewards()
+		return true
+	end
+end
+
+-- Unforeseen Guest.
+function unforeseen_guest_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("unforeseen_guest")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (unforeseen_guest_requirements()) then
+		unforeseen_guest_rewards()
+		return true
+	end
+end
+
+-- Absolver.
+function absolver_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("absolver")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (absolver_requirements()) then
+		absolver_rewards()
+		return true
+	end
+end
+
+-- Collaborator.
+function collaborator_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("collaborator")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (collaborator_requirements()) then
+		collaborator_rewards()
+		return true
+	end
+end
+
+-- Iron Curtain.
+function iron_curtain_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("iron_curtain")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (iron_curtain_requirements()) then
+		iron_curtain_rewards()
+		return true
+	end
+end
+
+-- Murky Spirit.
+function murky_spirit_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("murky_spirit")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (murky_spirit_requirements()) then
+		murky_spirit_rewards()
+		return true
+	end
+end
+
+-- Invictus.
+function invictus_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("invictus")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (invictus_requirements()) then
+		invictus_rewards()
+		return true
+	end
+end
+
+------------------------
+----- Requirements -----
+------------------------
+
+-- Bookworm Food
+-- Requires all encyclopedia articles be unlocked.
+function bookworm_food_requirements()
+	return (
+				(ui_pda_encyclopedia_tab.get_articles_locked_count() == 0)
+		)
+end
+
+
+-- Completionist.
+-- Requires all available achievements to be unlocked.
+function completionist_requirements()
+	return (
+				(get_achievements_locked_count() <= 1)
+		)
+end
+
+-- Down to Earth.
+-- Requires 3 helicopters killed, or just one with an RPG-7.
+function down_to_earth_requirements()
+	return (
+				(game_statistics.get_statistic_count("helicopters_downed") >= 3)
+			 or (game_statistics.get_statistic_count("helicopters_downed2") >= 1)
+		)
+end
+
+-- Duga Free.
+-- Requires story mode, and that the Miracle Machine and Brain Scorcher are disabled.
+function duga_free_requirements()
+	return (
+			not (has_alife_info("story_mode_disabled"))
+			and (has_alife_info("yan_labx16_switcher_primary_off"))
+			and (has_alife_info("bar_deactivate_radar_done"))
+		)
+end
+
+-- Geologist.
+-- Requires 50 artefacts be detected by the player.
+function geologist_requirements()
+	return (
+				(game_statistics.get_statistic_count("artefacts_detected") >= 50)
+		)
+end
+
+-- Heavy Pockets.
+-- Requires player to possess 1,000,000 RU.
+function heavy_pockets_requirements()
+	return (
+				(db.actor:money() >= 1000000)
+		)	
+end
+
+-- Infopreneur.
+-- Requires player to deliver 50 PDAs.
+function infopreneur_requirements()
+	return (
+				(game_statistics.get_statistic_count("pdas_delivered") >= 50)
+		)
+end
+
+-- Mechanized Warfare.
+-- Requires a mechanic to own all tools.
+function mechanized_warfare_requirements()
+	return (
+				(has_alife_info("agr_smart_terrain_1_6_army_mechanic_stalker_upgrade_tier_3"))
+			 or (has_alife_info("army_south_mechan_mlr_upgrade_tier_3"))
+			 or (has_alife_info("bar_visitors_stalker_mechanic_upgrade_tier_3"))
+			 or (has_alife_info("cit_killers_merc_mechanic_stalker_upgrade_tier_3"))
+			 or (has_alife_info("dasc_tech_mlr_upgrade_tier_3"))
+			 or (has_alife_info("val_smart_terrain_7_3_bandit_mechanic_stalker_upgrade_tier_3"))
+			 or (has_alife_info("esc_smart_terrain_5_7_loner_mechanic_stalker_upgrade_tier_3"))
+			 or (has_alife_info("jup_b217_stalker_tech_upgrade_tier_3"))
+			 or (has_alife_info("jup_cont_mech_bandit_upgrade_tier_3"))
+			 or (has_alife_info("mar_base_stalker_tech_upgrade_tier_3"))
+			 or (has_alife_info("mil_smart_terrain_7_7_freedom_mechanic_stalker_upgrade_tier_3"))
+			 or (has_alife_info("mechanic_monolith_jup_depo_upgrade_tier_3"))
+			 or (has_alife_info("mechanic_monolith_kbo_upgrade_tier_3"))
+			 or (has_alife_info("pri_monolith_monolith_mechanic_stalker_upgrade_tier_3"))
+			 or (has_alife_info("merc_pri_a18_mech_mlr_upgrade_tier_3"))
+			 or (has_alife_info("trucks_cemetery_bandit_mechanic_upgrade_tier_3"))
+			 or (has_alife_info("yan_ecolog_kruglov_upgrade_tier_3"))
+			 or (has_alife_info("zat_a2_stalker_mechanic_upgrade_tier_3"))
+			 or (has_alife_info("zat_stancia_mech_merc_upgrade_tier_3"))
+			 or (has_alife_info("mechanic_army_yan_mlr_upgrade_tier_3"))
+			 or (has_alife_info("jup_depo_isg_tech_upgrade_tier_3"))
+			 or (has_alife_info("sim_default_army_mechanic_upgrade_tier_3"))
+			 or (has_alife_info("sim_default_bandit_mechanic_upgrade_tier_3"))
+			 or (has_alife_info("sim_default_csky_mechanic_upgrade_tier_3"))
+			 or (has_alife_info("sim_default_dolg_mechanic_upgrade_tier_3"))
+			 or (has_alife_info("sim_default_ecolog_mechanic_upgrade_tier_3"))
+			 or (has_alife_info("sim_default_freedom_mechanic_upgrade_tier_3"))
+			 or (has_alife_info("sim_default_killer_mechanic_upgrade_tier_3"))
+			 or (has_alife_info("sim_default_monolith_mechanic_upgrade_tier_3"))
+			 or (has_alife_info("sim_default_stalker_mechanic_upgrade_tier_3"))
+			 or (has_alife_info("sim_default_renegade_mechanic_upgrade_tier_3"))
+			 or (has_alife_info("sim_default_greh_mechanic_upgrade_tier_3"))
+			 or (has_alife_info("sim_default_isg_mechanic_upgrade_tier_3"))
+		)
+end
+
+-- Patriarch.
+-- Requires rank of 'Legend' be reached.
+function patriarch_requirements()
+	return (
+				(db.actor:character_rank() >= 28000)
+		)
+end
+
+-- Radiotherapy.
+-- Requires 25 emissions and 25 psi-storms to be survived.
+function radiotherapy_requirements()
+	return (
+				(game_statistics.get_statistic_count("emissions") >= 25)
+			and (game_statistics.get_statistic_count("psi_storms") >= 25)
+		)
+end
+
+-- Rag and Bone.
+-- Requires 100 stashes be found and looted.
+function rag_and_bone_requirements()
+	return (
+				(game_statistics.get_statistic_count("stashes_found") >= 100)
+		)
+end
+
+-- Silver or Lead.
+-- Requires player to kill 500 stalkers or have 50 surrender to you.
+function silver_or_lead_requirements()
+	return (
+				(game_statistics.get_statistic_count("killed_stalkers") >= 500)
+			 or (game_statistics.get_statistic_count("enemies_surrendered") >= 50)
+		)
+end
+
+-- Tourist.
+-- Requires player to visit all levels.
+function tourist_requirements()
+	return (
+				(game_statistics.has_actor_visitied_all_levels())
+		)
+end
+
+-- Well Dressed.
+-- Requires player to kill 500 mutants or field dress 250 mutant parts.
+function well_dressed_requirements()
+	return (
+				(game_statistics.get_statistic_count("killed_monsters") >= 500)
+			 or (game_statistics.get_statistic_count("field_dressings") >= 250)
+		)
+end
+
+-- Wishful Thinking.
+-- Requires story mode, and for the player to finish Living Legend questlines.
+function wishful_thinking_requirements()
+	return (
+			not (has_alife_info("story_mode_disabled"))
+			and (has_alife_info("living_legend_done"))
+		)
+end
+
+-- Infantile Pleasure
+-- Requires player to smash 200 boxes
+function infantile_pleasure_requirements()
+	return ((game_statistics.get_statistic_count("boxes_smashed") >= 200))
+end
+
+-- Recycler
+-- Requires player to disassemble 200 items
+function recycler_requirements()
+	return ((game_statistics.get_statistic_count("items_disassembled") >= 200))
+end
+
+-- Artificer Eagerness
+-- Requires player to craft 50 items
+function artificer_eagerness_requirements()
+	return ((game_statistics.get_statistic_count("items_crafted") >= 50))
+end
+
+-- Unforeseen Guest
+-- Requires player to stay disguised for 5 hours under stalkers watch
+function unforeseen_guest_requirements()
+	return ((game_statistics.get_statistic_count("minutes_disguised") >= 5*60))
+end
+
+-- Absolver.
+-- Requires story mode, and for the player to finish Mortal Sin questlines.
+function absolver_requirements()
+	return (
+			not (has_alife_info("story_mode_disabled"))
+			and (has_alife_info("mortal_sin_zone_hero"))
+		)
+end
+
+-- Collaborator.
+-- Requires story mode, and for the player to finish Operation Afterglow questlines.
+function collaborator_requirements()
+	return (
+			not (has_alife_info("story_mode_disabled"))
+			and (has_alife_info("operation_afterglow_complete"))
+		)
+end
+
+
+-- Iron Curtain.
+-- Requires Warfare mode, and for the player's faction to take over the levels.
+function iron_curtain_requirements()
+	return (
+			IsWarfare() and (has_alife_info("warfare_actor_faction_domination"))
+		)
+end
+
+-- Murky Spirit.
+-- Requires story mode, and for the player to finish Lost to the Zone questlines.
+function murky_spirit_requirements()
+	return (
+			not (has_alife_info("story_mode_disabled"))
+			and (has_alife_info("operation_afterglow_complete"))
+			and IsHardcoreMode()
+			and not (has_alife_info("ironman_flag_off"))
+		)
+end
+
+-- Invictus.
+-- Requires story mode, and for the player to finish Living Legend questlines.
+function invictus_requirements()
+	return (
+			not (has_alife_info("story_mode_disabled"))
+			and (has_alife_info("operation_afterglow_complete"))
+			and IsHardcoreMode()
+			and not (has_alife_info("ironman_flag_off"))
+			and not (has_alife_info("ironman_flag_died"))
+			and (game_difficulties.get_game_factor("type") == 3)
+			and (game_difficulties.get_eco_factor("type") == 3)
+			and not (has_alife_info("diff_gameplay_flag_change"))
+			and not (has_alife_info("diff_economy_flag_change"))
+			and not (has_alife_info("debug_mode_flag_on"))
+		)
+end
+
+-------------------
+----- Rewards -----
+-------------------
+
+-- Bookworm Food.
+-- Future memory sticks become rare PDAs.
+function bookworm_food_rewards()
+	SendScriptCallback("actor_on_achievement_earned","bookworm_food","st_achievement_15_unlock")
+end
+
+-- Completionist.
+function completionist_rewards()
+	SendScriptCallback("actor_on_achievement_earned","completionist","st_achievement_10_unlock")
+end
+
+-- Down to Earth.
+-- Weaker helicopters are respawned.
+function down_to_earth_rewards()
+	SendScriptCallback("actor_on_achievement_earned","down_to_earth","st_achievement_12_unlock")
+end
+
+-- Duga Free.
+-- Yantar & Radar psi-fields disabled.
+function duga_free_rewards()
+	SendScriptCallback("actor_on_achievement_earned","duga_free","st_achievement_4_unlock")
+end
+
+-- Geologist.
+-- Increased spawn chance of artefacts.
+function geologist_rewards()
+	SendScriptCallback("actor_on_achievement_earned","geologist","st_achievement_13_unlock")
+end
+
+-- Heavy Pockets.
+-- Traders sell cheaper and rarer goods.
+function heavy_pockets_rewards()
+	SendScriptCallback("actor_on_achievement_earned","heavy_pockets","st_achievement_1_unlock")
+end
+
+-- Infopreneur.
+-- Money received for delivering PDAs increased.
+function infopreneur_rewards()
+	SendScriptCallback("actor_on_achievement_earned","infopreneur","st_achievement_3_unlock")
+end
+
+-- Mechanized Warfare.
+-- A mechanic can now fully upgrade equipment.
+function mechanized_warfare_rewards()
+	SendScriptCallback("actor_on_achievement_earned","mechanized_warfare","st_achievement_7_unlock")
+end
+
+-- Patriarch.
+-- Larger sized squads can be recruited.
+function patriarch_rewards()
+	SendScriptCallback("actor_on_achievement_earned","patriarch","st_achievement_14_unlock")
+end
+
+-- Radiotherapy.
+-- 25% chance of surviving emissions and psi-vortices.
+function radiotherapy_rewards()
+	SendScriptCallback("actor_on_achievement_earned","radiotherapy","st_achievement_2_unlock")
+end
+
+-- Rag and Bone.
+-- Random chance of better loot in task reward stashes.
+function rag_and_bone_rewards()
+	SendScriptCallback("actor_on_achievement_earned","rag_and_bone","st_achievement_9_unlock")
+end
+
+-- Silver or Lead.
+-- 33% chance of a second stash from surrendering stalkers.
+function silver_or_lead_rewards()
+	SendScriptCallback("actor_on_achievement_earned","silver_or_lead","st_achievement_6_unlock")
+end
+
+-- Tourist.
+-- 3 "Tourist's stashes" are revealed.
+function tourist_rewards()
+	for i=1,3 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(1, 2), nil, nil, true)
+	end
+	db.actor:disable_info_portion("tourist_achievement_delay")
+	SendScriptCallback("actor_on_achievement_earned","tourist","st_achievement_8_unlock")
+end
+
+-- Well Dressed.
+-- 20% chance of extra parts when field dressing mutants.
+function well_dressed_rewards()
+	SendScriptCallback("actor_on_achievement_earned","well_dressed","st_achievement_5_unlock")
+end
+
+-- Wishful Thinking.
+-- Unlock "Renegades" faction
+function wishful_thinking_rewards()
+	axr_main.config:w_value("unlocked_factions","renegade",true)
+	axr_main.config:save()
+	SendScriptCallback("actor_on_achievement_earned","wishful_thinking","st_achievement_11_unlock")
+end
+
+-- Infantile Pleasure.
+-- 25% chance of extra items found in boxes.
+function infantile_pleasure_rewards()
+	SendScriptCallback("actor_on_achievement_earned","infantile_pleasure","st_achievement_16_unlock")
+end
+
+-- Recycler.
+-- 33% chance of extra part obtained from disassembling.
+function recycler_rewards()
+	SendScriptCallback("actor_on_achievement_earned","recycler","st_achievement_17_unlock")
+end
+
+-- Artificer Eagerness.
+-- 1 less part used for crafting.
+function artificer_eagerness_rewards()
+	SendScriptCallback("actor_on_achievement_earned","artificer_eagerness","st_achievement_18_unlock")
+end
+
+-- Unforeseen Guest.
+-- less suspicious spikes upon sudden actions.
+function unforeseen_guest_rewards()
+	SendScriptCallback("actor_on_achievement_earned","unforeseen_guest","st_achievement_19_unlock")
+end
+
+-- Absolver.
+-- Unlock "Sin" faction
+function absolver_rewards()
+	axr_main.config:w_value("unlocked_factions","greh",true)
+	axr_main.config:save()
+	SendScriptCallback("actor_on_achievement_earned","absolver","st_achievement_20_unlock")
+end
+
+-- Collaborator.
+-- Unlock "ISG" faction
+function collaborator_rewards()
+	axr_main.config:w_value("unlocked_factions","isg",true)
+	axr_main.config:save()
+	SendScriptCallback("actor_on_achievement_earned","collaborator","st_achievement_21_unlock")
+end
+
+-- Iron Curtain.
+-- Reward 40,000 RU
+function iron_curtain_rewards()
+	db.actor:give_money(40000)
+	SendScriptCallback("actor_on_achievement_earned","iron_curtain","st_achievement_22_unlock")
+end
+
+-- Murky Spirit.
+function murky_spirit_rewards()
+	SendScriptCallback("actor_on_achievement_earned","murky_spirit","st_achievement_23_unlock")
+end
+
+-- Invictus.
+function invictus_rewards()
+	SendScriptCallback("actor_on_achievement_earned","invictus","st_achievement_24_unlock")
+end
+
+
+
+-- code for RAID ACHIEVEMENTS by Rojok --
+
+-- Reaper.
+function reaper_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("reaper")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (reaper_requirements()) then
+		reaper_rewards()
+		return true
+	end
+end
+
+-- True_veteran.
+function true_veteran_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	if (has_achievement("notrue_veteran")) then
+		return false
+	end		
+	-- Check if it is already unlocked.
+	if (has_achievement("true_veteran")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (true_veteran_requirements()) then
+		true_veteran_rewards()
+		return true
+	end
+end
+
+-- True_expert.
+function true_expert_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	if (has_achievement("notrue_expert")) then
+		return false
+	end		
+	-- Check if it is already unlocked.
+	if (has_achievement("true_expert")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (true_expert_requirements()) then
+		true_expert_rewards()
+		return true
+	end
+end
+
+-- True_master.
+function true_master_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	if (has_achievement("notrue_master")) then
+		return false
+	end			
+	-- Check if it is already unlocked.
+	if (has_achievement("true_master")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (true_master_requirements()) then
+		true_master_rewards()
+		return true
+	end
+end
+
+-- True_legend.
+function true_legend_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	if (has_achievement("notrue_legend")) then
+		return false
+	end		
+	-- Check if it is already unlocked.
+	if (has_achievement("true_legend")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (true_legend_requirements()) then
+		true_legend_rewards()
+		return true
+	end
+end
+
+-- Savage.
+function savage_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("savage")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (savage_requirements()) then
+		savage_rewards()
+		return true
+	end
+end
+
+-- Trader_sidorovich.
+function trader_sidorovich_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("trader_sidorovich")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (trader_sidorovich_requirements()) then
+		trader_sidorovich_rewards()
+		return true
+	end
+end
+
+-- Trader_freedom.
+function trader_freedom_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("trader_freedom")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (trader_freedom_requirements()) then
+		trader_freedom_rewards()
+		return true
+	end
+end
+
+-- Trader_duty.
+function trader_duty_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("trader_duty")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (trader_duty_requirements()) then
+		trader_duty_rewards()
+		return true
+	end
+end
+
+-- Trader_sakharov.
+function trader_sakharov_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("trader_sakharov")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (trader_sakharov_requirements()) then
+		trader_sakharov_rewards()
+		return true
+	end
+end
+
+-- Trader_nimble.
+function trader_nimble_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("trader_nimble")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (trader_nimble_requirements()) then
+		trader_nimble_rewards()
+		return true
+	end
+end
+
+-- Killler.
+function killler_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("killler")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (killler_requirements()) then
+		killler_rewards()
+		return true
+	end
+end
+
+-- Sekach.
+function sekach_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("sekach")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (sekach_requirements()) then
+		sekach_rewards()
+		return true
+	end
+end
+
+-- Traders_all.
+function traders_all_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("traders_all")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (traders_all_requirements()) then
+		traders_all_rewards()
+		return true
+	end
+end
+
+-- Sucful_compl_raids.
+function sucful_compl_raids_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("sucful_compl_raids")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (sucful_compl_raids_requirements()) then
+		sucful_compl_raids_rewards()
+		return true
+	end
+end
+
+-- Tasks_one_raid.
+function tasks_one_raid_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("tasks_one_raid")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (tasks_one_raid_requirements()) then
+		tasks_one_raid_rewards()
+		return true
+	end
+end
+
+-- Sucful_nights_raids.
+function sucful_nights_raids_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	-- Check if it is already unlocked.
+	if (has_achievement("sucful_nights_raids")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (sucful_nights_raids_requirements()) then
+		sucful_nights_raids_rewards()
+		return true
+	end
+end
+
+-- noTrue_veteran.
+function notrue_veteran_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	if (has_achievement("true_veteran")) then
+		return false
+	end			
+	-- Check if it is already unlocked.
+	if (has_achievement("notrue_veteran")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (notrue_veteran_requirements()) then
+		notrue_veteran_rewards()
+		return true
+	end
+end
+
+-- noTrue_expert.
+function notrue_expert_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	if (has_achievement("true_expert")) then
+		return false
+	end			
+	-- Check if it is already unlocked.
+	if (has_achievement("notrue_expert")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (notrue_expert_requirements()) then
+		notrue_expert_rewards()
+		return true
+	end
+end
+
+-- noTrue_master.
+function notrue_master_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	if (has_achievement("true_master")) then
+		return false
+	end		
+	-- Check if it is already unlocked.
+	if (has_achievement("notrue_master")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (notrue_master_requirements()) then
+		notrue_master_rewards()
+		return true
+	end
+end
+
+-- noTrue_legend.
+function notrue_legend_functor()
+	-- Check if it can be unlocked.
+	if (not can_unlock()) then
+		return false
+	end
+	if (has_achievement("true_legend")) then
+		return false
+	end	
+	-- Check if it is already unlocked.
+	if (has_achievement("notrue_legend")) then
+		return true
+	end
+	-- Unlock the achievement.
+	if (notrue_legend_requirements()) then
+		notrue_legend_rewards()
+		return true
+	end
+end
+
+
+--===========================================================================================================
+
+
+-- Reaper.
+--
+function reaper_requirements()
+	return (
+			raid_main.IsRaidMode() 
+			and (raid_achievements) and (raid_achievements.check_if_managed_to_kill_stalker())
+	)
+end
+
+-- True_veteran.
+--
+function true_veteran_requirements()
+	if (raid_tables.points_for_new_rank_veteran == nil) then return end
+	return (
+			raid_main.IsRaidMode()
+			and (raid_achievements.death_count_raid_ <= 1)
+			and (db.actor:character_rank() > raid_tables.points_for_new_rank_veteran)
+			
+			and (game_difficulties.get_game_factor("type") == 3)
+			and (game_difficulties.get_eco_factor("type") == 3)
+			and not (has_alife_info("diff_gameplay_flag_change"))
+			and not (has_alife_info("diff_economy_flag_change"))
+			and not (has_alife_info("debug_mode_flag_on"))			
+	)
+end
+
+-- True_expert.
+--
+function true_expert_requirements()
+	if (raid_tables.points_for_new_rank_expert == nil) then return end
+	return (
+			raid_main.IsRaidMode()
+			and (raid_achievements.death_count_raid_ <= 1)			
+			and (db.actor:character_rank() > raid_tables.points_for_new_rank_expert)
+			
+			and (game_difficulties.get_game_factor("type") == 3)
+			and (game_difficulties.get_eco_factor("type") == 3)
+			and not (has_alife_info("diff_gameplay_flag_change"))
+			and not (has_alife_info("diff_economy_flag_change"))
+			and not (has_alife_info("debug_mode_flag_on"))			
+	)
+end
+
+-- True_master.
+--
+function true_master_requirements()
+	if (raid_tables.points_for_new_rank_master == nil) then return end
+	return (
+			raid_main.IsRaidMode()
+			and (raid_achievements.death_count_raid_ <= 1)			
+			and (db.actor:character_rank() > raid_tables.points_for_new_rank_master)
+			
+			and (game_difficulties.get_game_factor("type") == 3)
+			and (game_difficulties.get_eco_factor("type") == 3)
+			and not (has_alife_info("diff_gameplay_flag_change"))
+			and not (has_alife_info("diff_economy_flag_change"))
+			and not (has_alife_info("debug_mode_flag_on"))			
+	)
+end
+
+-- True_legend.
+--
+function true_legend_requirements()
+	if (raid_tables.points_for_new_rank_legend == nil) then return end
+	return (
+			raid_main.IsRaidMode()
+			and (raid_achievements.death_count_raid_ <= 1)			
+			and (db.actor:character_rank() > raid_tables.points_for_new_rank_legend)	
+			
+			and (game_difficulties.get_game_factor("type") == 3)
+			and (game_difficulties.get_eco_factor("type") == 3)
+			and not (has_alife_info("diff_gameplay_flag_change"))
+			and not (has_alife_info("diff_economy_flag_change"))
+			and not (has_alife_info("debug_mode_flag_on"))			
+	)
+end
+
+-- Savage.
+--
+function savage_requirements()
+	return (
+			raid_main.IsRaidMode()
+			and (raid_achievements) and (raid_achievements.giant_melee_kill_counter_ >= raid_tables.giant_melee_kill_counter_for_achievement) 
+	)
+end
+
+-- Trader_sidorovich.
+--
+function trader_sidorovich_requirements()
+	if (raid_tables.goodwill_for_achievement == nil) then return end
+	return (
+			raid_main.IsRaidMode()
+			and (raid_tasks_main.raid_tasks_t["stalker"].goodwill >= raid_tables.goodwill_for_achievement)
+	)
+end
+
+-- Trader_freedom.
+--
+function trader_freedom_requirements()
+	if (raid_tables.goodwill_for_achievement == nil) then return end
+	return (
+			raid_main.IsRaidMode()
+			and (raid_tasks_main.raid_tasks_t["freedom"].goodwill >= raid_tables.goodwill_for_achievement)			
+	)
+end
+
+-- Trader_duty.
+--
+function trader_duty_requirements()
+	if (raid_tables.goodwill_for_achievement == nil) then return end
+	return (
+			raid_main.IsRaidMode()
+			and (raid_tasks_main.raid_tasks_t["duty"].goodwill >= raid_tables.goodwill_for_achievement)						
+	)
+end
+
+-- Trader_sakharov.
+--
+function trader_sakharov_requirements()
+	if (raid_tables.goodwill_for_achievement == nil) then return end
+	return (
+			raid_main.IsRaidMode()
+			and (raid_tasks_main.raid_tasks_t["ecolog"].goodwill >= raid_tables.goodwill_for_achievement)									
+	)
+end
+
+-- Trader_nimble.
+--
+function trader_nimble_requirements()
+	if (raid_tables.goodwill_for_achievement == nil) then return end
+	return (
+			raid_main.IsRaidMode()
+			and (raid_tasks_main.raid_tasks_t["other"].goodwill >= raid_tables.goodwill_for_achievement)												
+	)
+end
+
+-- Killler.
+--
+function killler_requirements()
+	return (
+			raid_main.IsRaidMode() 
+			and (raid_achievements) and (raid_achievements.check_if_managed_to_kill_stalker_pistol())
+	)
+end
+
+-- Sekach.
+--
+function sekach_requirements()
+	return (
+			raid_main.IsRaidMode()
+			and (raid_achievements) and (raid_achievements.boar_melee_kill_counter_ >= raid_tables.boar_melee_kill_counter_for_achievement) 
+	)
+end
+
+-- Traders_all.
+--
+function traders_all_requirements()
+	if (raid_tables.goodwill_for_achievement == nil) then return end
+
+	return (
+			raid_main.IsRaidMode()
+			and (raid_tasks_main.raid_tasks_t["stalker"].goodwill >= raid_tables.goodwill_for_achievement)									
+			and (raid_tasks_main.raid_tasks_t["freedom"].goodwill >= raid_tables.goodwill_for_achievement)									
+			and (raid_tasks_main.raid_tasks_t["duty"].goodwill >= raid_tables.goodwill_for_achievement)									
+			and (raid_tasks_main.raid_tasks_t["ecolog"].goodwill >= raid_tables.goodwill_for_achievement)									
+			and (raid_tasks_main.raid_tasks_t["other"].goodwill >= raid_tables.goodwill_for_achievement)									
+	)
+end
+
+-- Sucful_compl_raids.
+--
+function sucful_compl_raids_requirements()
+	return (
+			raid_main.IsRaidMode()
+			and (raid_achievements.death_count_raid_ <= raid_tables.limiting_death_count_raid_for_achievement)			
+			and (raid_achievements.count_successful_raids_ >= raid_tables.count_successful_raids_for_achievement)								
+	)
+end
+
+-- Tasks_one_raid.
+--
+function tasks_one_raid_requirements()
+	return (
+			raid_main.IsRaidMode()
+			and (raid_achievements.count_complete_tasks_one_raid_ >= raid_tables.count_complete_tasks_one_raid_for_achievement)								
+	)
+end
+
+-- Sucful_nights_raids.
+--
+function sucful_nights_raids_requirements()
+	return (
+			raid_main.IsRaidMode()
+			and (raid_achievements.count_successful_nights_raids_ >= raid_tables.count_sucful_nights_raids_for_achievement)								
+	)
+end
+
+
+-- noTrue_veteran.
+--
+function notrue_veteran_requirements()
+	if (raid_tables.points_for_new_rank_veteran == nil) then return end
+	return (
+			raid_main.IsRaidMode()
+			and ((raid_achievements.death_count_raid_ > 1) or not (game_difficulties.get_game_factor("type") == 3)
+				or not (game_difficulties.get_eco_factor("type") == 3) or (has_alife_info("diff_gameplay_flag_change"))
+				or (has_alife_info("diff_economy_flag_change")) or (has_alife_info("debug_mode_flag_on")))	
+			and (db.actor:character_rank() > raid_tables.points_for_new_rank_veteran)
+	)
+end
+
+-- noTrue_expert.
+--
+function notrue_expert_requirements()
+	if (raid_tables.points_for_new_rank_expert == nil) then return end
+	return (
+			raid_main.IsRaidMode()
+			and ((raid_achievements.death_count_raid_ > 1) or not (game_difficulties.get_game_factor("type") == 3)
+				or not (game_difficulties.get_eco_factor("type") == 3) or (has_alife_info("diff_gameplay_flag_change"))
+				or (has_alife_info("diff_economy_flag_change")) or (has_alife_info("debug_mode_flag_on")))	
+			and (db.actor:character_rank() > raid_tables.points_for_new_rank_expert)
+	)
+end
+
+-- noTrue_master.
+--
+function notrue_master_requirements()
+	if (raid_tables.points_for_new_rank_master == nil) then return end
+	return (
+			raid_main.IsRaidMode()
+			and ((raid_achievements.death_count_raid_ > 1) or not (game_difficulties.get_game_factor("type") == 3)
+				or not (game_difficulties.get_eco_factor("type") == 3) or (has_alife_info("diff_gameplay_flag_change"))
+				or (has_alife_info("diff_economy_flag_change")) or (has_alife_info("debug_mode_flag_on")))	
+			and (db.actor:character_rank() > raid_tables.points_for_new_rank_master)
+	)
+end
+
+-- noTrue_legend.
+--
+function notrue_legend_requirements()
+	if (raid_tables.points_for_new_rank_legend == nil) then return end
+	return (
+			raid_main.IsRaidMode()
+			and ((raid_achievements.death_count_raid_ > 1) or not (game_difficulties.get_game_factor("type") == 3)
+				or not (game_difficulties.get_eco_factor("type") == 3) or (has_alife_info("diff_gameplay_flag_change"))
+				or (has_alife_info("diff_economy_flag_change")) or (has_alife_info("debug_mode_flag_on")))	
+			and (db.actor:character_rank() > raid_tables.points_for_new_rank_legend)			
+	)
+end
+
+
+function achiev_1_requirements()
+	return (
+			(raid_achievements) and (raid_achievements.flag_achiev_1_ == true) 
+			and not (has_alife_info("diff_gameplay_flag_change"))
+			and not (has_alife_info("diff_economy_flag_change"))
+	)
+end
+function achiev_2_requirements()
+	return (
+			(raid_achievements) and (raid_achievements.flag_achiev_2_ == true) 
+	)
+end
+function achiev_3_requirements()
+	return (
+			(raid_achievements) and (raid_achievements.flag_achiev_3_ == true) 
+	)
+end
+function achiev_4_requirements()
+	return (
+			(raid_achievements) and (raid_achievements.flag_achiev_4_ == true) 
+	)
+end
+
+
+--===========================================================================================================
+
+
+-- Reaper.
+function reaper_rewards()
+	for i=1,3 do --количество тайников
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(3, 3), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","reaper","st_achievement_25_unlock")
+end
+
+-- True_veteran.
+function true_veteran_rewards()
+	for i=1,4 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(2, 2), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","true_veteran","st_achievement_26_unlock")
+end
+
+-- True_expert.
+function true_expert_rewards()
+	for i=1,5 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(3, 3), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","true_expert","st_achievement_27_unlock")
+end
+
+-- True_master.
+function true_master_rewards()
+	for i=1,6 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(3, 3), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","true_master","st_achievement_28_unlock")
+end
+
+-- True_legend.
+function true_legend_rewards()
+	for i=1,7 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(4, 4), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","true_legend","st_achievement_29_unlock")
+end
+
+-- Savage.
+function savage_rewards()
+	for i=1,5 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(3, 3), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","savage","st_achievement_30_unlock")
+end
+
+-- Trader_sidorovich.
+function trader_sidorovich_rewards()
+
+	SendScriptCallback("actor_on_achievement_earned","trader_sidorovich","st_achievement_31_unlock")
+end
+
+-- Frader_freedom.
+function trader_freedom_rewards()
+
+	SendScriptCallback("actor_on_achievement_earned","trader_freedom","st_achievement_32_unlock")
+end
+
+-- Trader_duty.
+function trader_duty_rewards()
+
+	SendScriptCallback("actor_on_achievement_earned","trader_duty","st_achievement_33_unlock")
+end
+
+-- Trader_sakharov.
+function trader_sakharov_rewards()
+
+	SendScriptCallback("actor_on_achievement_earned","trader_sakharov","st_achievement_34_unlock")
+end
+
+-- Trader_nimble.
+function trader_nimble_rewards()
+	for i=1,4 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(3, 3), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","trader_nimble","st_achievement_35_unlock")
+end
+
+-- Killler.
+function killler_rewards()
+	for i=1,3 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(2, 2), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","killler","st_achievement_36_unlock")
+end
+
+-- Sekach.
+function sekach_rewards()
+	for i=1,2 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(2, 2), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","sekach","st_achievement_37_unlock")
+end
+
+-- Traders_all.
+function traders_all_rewards()
+
+	SendScriptCallback("actor_on_achievement_earned","traders_all","st_achievement_38_unlock")
+end
+
+-- Sucful_compl_raids.
+function sucful_compl_raids_rewards()
+	for i=1,3 do 
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(3, 3), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","sucful_compl_raids","st_achievement_39_unlock")
+end
+
+-- Tasks_one_raid.
+function tasks_one_raid_rewards()
+	for i=1,2 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(2, 2), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","tasks_one_raid","st_achievement_40_unlock")
+end
+
+-- Sucful_nights_raids.
+function sucful_nights_raids_rewards()
+	for i=1,2 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(2, 2), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","sucful_nights_raids","st_achievement_41_unlock")
+end
+
+-- noTrue_veteran.
+function notrue_veteran_rewards()
+	for i=1,2 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(2, 2), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","notrue_veteran","st_achievement_42_unlock")
+end
+
+-- noTrue_expert.
+function notrue_expert_rewards()
+	for i=1,2 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(3, 3), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","notrue_expert","st_achievement_43_unlock")
+end
+
+-- noTrue_master.
+function notrue_master_rewards()
+	for i=1,3 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(3, 3), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","notrue_master","st_achievement_44_unlock")
+end
+
+-- noTrue_legend.
+function notrue_legend_rewards()
+	for i=1,4 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(4, 4), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","notrue_legend","st_achievement_45_unlock")
+end
+
+function achiev_1_rewards()
+	for i=1,1 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(1, 1), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","achiev_1","st_achievement_101_unlock")
+end
+function achiev_2_rewards()
+	for i=1,1 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(1, 1), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","achiev_2","st_achievement_102_unlock")
+end
+function achiev_3_rewards()
+	for i=1,1 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(1, 1), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","achiev_3","st_achievement_103_unlock")
+end
+function achiev_4_rewards()
+	for i=1,1 do
+		treasure_manager.create_random_stash(nil, nil, nil, nil, nil, true, math.random(3, 3), nil, nil, true)
+	end
+	SendScriptCallback("actor_on_achievement_earned","achiev_4","st_achievement_104_unlock")
+end

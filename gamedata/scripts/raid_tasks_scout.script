@@ -1,0 +1,196 @@
+local gt = game.translate_string
+local ltx = ini_file("misc\\task\\tm_raid_tasks.ltx")
+local ctime_to_t = utils_data.CTime_to_table
+local t_to_ctime = utils_data.CTime_from_table
+local zoom_flag = false
+
+local normal_scout_dist = 30
+local binoc_scout_dist = 150
+
+
+-- ============================================
+-- ================== (1) Scout ===================
+-- ============================================
+task_functor.raid_task_scout_target_functor = function(task_id,field,p,tsk)
+	local active_t = raid_tasks_main.raid_active_tasks
+	local stage = tsk and tsk.stage
+
+	if (field == "title") then
+		return raid_utils.get_raid_task_title(task_id, stage, 2)
+	elseif (field == "descr") then
+		return raid_utils.get_raid_task_descr(task_id, stage, 2)
+	elseif (field == "target") then
+		return		-- custom marks
+	end
+
+end
+
+task_status_functor.raid_task_scout_status_functor = function(tsk,task_id)
+	local active_t = raid_tasks_main.raid_active_tasks
+	local cur_time = game.get_game_time()
+	local task_data = raid_tasks_main.get_task_data(task_id)
+	if not (task_data and tsk) then return end
+
+	if not tsk.stage then
+		tsk.stage = 0
+	end
+
+	if tsk.stage > 0 and not active_t[task_id] then
+		return
+	end
+
+--[[
+	0 = setup
+	1 = process
+	2 = completed
+--]]
+
+	-- setup
+	if tsk.stage == 0 then
+		active_t[task_id] = {}
+
+		-- store level and smarts table
+		active_t[task_id].level_name = task_data.level_name
+		active_t[task_id].smarts_t = {}
+
+		-- store type
+		active_t[task_id].typ = task_data.typ
+
+		-- collect and mark smarts
+		local smart_amounts = raid_simulation.raid_sim_t[task_data.level_name].level_tier * 2
+		local smarts_t = raid_utils.find_random_smart(task_data.level_name, nil, smart_amounts)
+		printf("scout level name: %s || smarts_amount: %s || smarts_table_size: %s", task_data.level_name, smart_amounts, size_table(smarts_t))
+		if smarts_t then
+			for sm_id, _ in pairs(smarts_t) do
+				printf("collect scout smarts, smart_id: %s", sm_id)
+				active_t[task_id].smarts_t[sm_id] = "active"		-- "scouted" when scouted
+				mark_smart(sm_id)
+			end
+		else
+			printf("! [Raid] Error in collection Scout smarts")
+		end
+
+		active_t[task_id].scouted = 0
+		active_t[task_id].amount = size_table(smarts_t)
+
+		-- set timer
+		active_t[task_id].start_time = ctime_to_t(cur_time)
+
+		tsk.stage = 1
+		return		-- next update just in case
+	end
+
+	if tsk.stage == 1 and active_t[task_id].scouted == active_t[task_id].amount then
+		tsk.stage = 2
+	end
+
+
+	-- complete
+	if tsk.stage == 2 then
+		if level.name() == raid_utils.raid_home_level then
+			raid_tasks_main.end_raid_task(task_id, "complete")
+		end
+		return
+	end
+
+	-- fail on timer
+	if task_data.urgent < 4 then
+		local hours = raid_tables.raid_urgency_time[task_data.urgent]
+		if cur_time:diffSec(t_to_ctime(active_t[task_id].start_time)) > (hours * 3600) then
+			raid_tasks_main.end_raid_task(task_id, "fail")
+			return
+		end
+	end
+
+end
+
+local tmr = 0
+function actor_on_update()
+	local tg = time_global()
+	if tmr > tg then return end
+	tmr = tg + 5000
+
+	local active_t = raid_tasks_main.raid_active_tasks
+	if is_empty(active_t) then return end
+
+	for task_id, t in pairs(active_t) do
+		if string.find(task_id, "scout") and level.name() == t.level_name then
+			printf("scout task true and level check true")
+			for sm_id, str in pairs(t.smarts_t) do
+				printf("    smart id: %s || active: %s", sm_id, str)
+				local smart = str == "active" and alife_object(sm_id)
+				if smart then
+					printf("    smart exist")
+					local dist_to = db.actor:position():distance_to(smart.position)
+					local normal_check = dist_to < 30
+					local binoc_check = zoom_flag and dist_to < 150 and smart_in_viewport(smart)
+
+					if normal_check or binoc_check then
+						active_t[task_id].smarts_t[sm_id] = "scouted"
+						active_t[task_id].scouted = active_t[task_id].scouted + 1
+						unmark_smart(sm_id)
+						printf("- smart_id: %s Scouted", sm_id)
+						-- xcvb send message that point is scouted
+					end
+
+				end
+			end
+		end
+	end
+
+end
+
+function mark_smart(id)
+	if level.map_has_object_spot(id, "alife_presentation_general_base_neutral") == 0 then
+		--level.map_add_object_spot_ser(id, "alife_presentation_general_base_neutral", "scout_descr smart_id: " .. id)
+		level.map_add_object_spot_ser(id, "alife_presentation_general_base_neutral", gt("st_raid_task_scout")..": "..gt("st_"..alife_object(id):name().."_name")) 
+	end
+end
+
+function unmark_smart(id)
+	if level.map_has_object_spot(id, "alife_presentation_general_base_neutral") ~= 0 then
+		level.map_remove_object_spot(id, "alife_presentation_general_base_neutral")
+	end
+end
+
+function smart_in_viewport(smart)
+	local pos = vector():set(smart.position)
+	local w2u = game.world2ui(pos)
+	if w2u.x == -9999 and w2u.y == 0 then
+		printf("~ smart: %s is NOT in viewport", smart:name())
+		return false
+	end
+	printf("- smart: %s in viewport", smart:name())
+	return true
+end
+
+function actor_on_weapon_zoom_in(wpn)
+	if wpn and wpn:section() == "wpn_binoc_inv" then
+		zoom_flag = true
+	end
+end
+
+function actor_on_weapon_zoom_out(wpn)
+	if wpn and wpn:section() == "wpn_binoc_inv" then
+		zoom_flag = false
+	end
+end
+
+function scout_smart_busy(id)
+	local active_t = raid_tasks_main.raid_active_tasks
+	for task_id, t in pairs(active_t) do
+		if string.find(task_id, "scout") then
+			for smart_id, str in pairs(t.smarts_t) do
+				if smart_id == id and str == "active" then
+					return true
+				end
+			end
+		end
+	end
+end
+
+function on_game_start()
+	RegisterScriptCallback("actor_on_update", actor_on_update)
+	RegisterScriptCallback("actor_on_weapon_zoom_in", actor_on_weapon_zoom_in)
+	RegisterScriptCallback("actor_on_weapon_zoom_out", actor_on_weapon_zoom_out)
+end

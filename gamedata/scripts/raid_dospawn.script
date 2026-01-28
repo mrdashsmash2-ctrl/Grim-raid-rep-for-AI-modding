@@ -1,0 +1,653 @@
+--squads_walking_chance - шанс того что сквад не будет привязан к смарту
+--mutant_spawn_chance - шанс спавна мутантов, если не прокнул, будут неписи
+--fill_ratio_squads - коэффициент заполнения отрядов. К какому заполнению стремится алгоритм во времени рейда. min - процент в начале реда. max - процент к моменту окончания рейда
+--number_squads - среднее количество отрядов на локации
+--spawn_block_radius		-- no spawn in this player's radius
+--limit - процент от number_squads, который отвечает за "хп доспавна", лимит ограничения
+--time_between_limit - время "перезарядки" лимита ограничения
+
+
+local raid_sim_spawned = false
+local raid_time_dospawn = 0 
+local last_spawn_count  = 0
+local preset_squad_mutants = 1
+current_limit = 0
+local time_until_limit = 0
+local end_of_raid = false
+adjustment_strength_squads = 0.65  	-- Сила корректировки соотношения мутантов к сталкерам
+local squads_position = {}
+
+raid_sim_dospawn = {
+	-------------------- T1
+	--27 smart
+	["k00_marsh"] = {
+		time_between_limit = 420,
+		limit = 4, 
+		spawn_block_radius = 100,
+		number_squads = 13,
+		fill_ratio_squads = { min = 65, max = 155},
+		time_between_dospawns = 90,
+		mutant_spawn_chance = 75,
+		squads_walking_chance = 80,
+		squads_stalkers = { "stalker", "stalker", "stalker", "csky", "csky", "csky", "renegade", "renegade", "bandit", "bandit"},
+		squads_mutants = {
+			[1] = { "dog", "dog", "dog", "dog", "dog", "dog", "pseudodog", "cat", "cat", "cat", "cat", "cat", "cat", "lurker" },
+			[2] = { "flesh", "flesh", "flesh", "flesh", "flesh", "flesh", "boar", "cat", "cat", "cat", "cat", "cat", "cat", "lurker" },
+			[3] = { "flesh", "flesh", "flesh", "flesh", "flesh", "flesh", "boar", "dog", "dog", "dog", "dog", "dog", "dog", "pseudodog" },
+			[4] = { "zombie", "zombie", "zombie", "zombie", "fracture", "dog", "dog", "dog", "dog", "dog", "pseudodog" },
+			[5] = { "flesh", "flesh", "flesh", "flesh", "flesh", "flesh", "flesh", "boar" },
+		},
+	},
+
+	--37 smart
+	["poselok_ug"] = {
+		time_between_limit = 420,
+		limit = 4,
+		spawn_block_radius = 100,	
+		number_squads = 17,
+		fill_ratio_squads = { min = 65, max = 155},
+		time_between_dospawns = 90,
+		mutant_spawn_chance = 70,		
+		squads_walking_chance = 85,
+		squads_stalkers = { "duty", "freedom", "stalker", "stalker", "stalker", "stalker", "renegade", "bandit", "bandit", "bandit"},
+		squads_mutants = {
+			[1] = { "dog", "dog", "dog", "dog", "dog", "pseudodog", "cat", "cat", "cat", "cat", "cat", "lurker" },
+			[2] = { "flesh", "flesh", "flesh", "flesh", "flesh", "boar", "cat", "cat", "cat", "cat", "cat", "lurker" },
+			[3] = { "flesh", "flesh", "flesh", "flesh", "flesh", "boar", "dog", "dog", "dog", "dog", "dog", "pseudodog" },
+			[4] = { "zombie", "zombie", "zombie", "zombie", "fracture", "fracture", "dog", "dog", "dog", "pseudodog", "pseudodog" },
+		},
+	},
+	
+	--21 smart
+	["l03_agroprom"] = {
+		time_between_limit = 420,
+		limit = 4,
+		spawn_block_radius = 100,
+		number_squads = 11,
+		fill_ratio_squads = { min = 65, max = 145},
+		time_between_dospawns = 90,
+		mutant_spawn_chance = 75,
+		squads_walking_chance = 75,
+		squads_stalkers = { "stalker", "stalker", "stalker", "duty",  "duty", "csky", "renegade", "bandit", "bandit", "army"},
+		squads_mutants = {
+			[1] = { "dog", "dog", "dog", "dog", "pseudodog", "cat", "cat", "cat", "lurker", "snork", "snork" },
+			[2] = { "flesh", "flesh", "flesh", "flesh", "boar", "cat", "cat", "cat", "cat", "lurker" },
+			[3] = { "flesh", "flesh", "flesh", "flesh", "boar", "dog", "dog", "dog", "dog", "pseudodog" },
+			[4] = { "fracture", "fracture", "fracture", "snork", "snork", "cat", "cat", "cat", "lurker", "lurker" },
+		},
+	},
+	
+	--21 smart
+	["l01_escape"] = {
+		time_between_limit = 420,
+		limit = 4,
+		spawn_block_radius = 100,
+		number_squads = 10,
+		fill_ratio_squads = { min = 65, max = 155},
+		time_between_dospawns = 90,
+		mutant_spawn_chance = 75,
+		squads_walking_chance = 85,
+		squads_stalkers = { "stalker", "stalker", "stalker", "stalker", "csky", "csky", "renegade", "bandit", "bandit", "bandit"},
+		squads_mutants = {
+			[1] = { "dog", "dog", "dog", "dog", "pseudodog", "cat", "cat", "cat", "cat", "lurker" },
+			[2] = { "flesh", "flesh", "flesh", "flesh", "boar", "cat", "cat", "cat", "cat", "lurker" },
+			[3] = { "flesh", "flesh", "flesh", "flesh", "boar", "dog", "dog", "dog", "dog", "pseudodog" },
+		},
+	},
+
+	-------------------- T2
+	--21 smart
+	["k02_trucks_cemetery"] = {
+		time_between_limit = 420,
+		limit = 5,
+		spawn_block_radius = 120,
+		number_squads = 15,
+		fill_ratio_squads = { min = 65, max = 155},
+		time_between_dospawns = 90,
+		mutant_spawn_chance = 75,
+		squads_walking_chance = 80,
+		squads_stalkers = { "freedom", "freedom", "duty", "duty", "stalker", "renegade", "renegade", "bandit", "bandit", "army"},
+		squads_mutants = {
+			[1] = { "dog", "dog", "dog", "pseudodog", "pseudodog", "cat", "cat", "cat", "lurker", "lurker" },
+			[2] = { "flesh", "flesh", "flesh", "boar", "boar", "cat", "cat", "lurker", "lurker", "bloodsucker" },
+			[3] = { "flesh", "flesh", "flesh", "boar", "boar", "dog", "dog", "dog", "pseudodog", "pseudodog" },
+			[4] = { "flesh", "flesh", "flesh", "flesh", "boar", "boar", "flesh", "flesh", "boar", "boar", "gigant" },
+		},
+	},
+
+	--19 smart
+	["l02_garbage"] = {
+		time_between_limit = 420,
+		limit = 5,
+		spawn_block_radius = 100,
+		number_squads = 12,
+		fill_ratio_squads = { min = 65, max = 145},
+		time_between_dospawns = 90,
+		mutant_spawn_chance = 63,
+		squads_walking_chance = 75,
+		squads_stalkers = { "duty", "duty", "stalker", "stalker", "stalker", "bandit", "bandit", "bandit", "killer", "killer"},
+		squads_mutants = {
+			[1] = { "dog", "dog", "dog", "pseudodog", "pseudodog", "cat", "cat", "cat", "lurker", "lurker", "psy_dog" },
+			[2] = { "flesh", "flesh", "flesh", "boar", "boar", "cat", "cat", "cat", "lurker", "lurker" },
+			[3] = { "flesh", "flesh", "flesh", "flesh", "boar", "boar", "dog", "dog", "dog", "dog", "pseudodog", "pseudodog", "psy_dog" },
+		},
+	},
+
+	--15 smart
+	["promzona"] = {
+		time_between_limit = 420,
+		limit = 4,
+		spawn_block_radius = 100,
+		number_squads = 11,
+		fill_ratio_squads = { min = 65, max = 140},
+		time_between_dospawns = 90,
+		mutant_spawn_chance = 70,
+		squads_walking_chance = 85,
+		squads_stalkers = { "stalker", "stalker", "zombied", "csky", "csky", "renegade", "renegade", "army", "killer", "killer"},
+		squads_mutants = {
+			[1] = { "zombie", "zombie", "fracture", "fracture", "fracture", "snork", "snork", "lurker", "lurker", "bloodsucker" },
+			[2] = { "zombie", "zombie", "zombie", "zombie", "fracture", "fracture", "fracture", "snork", "snork", "burer" },
+			[3] = { "flesh", "flesh", "flesh", "flesh", "boar", "boar", "fracture", "fracture", "snork", "burer" },
+			[4] = { "flesh", "flesh", "flesh", "boar", "boar", "dog", "dog", "pseudodog", "pseudodog", "psy_dog" },
+		},
+	},
+
+	--20 smart
+	["l04_darkvalley"] = {
+		time_between_limit = 420,
+		limit = 5,
+		spawn_block_radius = 100,
+		number_squads = 16,
+		fill_ratio_squads = { min = 65, max = 140},
+		time_between_dospawns = 90,
+		mutant_spawn_chance = 70,
+		squads_walking_chance = 65,
+		squads_stalkers = { "duty", "duty", "stalker", "stalker", "zombied", "bandit", "bandit", "army", "army", "killer"},
+		squads_mutants = {
+			[1] = { "zombie", "fracture", "fracture", "fracture", "snork", "snork", "lurker", "lurker", "bloodsucker", "poltergeist" },
+			[2] = { "zombie", "zombie", "zombie", "zombie", "fracture", "fracture", "fracture", "snork", "snork", "burer" },
+			[3] = { "flesh", "flesh", "flesh", "flesh", "boar", "boar", "fracture", "fracture", "snork", "snork", "poltergeist" },
+			[4] = { "flesh", "flesh", "flesh", "boar", "boar", "dog", "dog", "dog", "pseudodog", "pseudodog" },
+		},
+	},
+
+	-------------------- T3
+	--17 smart
+	["l07_military"] = {
+		time_between_limit = 480,
+		limit = 4,
+		spawn_block_radius = 110,
+		number_squads = 14,
+		fill_ratio_squads = { min = 65, max = 145},
+		time_between_dospawns = 120,
+		mutant_spawn_chance = 60,
+		squads_walking_chance = 55,
+		squads_stalkers = { "stalker", "freedom", "duty", "zombied", "zombied", "killer", "killer", "killer", "monolith", "monolith"},
+		squads_mutants = {
+			[1] = { "snork", "snork", "snork", "lurker", "lurker", "lurker", "lurker", "bloodsucker", "bloodsucker", "psysucker" },
+			[2] = { "zombie", "zombie", "fracture", "fracture", "fracture", "snork", "snork", "snork", "snork" },
+			[3] = { "flesh", "flesh", "boar", "flesh", "flesh", "boar", "fracture", "snork", "snork", "burer", "burer" },
+			[4] = { "flesh", "flesh", "boar", "boar", "boar", "dog", "dog", "pseudodog", "pseudodog", "burer" },
+		},
+	},
+
+	--17 smart
+	["grimwood"] = {
+		time_between_limit = 480,
+		limit = 4,
+		spawn_block_radius = 100,
+		number_squads = 10,
+		fill_ratio_squads = { min = 65, max = 145},
+		time_between_dospawns = 120,
+		mutant_spawn_chance = 82,
+		squads_walking_chance = 70,
+		squads_stalkers = { "stalker", "csky", "csky", "killer", "killer", "killer", "monolith", "army", "army", "army"},
+		squads_mutants = {
+			[1] = { "flesh", "flesh", "flesh", "boar", "boar", "boar", "gigant", "bloodsucker", "bloodsucker" },
+			[2] = { "flesh", "flesh", "flesh", "boar", "lurker", "lurker", "gigant", "chimera", "chimera" },
+			[3] = { "flesh", "flesh", "flesh", "boar", "pseudodog", "pseudodog", "pseudodog", "psy_dog", "psy_dog" },
+		},
+	},
+
+	--15 smart
+	["l10_red_forest"] = {
+		time_between_limit = 480,
+		limit = 4,
+		spawn_block_radius = 100,
+		number_squads = 8,
+		fill_ratio_squads = { min = 65, max = 145},
+		time_between_dospawns = 120,
+		mutant_spawn_chance = 78,
+		squads_walking_chance = 70,
+		squads_stalkers = { "stalker", "freedom", "duty", "killer", "killer", "killer", "monolith", "monolith", "army", "army"},
+		squads_mutants = {
+			[1] = { "flesh", "flesh", "flesh", "pseudodog", "pseudodog", "psy_dog", "lurker", "bloodsucker", "bloodsucker", "chimera" },
+			[2] = { "flesh", "flesh", "flesh", "lurker", "lurker", "bloodsucker", "bloodsucker", "chimera" },
+			[3] = { "flesh", "flesh", "flesh", "pseudodog", "pseudodog", "pseudodog", "psy_dog", "psy_dog", "chimera", "chimera" },
+		},
+	},
+
+	--53 smart
+	["jupiter"] = {
+		time_between_limit = 540,
+		limit = 6,
+		spawn_block_radius = 100,
+		number_squads = 25,
+		fill_ratio_squads = { min = 65, max = 165},
+		time_between_dospawns = 120,
+		mutant_spawn_chance = 61,
+		squads_walking_chance = 90,
+		squads_stalkers = { "stalker", "freedom", "duty", "bandit", "bandit", "killer", "killer", "monolith", "monolith", "zombied"},
+		squads_mutants = {
+			[1] = { "snork", "snork", "snork", "burer", "lurker", "lurker", "bloodsucker", "bloodsucker", "psysucker", "psysucker" },
+			[2] = { "zombie", "zombie", "burer", "snork", "snork", "snork", "poltergeist", "psysucker", "psysucker", "psysucker" },
+			[3] = { "flesh", "flesh", "boar", "boar", "burer", "burer", "snork", "snork", "psysucker", "psysucker" },
+		},
+	},
+
+	-------------------- T4
+	--58 smart
+	["zaton"] = {
+		time_between_limit = 540,
+		limit = 6,
+		spawn_block_radius = 100,
+		number_squads = 29,
+		fill_ratio_squads = { min = 65, max = 165},
+		time_between_dospawns = 120,
+		mutant_spawn_chance = 62,
+		squads_walking_chance = 90,
+		squads_stalkers = { "stalker", "stalker", "bandit", "bandit", "killer", "killer", "monolith", "monolith", "army", "zombied"},
+		squads_mutants = {
+			[1] = { "snork", "snork", "burer", "lurker", "lurker", "bloodsucker", "bloodsucker", "psysucker", "psysucker", "chimera", "chimera" },
+			[2] = { "snork", "snork", "snork", "burer", "controller", "psysucker", "chimera", "chimera" },
+			[3] = { "boar", "boar", "burer", "lurker", "lurker", "lurker", "bloodsucker", "chimera", "chimera", "psysucker" },
+		},
+	},
+
+	--38 smart
+	["pripyat"] = {
+		time_between_limit = 540,
+		limit = 5,
+		spawn_block_radius = 100,
+		number_squads = 22,
+		fill_ratio_squads = { min = 55, max = 145},
+		time_between_dospawns = 120,
+		mutant_spawn_chance = 61,
+		squads_walking_chance = 65,
+		squads_stalkers = { "stalker", "army", "army", "killer", "killer", "monolith", "monolith", "monolith", "zombied", "zombied"},
+		squads_mutants = {
+			[1] = { "snork", "burer", "lurker", "bloodsucker", "psysucker", "chimera" },
+			[2] = { "snork", "snork", "burer", "controller", "psysucker", "chimera", "chimera" },
+			[3] = { "burer", "lurker", "lurker", "bloodsucker", "chimera", "chimera", "psysucker" },
+		},
+	},
+}
+
+
+function raid_start_spawn(level_name)
+	-- check if this level exists (for addons)
+	if not (level and raid_utils.level_exist(level_name)) then return end
+
+	-- dup table of this level
+	local squads_t = raid_simulation.raid_sim_t[level_name] and dup_table(raid_simulation.raid_sim_t[level_name])
+	if not squads_t then return end
+
+	local squads_t_ds = raid_sim_dospawn[level_name] and dup_table(raid_sim_dospawn[level_name])
+	if not squads_t_ds then return end
+	
+	local t = (1 - (raid_main.raid_timer / raid_utils.calc_raid_time()))
+	
+	
+--CALCULATION OF THE NUMBER OF SQUADS
+	local minT = squads_t_ds.fill_ratio_squads.min / 100
+	local maxT = squads_t_ds.fill_ratio_squads.max / 100
+	local fill_ratio_squads = (t * (maxT - minT)) + minT			
+	
+	-- Target number of squads
+	local target_squads = squads_t_ds.number_squads * fill_ratio_squads
+	
+	local number_stalkers, number_mutants = get_number_of_stalkers_mutants()
+	local total_number = number_stalkers + number_mutants
+	-- How many should you ideally spawn
+	local number_new_squads = math.max(0, target_squads - (total_number))
+
+	-- (+-35%)
+	number_new_squads = number_new_squads * (0.65 + math.random() * (1.35 - 0.65))
+		
+	if (last_spawn_count ~= 0) then
+		-- Adding smoothness, inertia
+		number_new_squads = last_spawn_count * 0.3 + number_new_squads * 0.7	
+	end
+	last_spawn_count = number_new_squads
+	number_new_squads = math.floor(number_new_squads + 0.5)
+	
+	if (math.random(1, 100) <= 25) then 
+		--printf("dop squad - chance 25%")
+		number_new_squads = number_new_squads + 1 
+	end
+	if (number_new_squads < 1) then return end
+	
+	-- collect all smarts on picked level (except smarts busy by tasks and events)
+	local smarts_t = find_random_smart(level_name, number_new_squads)
+	if smarts_t and (size_table(smarts_t) < number_new_squads) then return end
+	
+--CALCULATION OF THE PROBABILITY OF MUTANT SPAWNING
+	local minS = (squads_t_ds.mutant_spawn_chance - 50) / 100
+	local maxS = (squads_t_ds.mutant_spawn_chance + 100) / 100
+	local target_ratio = (t * (maxS - minS)) + minS	
+	
+	current_ratio = number_mutants / total_number	
+	
+	-- We adjust the probability towards the target ratio
+	spawn_mutant_prob = target_ratio + (target_ratio - current_ratio) * adjustment_strength_squads
+	spawn_mutant_prob = math.max(0.04, math.min(0.96, spawn_mutant_prob))
+	--printf("Mutant chance in this moment: [%s]", tostring(spawn_mutant_prob))	
+	
+	if (math.random() < spawn_mutant_prob) then
+	
+		-- Mutant spawn 	
+		--printf("DOSPAWN Mutant: [%s], new squad [%s]", tostring(number_new_squads))	
+		for i = 1, number_new_squads do
+			local ar = squads_t_ds.squads_mutants[preset_squad_mutants] or squads_t_ds.squads_mutants[1]
+			local faction = ar[math.random(1, #ar)]
+			if faction ~= "none" then
+			
+				-- adjust rank to level tier
+				local squad_tier = squads_t.level_tier
+				if squad_tier < raid_simulation.rank_limit_t[faction][1] then
+					squad_tier = raid_simulation.rank_limit_t[faction][1]
+				elseif squad_tier > raid_simulation.rank_limit_t[faction][2] then
+					squad_tier = raid_simulation.rank_limit_t[faction][2]
+				end
+
+				local squad_sec = "raid_simulation_" .. faction .. "_" .. squad_tier
+
+				local night_bonus = 0
+                if (level.get_time_hours() >= 22 or level.get_time_hours() < 4) then night_bonus = 20 end
+                -- random chance to increment rank Mutant
+                if (math.random(1, 100) <= (25 + night_bonus)) then 
+					local new_squad_sec = "raid_simulation_" .. faction .. "_" .. (squad_tier + 1)
+					if ini_sys:section_exist(new_squad_sec) then
+						squad_sec = new_squad_sec
+						--printf("mutant spawn, random rank incr for [%s], new squad [%s]", squad_sec, new_squad_sec)
+					end
+				end
+
+				-- pick random viable smart
+				local smart = find_viable_smart(smarts_t)
+				if ini_sys:section_exist(squad_sec) and smart then		-- check for spawned stuff on this smart here
+
+					if (current_limit > 0) then
+						-- spawn squad
+						local squad = raid_simulation.spawn_raid_sim_squad(smart.id, squad_sec)
+						current_limit = current_limit - 1
+						
+						-- store squad
+						if squad then
+							-- make it "idle" if possible
+							if (squads_t_ds.squads_walking_chance >= math.random(1, 100)) then
+								squad.idle_time = 0
+								raid_simulation.raid_squads_t[squad.id] = "walking"						
+							else
+								squad.scripted_target = smart:name()
+								raid_simulation.raid_squads_t[squad.id] = smart:name()
+							end
+						end
+						--printf("DOSPAWN Mutant. limit = [%s]", tostring(current_limit))
+																	
+						-- remove smart from the table (spawn 1 squad per smart)
+						smarts_t[smart.id] = nil
+					end
+				end
+			end
+		end
+	else
+	
+		-- Stalkers spawn 
+		--printf("DOSPAWN Stalker: [%s], new squad [%s]", tostring(number_new_squads))
+		for i = 1, number_new_squads do
+		
+			local ar = squads_t_ds.squads_stalkers
+			local faction = ar[math.random(1, #ar)]
+			if faction ~= "none" then
+
+				-- adjust rank to level tier
+				local squad_tier = squads_t.level_tier
+				if squad_tier < raid_simulation.rank_limit_t[faction][1] then
+					squad_tier = raid_simulation.rank_limit_t[faction][1]
+				elseif squad_tier > raid_simulation.rank_limit_t[faction][2] then
+					squad_tier = raid_simulation.rank_limit_t[faction][2]
+				end
+
+				local squad_sec = squad_tier and ("raid_" .. faction .. "_sim_squad_" .. squad_tier)
+				-- random chance to increment rank HUMAN
+				if math.random(1, 100) <= 10 then
+					local new_squad_sec = "raid_" .. faction .. "_sim_squad_" .. (squad_tier + 1)
+					if ini_sys:section_exist(new_squad_sec) then
+						squad_sec = new_squad_sec
+					end
+				end				
+				local comm = squad_sec and ini_sys:section_exist(squad_sec) and ini_sys:r_string_ex(squad_sec, "faction")
+
+				-- pick random viable smart
+				local smart = find_viable_smart(smarts_t)
+				if ini_sys:section_exist(squad_sec) and smart then		-- check for spawned stuff on this smart here
+				
+					if (current_limit > 0) then
+						-- spawn squad
+						local squad = raid_simulation.spawn_raid_sim_squad(smart.id, squad_sec)
+						current_limit = current_limit - 1
+						
+						-- store squad
+						if squad then
+							if (squads_t_ds.squads_walking_chance >= math.random(1, 100)) then
+								squad.idle_time = 0
+								raid_simulation.raid_squads_t[squad.id] = "walking"
+							else
+								squad.scripted_target = smart:name()
+								raid_simulation.raid_squads_t[squad.id] = smart:name()
+							end
+						end
+						--printf("DOSPAWN Stalker. limit = [%s], new squad [%s]", tostring(current_limit))
+										
+						-- remove smart from the table (spawn 1 squad per smart)
+						smarts_t[smart.id] = nil
+					end
+				end
+			end
+		end		
+	end
+end
+
+function squads_nearby(sm_obj, radius)    
+    if not sm_obj then
+        return 1
+    end
+
+    local sm_pos = sm_obj.position
+	if squads_position then
+		for id, pos in pairs(squads_position) do
+			if pos and sm_pos and (math.abs(pos.x - sm_pos.x) < radius) and (math.abs(pos.z - sm_pos.z) < radius) then
+				return 1
+			end        
+		end     
+	end
+    return 0    
+end
+
+function find_random_smart(level_name, count_sq)
+	local smarts_t = {}
+	for i = 0, 3 do
+		for sname, sm in pairs(SIMBOARD.smarts_by_names) do
+			local smart_lid = sm and game_graph():vertex(sm.m_game_vertex_id):level_id()
+			local smart_lname = smart_lid and smart_lid and alife():level_name(smart_lid)
+			if smart_lname and smart_lname == level_name then			
+				local squad_nearby = squads_nearby(sm, 110 - (i * 50))
+				if squad_nearby and (squad_nearby == 0) then
+					if smart_outside_spawn_radius(sm, level_name) then
+						smarts_t[sm.id] = true
+					end
+				end
+			end
+		end	
+		
+		if (size_table(smarts_t) >= count_sq) then 
+			return smarts_t
+		else
+			smarts_t = {}
+		end
+	end
+
+	printf("[raid] not find_random_smart")
+	return nil
+end
+
+
+
+
+function find_viable_smart(smart_t)
+	if not (smart_t) then return end
+	local viable_smarts_t = {}
+
+	for smart_id, _ in pairs(smart_t) do
+		local smart = smart_id and alife_object(smart_id)
+		if smart then
+			local sim_avail = simulation_objects.available_by_id[smart_id] and simulation_objects.available_by_id[smart_id] == true
+			if sim_avail then
+				viable_smarts_t[smart_id] = true
+			end
+		end
+	end
+
+	if size_table(viable_smarts_t) < 1 then
+		return
+	end
+	
+	return alife_object(random_key_table(viable_smarts_t))				
+end
+
+function smart_outside_spawn_radius(sm_obj, level_name)
+	if not sm_obj then
+		return false
+	end
+
+	local on_same_level = simulation_objects.is_on_the_same_level(alife():actor(), sm_obj)
+	if not on_same_level then
+		return true
+	end
+
+	local ac_pos = db.actor:position()
+	local se_obj_pos = sm_obj.position
+	local outside_radius = ac_pos:distance_to_xz(se_obj_pos) > raid_sim_dospawn[level_name].spawn_block_radius
+
+	return outside_radius
+end
+
+local tmr = 0
+function actor_on_update()
+	local tg = time_global()
+	if tmr > tg then return end
+	tmr = tg + 5000
+
+	if (raid_main.raid_timer < time_until_limit) and level.name() ~= raid_utils.raid_home_level and raid_sim_dospawn[level.name()] then
+		current_limit = raid_sim_dospawn[level.name()].limit
+		local time = raid_sim_dospawn[level.name()].time_between_limit
+		local time_rand = math.floor((time / 25) + 0.5)		
+		time_until_limit = (raid_main.raid_timer - time) + math.random(-time_rand, time_rand)
+	end	
+	if (end_of_raid == false) and (raid_main.raid_timer < 300) and level.name() ~= raid_utils.raid_home_level and raid_sim_dospawn[level.name()] then
+		current_limit = raid_sim_dospawn[level.name()].limit
+		end_of_raid = true
+	end		
+	if (raid_main.raid_timer < raid_time_dospawn) and level.name() ~= raid_utils.raid_home_level and raid_sim_dospawn[level.name()] then
+		raid_start_spawn(level.name())
+		local time = raid_sim_dospawn[level.name()].time_between_dospawns		
+		local time_rand = math.floor((time / 8)	+ 0.5)
+		raid_time_dospawn = (raid_main.raid_timer - time) + math.random(-time_rand, time_rand)
+	end
+	
+	--Updating squad positions on location
+	local squads_position_temp = {}
+	--for squad_id, typ in pairs(raid_simulation.raid_squads_t) do
+		--local squad = alife_object(squad_id)
+		--if squad and alife():level_name(game_graph():vertex(squad.m_game_vertex_id):level_id()) == level.name() then
+		--	table.insert(squads_position_temp, {x = squad.position.x, z = squad.position.z})
+		--end
+	--end
+	for squad_id,_ in pairs(SIMBOARD.squads) do
+		local squad = alife_object(squad_id)
+		if squad and alife():level_name(game_graph():vertex(squad.m_game_vertex_id):level_id()) == level.name() then
+			table.insert(squads_position_temp, {x = squad.position.x, z = squad.position.z})
+		end
+	end
+	squads_position = squads_position_temp
+end
+
+function actor_on_first_update()
+	if (not raid_sim_spawned) and level.name() ~= raid_utils.raid_home_level and raid_sim_dospawn[level.name()] then
+		current_limit = raid_sim_dospawn[level.name()].limit
+		local time = raid_sim_dospawn[level.name()].time_between_limit + 90
+		local time_rand = math.floor((time / 25) + 0.5)		
+		time_until_limit = (raid_utils.calc_raid_time() - time) + math.random(-time_rand, time_rand)	
+
+		raid_sim_spawned = true
+		local time = raid_sim_dospawn[level.name()].time_between_dospawns
+		local time_rand = math.floor((time / 8)	+ 0.5)		
+		raid_time_dospawn = (raid_utils.calc_raid_time() - time) + math.random(-time_rand, time_rand)
+		
+		preset_squad_mutants = math.random(1, #raid_sim_dospawn[level.name()].squads_mutants)
+		--printf("preset squad mutants: [%s]", tostring(preset_squad_mutants))
+				
+	end
+
+	if raid_sim_spawned and level.name() == raid_utils.raid_home_level then
+		raid_sim_spawned = false
+		raid_time_dospawn = 0
+		time_until_limit = 0
+		end_of_raid = false
+	end
+end
+
+function get_number_of_stalkers_mutants()
+	local count_S = 0
+	local count_M = 0
+	local flag = true
+	for squad_id, typ in pairs(raid_simulation.raid_squads_t) do
+		local squad = alife_object(squad_id)
+		if squad and alife():level_name(game_graph():vertex(squad.m_game_vertex_id):level_id()) == level.name() then
+			if (string.find(squad:section_name(), "raid_simulation_")) then
+				count_M = count_M + 1
+			else
+				count_S = count_S + 1			
+			end
+		end
+	end
+	return count_S, count_M
+end
+
+function save_state(m_data)
+	m_data.raid_sim_spawned = raid_sim_spawned
+	m_data.raid_time_dospawn = raid_time_dospawn
+	m_data.last_spawn_count = last_spawn_count
+	m_data.preset_squad_mutants = preset_squad_mutants
+	m_data.current_limit = current_limit
+	m_data.time_until_limit = time_until_limit
+	m_data.end_of_raid = end_of_raid
+end
+
+function load_state(m_data)
+	raid_sim_spawned = m_data.raid_sim_spawned or nil
+	raid_time_dospawn = m_data.raid_time_dospawn or 0
+	last_spawn_count = m_data.last_spawn_count or 0
+	preset_squad_mutants = m_data.preset_squad_mutants or 1
+	current_limit = m_data.current_limit or 0
+	time_until_limit = m_data.time_until_limit or 0
+	end_of_raid = m_data.end_of_raid or false
+end
+
+function on_game_start()
+	RegisterScriptCallback("actor_on_update", actor_on_update)
+	RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
+	RegisterScriptCallback("save_state", save_state)
+	RegisterScriptCallback("load_state", load_state)	
+end

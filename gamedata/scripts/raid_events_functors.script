@@ -1,0 +1,326 @@
+local HI = has_alife_info
+local GI = give_info
+local DI = disable_info
+
+function rad_wind_ev(lname, tier)
+	if not HI("raid_event_rad_wind") then
+		GI("raid_event_rad_wind")
+	end
+end
+
+function rad_hurricane_ev(lname, tier)
+	if not HI("raid_event_rad_hurricane") then
+		GI("raid_event_rad_hurricane")
+	end
+end
+
+function raid_army_ev(lname, tier, mod)
+	spawn_event_stalker_squad("army", lname, tier)
+	if mod and mod == "active" and (not HI("raid_event_army_ignore")) then
+		GI("raid_event_army_ignore")
+	end
+end
+
+function raid_merc_ev(lname, tier, mod)
+	spawn_event_stalker_squad("killer", lname, tier)
+	if mod and mod == "active" and (not HI("raid_event_killer_ignore")) then
+		GI("raid_event_killer_ignore")
+	end
+end
+
+function raid_stalker_ev(lname, tier)
+	spawn_event_stalker_squad("stalker", lname, tier)
+end
+
+function raid_mono_ev(lname, tier)
+	spawn_event_stalker_squad("monolith", lname, tier)
+end
+
+function raid_bandit_ev(lname, tier, mod)
+	spawn_event_stalker_squad("bandit", lname, tier)
+	if mod and mod == "active" and (not HI("raid_event_bandit_ignore")) then
+		GI("raid_event_bandit_ignore")
+	end
+end
+
+function raid_csky_ev(lname, tier)
+	spawn_event_stalker_squad("csky", lname, tier)
+end
+
+function raid_sci_ev(lname, tier)
+	spawn_event_stalker_squad("ecolog", lname, tier)
+end
+
+function raid_runner_ev(lname, tier)
+	spawn_event_stalker_squad("stalker", lname, tier, "stalker_runner")
+end
+
+function predators_ev(lname, tier)
+	local t = { [2] = { "bloodsucker", "chimera" }, 		[3] = { "bloodsucker", "chimera", "gigant" } }
+
+	local amount = math.random(1, 2)
+	for i = 1, amount do
+		local kind = t[tier][math.random(1, #t[tier])]
+		spawn_event_mutant_squad(kind, lname, tier)
+	end
+end
+
+function dog_ev(lname, tier)
+	local t = { [1] = 2, 		[2] = 3 }
+
+	for i = 1, t[tier] do
+		spawn_event_mutant_squad("pseudodog", lname, tier)
+	end
+end
+
+function lurker_ev(lname, tier)
+	local t = { [2] = 3, 		[3] = 4 }
+
+	for i = 1, t[tier] do
+		spawn_event_mutant_squad("lurker", lname, tier)
+	end
+end
+
+function controller_ev(lname, tier)
+	spawn_event_mutant_squad("controller", lname, tier)
+end
+
+function burer_ev(lname, tier)
+	spawn_event_mutant_squad("burer", lname, tier)
+end
+
+function hunt_ev(lname, tier)
+	spawn_event_mutant_squad("bloodsucker", lname, tier)
+	spawn_event_mutant_squad("chimera", lname, tier)
+	spawn_event_mutant_squad("boar", lname, tier)
+	spawn_event_mutant_squad("flesh", lname, tier)
+	spawn_event_mutant_squad("flesh", lname, tier)
+end
+
+function mutants_ev(lname, tier)
+	local t = {
+		[1] = { "dog", "boar", "flesh" }, 		[2] = { "pseudodog", "snork" },
+		[3] = { "bloodsucker" }, 		[4] = { "controller", "chimera", "gigant" },
+	}
+
+	for i = 1, #t[tier] do
+		spawn_event_mutant_squad(t[tier][i], lname, tier)
+	end
+end
+
+function psi_horde_ev(lname, tier)
+	spawn_event_stalker_squad("zombied", lname, tier, "psi_horde_zombie", 4)
+	spawn_event_mutant_squad("controller", lname, tier, "psi_horde_controller", true)
+end
+
+function giant_ev(lname, tier)
+	spawn_event_mutant_squad("gigant", lname, tier, "gigant_extra")
+end
+
+
+--------------------------------------------------------------------------------------
+---------------------------------------- utils -----------------------------------------
+function spawn_event_stalker_squad(comm, lname, tier, new_sec_pref, amount)
+	-- find patrol smarts
+	local smarts_path = raid_utils.find_event_patrol_smarts(lname)
+	printf("---------- raid_events_functors.spawn_event_stalker_squad -------------")
+	printf("comm: %s || lname: %s || tier: %s", comm, lname, tier)
+	printf("smart_name 1 start id: %s || name: %s", smarts_path[1], smarts_path[1] and alife_object(smarts_path[1]) and alife_object(smarts_path[1]):name())
+	printf("smart_name 2 end id: %s || name: %s", smarts_path[2], smarts_path[2] and alife_object(smarts_path[2]) and alife_object(smarts_path[2]):name())
+	raid_events.raid_event_busy_smarts_t[smarts_path[1]] = true
+
+	local rank_t = raid_simulation.rank_limit_t[comm]
+
+	-- adjust rank to level tier
+	local squad_tier = tier
+	if squad_tier < rank_t[1] then
+		squad_tier = rank_t[1]
+	elseif squad_tier > rank_t[2] then
+		squad_tier = rank_t[2]
+	end
+
+	-- spawn squad
+	local runner_itm = false
+	local eco_itm = false
+	for i = 1, amount or 1 do
+		local pref_sec = new_sec_pref or comm
+		local squad_sec = "raid_event_" .. pref_sec .. "_sim_squad_" .. squad_tier
+		local squad = raid_simulation.spawn_raid_sim_squad(smarts_path[1], squad_sec)
+		if squad then
+			squad.idle_time = 0
+			squad.scripted_target = alife_object(smarts_path[2]):name()
+
+			raid_events.raid_event_squads[squad.id] = {}
+			raid_events.raid_event_squads[squad.id].start_smart = alife_object(smarts_path[1]):name()
+			raid_events.raid_event_squads[squad.id].end_smart = alife_object(smarts_path[2]):name()
+			raid_events.raid_event_squads[squad.id].cur_target = alife_object(smarts_path[2]):name()
+
+			-- add item for runner and ecolog
+			-- очередная отдельная мелочь ради пары ключей на 100 строк... я такой херней страдать здесь не буду, выдам просто предметы из обычного пакета
+			if pref_sec == "stalker_runner" and (not runner_itm) then
+				raid_utils.create_event_item("stalker", squad:commander_id())
+				runner_itm = true
+			elseif pref_sec == "ecolog" and (not eco_itm) then
+				raid_utils.create_event_item("ecolog", squad:commander_id())
+				eco_itm = true
+			end
+
+		end
+	end
+
+end
+
+function spawn_event_mutant_squad(kind, lname, tier, new_sec_pref, idle)
+	local rank_t = raid_simulation.rank_limit_t[kind]
+
+	-- adjust rank to level tier
+	local squad_tier = tier
+	if squad_tier < rank_t[1] then
+		squad_tier = rank_t[1]
+	elseif squad_tier > rank_t[2] then
+		squad_tier = rank_t[2]
+	end
+
+	-- get section and faction
+	local pref_sec = new_sec_pref or kind
+	local squad_sec = "raid_event_simulation_" .. pref_sec .. "_" .. squad_tier
+
+	-- find smart
+	local smarts_t = raid_utils.find_random_smart(lname, true, "all")
+	local smart = raid_utils.find_viable_smart(smarts_t, "monster", nil, true)
+	if not (ini_sys:section_exist(squad_sec) and smart) then return end
+
+	-- spawn squad
+	local squad = raid_simulation.spawn_raid_sim_squad(smart.id, squad_sec)
+	if not squad then return end
+
+	if idle then
+		squad.scripted_target = smart:name()
+		raid_simulation.raid_squads_t[squad.id] = smart:name()
+	else
+		squad.idle_time = 0
+		raid_simulation.raid_squads_t[squad.id] = "walking"
+	end
+
+end
+
+
+--------------------------------------------------------------------------------------
+---------------------------------- callbacks ------------------------------------------
+function on_enemy_eval(obj, enemy, flags)
+	-- neutrality if has info portion
+	if not (IsStalker(obj) and enemy:id() == 0) then return end
+
+	local squad = obj:id() ~= 0 and get_object_squad(obj)
+	if not (squad and squad.commander_id) then return end
+
+	if HI("raid_event_" .. squad.player_id .. "_ignore") then
+		flags.override = true
+		flags.result = false
+	end
+end
+
+function npc_on_before_hit(npc, s_hit, bone_id, flags)
+	-- remove neutrality if actor hit npc
+	if not (s_hit.draftsman and s_hit.draftsman:id() == 0) then return end
+
+	local squad = npc:id() ~= 0 and get_object_squad(npc)
+	if not (squad and squad.commander_id) then return end
+
+	if HI("raid_event_" .. squad.player_id .. "_ignore") then
+		DI("raid_event_" .. squad.player_id .. "_ignore")
+	end
+end
+
+
+local rad_tmr = 0
+function rad_events_on_update()
+	local tg = time_global()
+	if rad_tmr > tg then return end
+	rad_tmr = tg + 1000
+
+	local level_t = raid_simulation.raid_sim_t[level.name()]
+	local level_tier = level_t and level_t.level_tier
+	if not level_tier then return end
+
+	local rad_mult = (has_alife_info("raid_event_rad_wind") and 1) or (has_alife_info("raid_event_rad_hurricane") and 2) or 0
+	if rad_mult <= 0 then return end
+
+	-- radiation hit
+	local h = hit()
+	h.type = hit.radiation
+	h.power = 0.01 * level_tier * rad_mult
+	h.impulse = 0
+	h.direction = VEC_Z
+	h.draftsman = db.actor
+end
+
+function squad_on_first_update(squad)
+	local t = raid_events.raid_event_squads[squad.id]
+	if not (t and t.cur_target) then return end
+
+	-- load patrol
+	squad.idle_time = 0
+	if (not squad.scripted_target) or squad.scripted_target ~= t.cur_target then
+		squad.scripted_target = t.cur_target
+	end
+end
+
+function squad_on_update(squad)
+	local t = raid_events.raid_event_squads[squad.id]
+	if not (t and t.start_smart and t.end_smart) then return end
+
+	-- make it patrol from smart to smart
+	local cur_target_name = t.cur_target
+	local cur_target = cur_target_name and SIMBOARD.smarts_by_names[cur_target_name]
+	local dist_to = cur_target and squad.position:distance_to(cur_target.position)
+	if dist_to and dist_to < 30 then
+
+		if cur_target_name == t.start_smart then
+			squad.scripted_target = t.end_smart
+			raid_events.raid_event_squads[squad.id].cur_target = t.end_smart
+		elseif cur_target_name == t.end_smart then
+			squad.scripted_target = t.start_smart
+			raid_events.raid_event_squads[squad.id].cur_target = t.start_smart
+		end
+	end
+
+end
+
+function squad_on_npc_death(squad, se_obj, killer)
+	local is_cont_squad = string.find(squad:section_name(), "psi_horde_controller")
+	local cont_killed = is_cont_squad and string.find(se_obj:section_name(), "controller")
+	if not cont_killed then return end
+
+	-- controller killed - kill all zombies
+	for i = 1, 65534 do
+		local sq = alife_object(i)
+		if sq and sq.commander_id and string.find(sq:section_name(), "psi_horde") then
+			for m in squad:squad_members() do
+				local se_member = alife_object(m.id)
+				if se_member and se_member:alive() then
+					-- kill zombie
+					se_member:kill()
+				end
+			end
+		end
+	end
+
+end
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+
+
+function pr(...)
+	if not raid_tables.raid_events_dbg then return end
+	printf(...)
+end
+
+function on_game_start()
+	RegisterScriptCallback("on_enemy_eval", on_enemy_eval)
+	RegisterScriptCallback("npc_on_before_hit", npc_on_before_hit)
+	RegisterScriptCallback("actor_on_update", rad_events_on_update)
+	RegisterScriptCallback("squad_on_first_update", squad_on_first_update)
+	RegisterScriptCallback("squad_on_update", squad_on_update)
+	RegisterScriptCallback("squad_on_npc_death", squad_on_npc_death)
+end

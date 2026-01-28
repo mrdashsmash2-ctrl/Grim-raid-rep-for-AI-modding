@@ -1,0 +1,149 @@
+play_time_minutes_ = 0
+raid_play_time_minutes_ = 0
+play_time_hours_ = 0
+raid_play_time_hours_ = 0
+count_raids_ = 0
+count_raids_by_tier_ = {0, 0, 0, 0}
+
+	
+local inited_time = 0
+
+raid_prev_level = raid_utils.raid_home_level
+
+local tmr = 0
+function actor_on_update()
+	local tg = time_global()
+	if tmr > tg then return end
+	tmr = tg + 1000
+	
+	if (inited_time == 0) then
+		inited_time = game.get_game_time()
+	end
+	
+	local diff_sec = math.ceil(game.get_game_time():diffSec(inited_time)/level.get_time_factor())
+	if (diff_sec > 60) then
+		play_time_minutes_ = play_time_minutes_ + 1
+		inited_time = game.get_game_time()
+
+		if (play_time_minutes_ >= 60) then
+			play_time_minutes_ = 0
+			play_time_hours_ = play_time_hours_ + 1
+		end
+		
+		if (raid_utils.raid_home_level ~= level.name()) then
+			raid_play_time_minutes_ = raid_play_time_minutes_ + 1
+	
+			if (raid_play_time_minutes_ >= 60) then
+				raid_play_time_minutes_ = 0
+				raid_play_time_hours_ = raid_play_time_hours_ + 1
+			end
+		end
+	end
+end
+		
+function actor_on_first_update()
+	-- returned home
+	if (raid_prev_level ~= level.name()) and (level.name() == raid_utils.raid_home_level) then					
+		if (raid_simulation.raid_sim_t[raid_prev_level] ~= nil) then
+			count_raids_ = count_raids_ + 1
+
+			local tier = raid_simulation.raid_sim_t[raid_prev_level].level_tier
+			count_raids_by_tier_[tier] = count_raids_by_tier_[tier] + 1
+		end		
+	end
+	
+	raid_prev_level = level.name()
+end
+
+function raid_part_play_time_(is_raid)
+	if (play_time_minutes_ == 0) then return 0 end
+	local part_raid = (raid_play_time_minutes_ + (raid_play_time_hours_ * 60)) / (play_time_minutes_ + (play_time_hours_ * 60)) * 100
+	if (is_raid == true) then 
+		return math.floor(part_raid + 0.5)
+	else
+		return (100 - math.floor(part_raid + 0.5))
+	end
+end
+
+function get_part_count_raids_by_tier_(tier)
+	if (count_raids_ == 0) then return 0 end
+	local part_raid_by_tier_ = (count_raids_by_tier_[tier] / count_raids_) * 100
+	return math.floor(part_raid_by_tier_ + 0.5) 
+end
+
+function squad_on_npc_death(squad, se_obj, se_killer)
+	local ac_is_killer = se_killer.id == 0
+	local comp_is_killer = level.object_by_id(se_killer.id) and level.object_by_id(se_killer.id):has_info("npcx_is_companion")
+	if not (ac_is_killer or comp_is_killer) then return end
+	
+	local lvl_name = alife():level_name(game_graph():vertex(alife():actor().m_game_vertex_id):level_id())
+	
+	if IsStalker(se_obj) then
+		local stalker_comm = se_obj:community()
+		local killer_comm = se_killer:community()
+		
+		if (killer_comm) and (stalker_comm and stalker_comm == "stalker") then
+            raid_tasks_main.raid_tasks_t["stalker"].goodwill = raid_tasks_main.raid_tasks_t["stalker"].goodwill - raid_tables.raid_loss_reputation_trader_when_kill
+            news_manager.send_tip(db.actor, "encyclopedia__notes__reputation_stalker_deteriorated", nil, "chuzhie_zaslugi", nil, nil)
+            if (lvl_name == "l10_radar") then raid_tasks_main.raid_tasks_t["stalker"].goodwill = raid_tasks_main.raid_tasks_t["stalker"].goodwill - raid_tables.raid_loss_reputation_trader_when_kill * 1.25 end
+        end
+        if (killer_comm) and (stalker_comm and stalker_comm == "dolg") then
+            raid_tasks_main.raid_tasks_t["duty"].goodwill = raid_tasks_main.raid_tasks_t["duty"].goodwill - raid_tables.raid_loss_reputation_trader_when_kill
+            news_manager.send_tip(db.actor, "encyclopedia__notes__reputation_duty_deteriorated", nil, "chuzhie_zaslugi", nil, nil)
+            if (lvl_name == "l10_radar") then raid_tasks_main.raid_tasks_t["duty"].goodwill = raid_tasks_main.raid_tasks_t["duty"].goodwill - raid_tables.raid_loss_reputation_trader_when_kill * 1.25 end            
+        end
+        if (killer_comm) and (stalker_comm and stalker_comm == "freedom") then
+            raid_tasks_main.raid_tasks_t["freedom"].goodwill = raid_tasks_main.raid_tasks_t["freedom"].goodwill - raid_tables.raid_loss_reputation_trader_when_kill
+            news_manager.send_tip(db.actor, "encyclopedia__notes__reputation_freedom_deteriorated", nil, "chuzhie_zaslugi", nil, nil)
+            if (lvl_name == "l10_radar") then raid_tasks_main.raid_tasks_t["freedom"].goodwill = raid_tasks_main.raid_tasks_t["freedom"].goodwill - raid_tables.raid_loss_reputation_trader_when_kill * 1.25 end            
+        end
+		if (killer_comm) and (stalker_comm and stalker_comm == "ecolog") then
+            raid_tasks_main.raid_tasks_t["ecolog"].goodwill = raid_tasks_main.raid_tasks_t["ecolog"].goodwill - raid_tables.raid_loss_reputation_trader_when_kill
+            news_manager.send_tip(db.actor, "encyclopedia__notes__reputation_ecolog_deteriorated", nil, "chuzhie_zaslugi", nil, nil)
+            if (lvl_name == "l10_radar") then raid_tasks_main.raid_tasks_t["ecolog"].goodwill = raid_tasks_main.raid_tasks_t["ecolog"].goodwill - raid_tables.raid_loss_reputation_trader_when_kill * 1.50 end            
+        end
+        if (killer_comm) and (stalker_comm and stalker_comm == "csky") then
+            raid_tasks_main.raid_tasks_t["stalker"].goodwill = raid_tasks_main.raid_tasks_t["stalker"].goodwill - raid_tables.raid_loss_reputation_trader_when_kill
+            news_manager.send_tip(db.actor, "encyclopedia__notes__reputation_stalker_deteriorated", nil, "chuzhie_zaslugi", nil, nil)
+            if (lvl_name == "l10_radar") then raid_tasks_main.raid_tasks_t["stalker"].goodwill = raid_tasks_main.raid_tasks_t["stalker"].goodwill - raid_tables.raid_loss_reputation_trader_when_kill * 1.25 end            
+        end    
+	end
+end
+
+function save_state(m)
+    m.play_time_minutes_ = play_time_minutes_
+    m.raid_play_time_minutes_ = raid_play_time_minutes_	
+    m.play_time_hours_ = play_time_hours_
+	m.raid_play_time_hours_ = raid_play_time_hours_
+	m.count_raids_ = count_raids_
+	m.raid_prev_level = raid_prev_level
+
+	m.count_raids_by_tier_ = {}
+	for tier = 1, 4 do	
+		m.count_raids_by_tier_[tier] = count_raids_by_tier_[tier]
+	end
+end
+
+function load_state(m)
+    play_time_minutes_ = m.play_time_minutes_ or 1
+	raid_play_time_minutes_ = m.raid_play_time_minutes_ or 0		
+    play_time_hours_ = m.play_time_hours_ or 0
+    raid_play_time_hours_ = m.raid_play_time_hours_ or 0
+    count_raids_ = m.count_raids_ or 0
+    raid_prev_level = m.raid_prev_level or raid_utils.raid_home_level
+
+	if(m.count_raids_by_tier_) then
+		for tier = 1, 4 do		
+			count_raids_by_tier_[tier] = m.count_raids_by_tier_[tier] or count_raids_by_tier_[tier]
+		end
+	end	
+end
+
+function on_game_start()
+    RegisterScriptCallback("save_state", save_state)
+    RegisterScriptCallback("load_state", load_state)
+    RegisterScriptCallback("actor_on_update", actor_on_update)
+	RegisterScriptCallback("actor_on_first_update", actor_on_first_update)
+	RegisterScriptCallback("squad_on_npc_death", squad_on_npc_death)
+	
+end

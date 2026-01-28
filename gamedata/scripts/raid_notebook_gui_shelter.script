@@ -1,0 +1,379 @@
+-- shelter notebook menu
+-- buy and spawn upgrades
+
+local gt = game.translate_string
+local RaidNotebook = raid_notebook_gui.RaidNotebook
+
+local ctime_to_t = utils_data.CTime_to_table
+local t_to_ctime = utils_data.CTime_from_table
+
+-- do not touch "active"
+-- "req" is index
+raid_shelter_upgrades = {
+	{ active = false, 	name = "bed", 	cost = 15000, 	func = "spawn_bed" },																																											  
+	{ active = false, 	name = "workbench", 	cost = 30000, 	func = "spawn_workbench" },
+	{ active = false, 	name = "mechanic", 	cost = 40000, 	func = "spawn_mechanic", 	req = 2 },																	   
+	{ active = false,	name = "medic",	cost = 30000,	func = "spawn_medic" },
+	{ active = false,	name = "butcher",	cost = 20000,	func = "spawn_butcher" },
+	{ active = false, 	name = "clock", 	cost = 100000, 	func = "spawn_clock_and_give_info" },
+	{ active = false, 	name = "btr", 		cost = 80000, 		func = "spawn_btr_restrictor" },
+	{ active = false, 	name = "heli", 		cost = 160000, 	func = "spawn_heli_radio" },
+}
+
+
+function RaidNotebook:BuildShelterMenu()
+	local xml = self.xml
+
+	self.shelter_menu_cont = xml:InitStatic("shelter_menu_cont", self.bg)
+	self.shelter_menu_cont:Show(false)
+
+	-- scroll
+	self.shelter_scroll = xml:InitScrollView("shelter_menu_cont:shelter_scrollbar", self.shelter_menu_cont)
+
+	-- scroll cont
+	self.shelter_scroll_cont = xml:InitStatic("shelter_menu_cont:scroll_cont", self.shelter_scroll)
+	self.shelter_scroll_cont:SetAutoDelete(false)
+
+	self.shelter_cont_y_gap = 30
+	for i = 1, #raid_shelter_upgrades do
+		self.shelter_conts[i] = {}
+
+		-- cont and its position
+		self.shelter_conts[i].cont = xml:InitStatic("shelter_menu_cont:cont", self.shelter_scroll_cont)
+
+		local pos = self.shelter_conts[i].cont:GetWndPos()
+		local height = self.shelter_conts[i].cont:GetHeight()
+		local new_y = pos.y + (height + self.shelter_cont_y_gap) * (i - 1)
+		self.shelter_conts[i].cont:SetWndPos(vector2():set(pos.x, new_y))
+
+		-- icon
+		self.shelter_conts[i].icon = xml:InitStatic("shelter_menu_cont:cont:icon", self.shelter_conts[i].cont)
+		local texture = "raid_shelter_upgrade_icon_" .. raid_shelter_upgrades[i].name
+		self.shelter_conts[i].icon:InitTexture(texture)
+
+		-- title
+		self.shelter_conts[i].title = xml:InitTextWnd("shelter_menu_cont:cont:title", self.shelter_conts[i].cont)
+		local title_str = gt("st_raid_shelter_upgrade_" .. raid_shelter_upgrades[i].name .. "_title")
+		self.shelter_conts[i].title:SetText(title_str)
+
+		-- descr
+		self.shelter_conts[i].descr = xml:InitTextWnd("shelter_menu_cont:cont:descr", self.shelter_conts[i].cont)
+		local descr_str = gt("st_raid_shelter_upgrade_" .. raid_shelter_upgrades[i].name .. "_descr")
+		self.shelter_conts[i].descr:SetText(gt(descr_str))
+
+		-- requirements
+		self.shelter_conts[i].req = xml:InitTextWnd("shelter_menu_cont:cont:req", self.shelter_conts[i].cont)
+
+		-- btn
+		self.shelter_conts[i].btn = xml:Init3tButton("shelter_menu_cont:cont:btn", self.shelter_conts[i].cont)
+		local btn_str = string.format(gt("st_raid_shelter_upgrade_buy"), raid_shelter_upgrades[i].cost)
+		self.shelter_conts[i].btn:TextControl():SetText(btn_str)
+		self:Register(self.shelter_conts[i].btn, "shelter_buy_btn_" .. i)
+	end
+
+
+	-- resize scroll cont
+	local shelter_cont_height = self.shelter_conts[1].cont:GetHeight()
+	local scroll_cont_width = self.shelter_scroll_cont:GetWidth()
+	self.shelter_scroll_cont:SetWndSize(vector2():set(scroll_cont_width, #raid_shelter_upgrades * (shelter_cont_height + self.shelter_cont_y_gap) ))
+
+	-- add container to scroll
+	self.shelter_scroll:Clear()
+	self.shelter_scroll:AddWindow(self.shelter_scroll_cont, true)
+	self.shelter_scroll_cont:SetAutoDelete(false)
+
+
+	self:UpdateShelterMenu()
+end
+
+function RaidNotebook:UpdateShelterMenu()
+	for i = 1, #raid_shelter_upgrades do
+		-- disable/enable button if enough money
+		local has_money = db.actor:money() > raid_shelter_upgrades[i].cost
+		self.shelter_conts[i].btn:Enable(has_money)
+
+		-- disable button based on requirements and set text
+		if raid_shelter_upgrades[i].req then
+			self.shelter_conts[i].req:SetText("")
+			local req_name = raid_shelter_upgrades[raid_shelter_upgrades[i].req].name
+			local req_active = raid_shelter_upgrades[raid_shelter_upgrades[i].req].active
+
+			if not req_active then
+				local str1 = gt("st_raid_shelter_upgrade_required")
+				local str2 = gt("st_raid_shelter_upgrade_" .. req_name .. "_title")
+				self.shelter_conts[i].req:SetText(str1 .. " " .. str2)
+				self.shelter_conts[i].btn:Enable(false)
+			end
+		end
+
+		-- disable button and update text if bought
+		if raid_shelter_upgrades[i].active then
+			self.shelter_conts[i].req:SetText("")
+			self.shelter_conts[i].btn:TextControl():SetText(gt("st_raid_shelter_upgrade_bought"))
+			self.shelter_conts[i].btn:Enable(false)
+		end
+	end
+
+end
+
+function RaidNotebook:OnBuyUpgrade(i)
+	-- buy upgrade
+	if db.actor:money() > raid_shelter_upgrades[i].cost then
+		-- take money and make it bought
+		db.actor:give_money(-raid_shelter_upgrades[i].cost)
+		raid_shelter_upgrades[i].active = true
+
+		-- exec
+		this[raid_shelter_upgrades[i].func]()		
+	end
+
+	self:UpdateShelterMenu()
+end
+
+
+------------------------------------------------------------------
+------------------------------------------------------------------
+function spawn_heli_radio()
+	-- table
+	local tabl = alife_create("raid_shelter_upgrade_radio_table", vector():set(622.09, -43.31, 188.73), 2^32-1, 2533)
+	tabl.angle = vector():set(0, -0.1, 0)
+
+	-- lamp
+	local lamp = alife_create("raid_shelter_upgrade_radio_lamp", vector():set(621.37, -41.12, 188.55), 2^32-1, 2533)
+	lamp.angle = vector():set(0, -0.1, 1.57)
+	local data = utils_stpk.get_lamp_data(lamp)
+	if data then
+		data.light_flags = 42
+		data.main_color = 4294871058
+		data.lamp_fixed_bones = "link"
+		data.ambient_power = 0.20000000298023
+		data.main_bone = "bone_lamp"
+		data.ambient_radius = 2
+		data.startup_animation = "$editor"
+		data.main_brightness = 0.60000002384186
+		data.main_range = 3		--6
+		data.ambient_bone = "bone_omni"
+		utils_stpk.set_lamp_data(data, lamp)
+	end
+
+	-- radio
+	local radio = alife_create("raid_shelter_upgrade_radio", vector():set(622.09, -42.34, 188.74), 2^32-1, 2533)
+	radio.angle = vector():set(0, 1.47, 0)
+
+	local data = utils_stpk.get_physic_data(radio)
+	data.custom_data = [[
+[collide]
+ignore_static
+ignore_small_objects
+
+[logic]
+cfg = scripts\raid_shelter_heli_logic.ltx
+]]
+	utils_stpk.set_physic_data(data, radio)
+end
+
+function spawn_btr_restrictor()
+	local btr = alife_create("raid_shelter_upgrade_btr", vector():set(630.54, -43.82, 180.84), 2^32-1, 2533)		--630.84
+
+	local data = utils_stpk.get_physic_data(btr)
+	data.custom_data = [[
+[collide]
+ignore_static
+ignore_small_objects
+
+[logic]
+cfg = scripts\raid_shelter_btr_logic.ltx
+]]
+	utils_stpk.set_physic_data(data, btr)
+end
+
+function spawn_clock_and_give_info()
+	local cont = alife_create("raid_shelter_upgrade_konteyner", vector():set(651.23, -44.16, 187.33), 2^32-1, 2529)
+	cont.angle = vector():set(0, -3.14, 0)
+
+	local upg_clock = alife_create("raid_shelter_upgrade_clock", vector():set(651.15, -42.53, 187.4), 2^32-1, 2529)
+	upg_clock.angle = vector():set(0, 1.57, 0)
+
+	give_info("raid_upgrade_clock")
+end
+
+function spawn_workbench()
+	local workbench = alife_create("raid_shelter_upgrade_workbench", vector():set(647.0, -43.88, 187.4), 2^32-1, 2533)
+
+	local data = utils_stpk.get_physic_data(workbench)
+	data.custom_data = [[
+[collide]
+ignore_static
+ignore_small_objects
+
+[logic]
+cfg = scripts\raid_shelter_workbench_logic.ltx
+]]
+	utils_stpk.set_physic_data(data, workbench)
+
+
+	local goggles = alife_create("raid_shelter_upgrade_w_goggles", vector():set(646.67, -42.97, 187.24), 2^32-1, 2533)
+	goggles.angle = vector():set(0, -2.72, 0)
+
+	local riffler = alife_create("raid_shelter_upgrade_w_riffler", vector():set(646.73, -42.95, 187.63), 2^32-1, 2533)
+	riffler.angle = vector():set(0.01745, 1.57, 0)
+
+	local tiski = alife_create("raid_shelter_upgrade_w_tiski", vector():set(647.01, -42.97, 187.11), 2^32-1, 2533)
+
+	local wire = alife_create("raid_shelter_upgrade_w_wire", vector():set(647.28, -42.97, 187.59), 2^32-1, 2533)
+
+	local box = alife_create("raid_shelter_upgrade_w_box", vector():set(647.6, -42.97, 187.54), 2^32-1, 2533)
+	box.angle = vector():set(0, 2.13, 0)
+
+	local key = alife_create("raid_shelter_upgrade_w_key", vector():set(647.37, -42.97, 187.26), 2^32-1, 2533)
+	key.angle = vector():set(0, -2.65, 0)
+
+	local resistors = alife_create("raid_shelter_upgrade_w_resistors", vector():set(646.39, -42.90, 187.23), 2^32-1, 2533)
+	resistors.angle = vector():set(0, 1.57, 0)
+
+	local condensers = alife_create("raid_shelter_upgrade_w_condensers", vector():set(646.39, -42.97, 187.23), 2^32-1, 2533)
+	condensers.angle = vector():set(0, 1.57, 0)
+end
+
+function spawn_mechanic()
+	local smart = SIMBOARD.smarts_by_names["rad2_prip_teleport"]
+	SIMBOARD:create_squad(smart, "raid_mechanic_squad")
+end
+
+function spawn_bed()
+	local sleepbag = get_story_se_item("raid_shelter_sleepbag")
+	if sleepbag then
+		alife_release(sleepbag)
+	end
+
+	local bed = alife_create("raid_shelter_upgrade_bed", vector():set(661.74, -43.88, 176.02), 2^32-1, 2529)
+	bed.angle = vector():set(0, 1.57, 0)
+	local data = utils_stpk.get_physic_data(bed)
+	data.custom_data = [[
+[collide]
+ignore_static
+ignore_small_objects
+
+[logic]
+cfg = scripts\ph_sleepbag.ltx
+]]
+	utils_stpk.set_physic_data(data, bed)
+end
+
+function spawn_medic()
+	local smart = SIMBOARD.smarts_by_names["rad2_prip_teleport"]
+	SIMBOARD:create_squad(smart, "raid_medic_squad")
+
+	local medic_table = alife_create("raid_shelter_upgrade_medic_table", vector():set(657.56, -43.89, 183.44), 2^32-1, 2533)
+	medic_table.angle = vector():set(0, 1.57, 0)
+
+--	local medic_kolba = alife_create("raid_shelter_upgrade_medic_kolba1", vector():set(657.83, -42.92, 183.57), 2^32-1, 2533)
+--	medic_kolba.angle = vector():set(0, 0, 0)
+
+	local medic_kolba2 = alife_create("raid_shelter_upgrade_medic_kolba2", vector():set(657.60, -42.92, 183.57), 2^32-1, 2533)
+	medic_kolba2.angle = vector():set(0, 0, 0)
+
+	local medic_wire = alife_create("raid_shelter_upgrade_medic_wire", vector():set(657.77, -42.92, 183.35), 2^32-1, 2533)
+	medic_wire.angle = vector():set(0, 0, 0)
+
+	local medic_bag = alife_create("raid_shelter_upgrade_medic_bag", vector():set(657.45, -42.93, 183.29), 2^32-1, 2533)
+	medic_bag.angle = vector():set(0, -0.366, 0)
+
+	local medic_pills = alife_create("raid_shelter_upgrade_medic_pills", vector():set(657.33, -42.92, 183.55), 2^32-1, 2533)
+	medic_pills.angle = vector():set(0, 0.75, 0)
+end
+
+function spawn_butcher()
+	local smart = SIMBOARD.smarts_by_names["rad2_prip_teleport"]
+	SIMBOARD:create_squad(smart, "raid_butcher_squad")
+
+	local butcher_table = alife_create("raid_shelter_upgrade_butcher_table", vector():set(640.82, -43.90, 187.40), 2^32-1, 2533)
+	butcher_table.angle = vector():set(0, 1.17, 0)
+
+	local butcher_ckit = alife_create("raid_shelter_upgrade_butcher_ckit", vector():set(640.98, -43.00, 186.96), 2^32-1, 2533)
+	butcher_ckit.angle = vector():set(0, 0.49, 0)
+
+	local butcher_tail = alife_create("raid_shelter_upgrade_butcher_tail", vector():set(641.12, -43.01, 187.20), 2^32-1, 2533)
+	butcher_tail.angle = vector():set(0, 0.73, 0)
+
+	local butcher_leg = alife_create("raid_shelter_upgrade_butcher_leg", vector():set(641.11, -42.88, 187.61), 2^32-1, 2533)
+	butcher_leg.angle = vector():set(0.1, 2.688, -1.83)
+
+	local butcher_banka = alife_create("raid_shelter_upgrade_butcher_banka", vector():set(641.48, -43.15, 188.35), 2^32-1, 2533)
+	butcher_banka.angle = vector():set(0, 0, 0)
+
+	local butcher_kastrula = alife_create("raid_shelter_upgrade_butcher_kastrula", vector():set(640.92, -43.15, 188.35), 2^32-1, 2533)
+	butcher_kastrula.angle = vector():set(0, 0, 0)
+
+--	local butcher_head = alife_create("raid_shelter_upgrade_butcher_head", vector():set(640.97, -43.20, 187.94), 2^32-1, 2533)
+--	butcher_head.angle = vector():set(-0.995, 0, 0)
+end
+
+
+------------------------------------------------------------------
+------------------------------------------------------------------
+
+-- sleep bed bonus
+local stam_tmr = 0
+local stamina_bonus_time
+function actor_on_sleep(hours)
+	if level.name() ~= raid_utils.raid_home_level then return end
+
+	-- find bed nearby
+	local function itr_func(obj)
+		if obj and obj.section and obj:section() == "raid_shelter_upgrade_bed" then
+			local cur_time = game.get_game_time()
+			stamina_bonus_time = ctime_to_t(cur_time)
+		end
+	end
+	level.iterate_nearest(db.actor:position(), 20, itr_func)
+end
+
+function actor_on_update()
+	if not stamina_bonus_time then return end
+
+	local tg = time_global()
+	if stam_tmr > tg then return end
+	stam_tmr = tg + 500
+
+--	printf("stamina check left min: %s", ( 10800 - game.get_game_time():diffSec(t_to_ctime(stamina_bonus_time)) ) / 60)
+	db.actor.power = db.actor.power + 0.005
+
+	local cur_time = game.get_game_time()
+	if cur_time:diffSec(t_to_ctime(stamina_bonus_time)) > 10800 then
+		stamina_bonus_time = nil
+	end
+end
+
+-------------------------
+
+------------------------------------------------------------------
+------------------------------------------------------------------
+function save_state(m_data)
+	m_data.raid_stamina_bonus_time = stamina_bonus_time
+
+	if not m_data.raid_shelter_upgrades then
+		m_data.raid_shelter_upgrades = {}
+	end
+
+	for i, t in ipairs(raid_shelter_upgrades) do
+		m_data.raid_shelter_upgrades[i] = { active=t.active, name=t.name, cost=t.cost, func=t.func, req=t.req }
+	end
+end
+
+function load_state(m_data)
+	stamina_bonus_time = m_data.raid_stamina_bonus_time or nil
+
+	if m_data.raid_shelter_upgrades then
+		for i, t in ipairs(m_data.raid_shelter_upgrades) do
+			raid_shelter_upgrades[i] = { active=t.active, name=t.name, cost=t.cost, func=t.func, req=t.req }
+		end
+	end
+end
+
+function on_game_start()
+	RegisterScriptCallback("save_state", save_state)
+	RegisterScriptCallback("load_state", load_state)
+	RegisterScriptCallback("actor_on_sleep", actor_on_sleep)
+	RegisterScriptCallback("actor_on_update", actor_on_update)
+end
