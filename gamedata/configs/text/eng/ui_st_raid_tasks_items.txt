@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+	<string id="st_raid_delivery_1_name">
+		<text>item_1</text>
+	</string>
+	<string id="st_raid_delivery_1_descr">
+		<text>null</text>
+	</string>
+
+	<string id="st_raid_delivery_2_name">
+		<text>item_2</text>
+	</string>
+	<string id="st_raid_delivery_2_descr">
+		<text>null</text>
+	</string>
+
+	<string id="st_raid_delivery_3_name">
+		<text>item_3</text>
+	</string>
+	<string id="st_raid_delivery_3_descr">
+		<text>null</text>
+	</string>
+
+	<string id="st_raid_delivery_4_name">
+		<text>item_4</text>
+	</string>
+	<string id="st_raid_delivery_4_descr">
+		<text>null</text>
+	</string>
+
+	<string id="st_raid_delivery_5_name">
+		<text>item_5</text>
+	</string>
+	<string id="st_raid_delivery_5_descr">
+		<text>null</text>
+	</string>
+
+	<string id="st_raid_delivery_6_name">
+		<text>item_6</text>
+	</string>
+	<string id="st_raid_delivery_6_descr">
+		<text>null</text>
+	</string>
+
+	<string id="st_raid_delivery_7_name">
+		<text>item_7</text>
+	</string>
+	<string id="st_raid_delivery_7_descr">
+		<text>null</text>
+	</string>
+
+	<string id="st_raid_delivery_8_name">
+		<text>item_8</text>
+	</string>
+	<string id="st_raid_delivery_8_descr">
+		<text>null</text>
+	</string>
+
+	<string id="st_raid_delivery_9_name">
+		<text>item_9</text>
+	</string>
+	<string id="st_raid_delivery_9_descr">
+		<text>null</text>
+	</string>
+
+	<string id="st_raid_delivery_10_name">
+		<text>item_10</text>
+	</string>
+	<string id="st_raid_delivery_10_descr">
+		<text>null</text>
+	</string>
+
+	<string id="st_raid_delivery_11_name">
+		<text>item_11</text>
+	</string>
+	<string id="st_raid_delivery_11_descr">
+		<text>null</text>
+	</string>
+
+	<string id="st_raid_delivery_mines_name">
+		<text>mines</text>
+	</string>
+	<string id="st_raid_delivery_mines_descr">
+		<text>null</text>
+	</string>
+
+</string_table>

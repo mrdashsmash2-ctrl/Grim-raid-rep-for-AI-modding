@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+	<string id="ui_mcm_raidx_title">
+		<text>Raid</text>
+	</string>
+	<string id="ui_mcm_menu_raidx">
+		<text>Raid</text>
+	</string>
+
+		<!-- MAIN -->
+	<string id="ui_mcm_raidx_campfire_saves">
+		<text>Enable campfire saving</text>
+	</string>
+	<string id="ui_mcm_raidx_campfire_saves_desc">
+		<text>Allows you to save near the campfires.</text>
+	</string>
+
+	<string id="ui_mcm_raidx_insurance_percent">
+		<text>Informant insurance %</text>
+	</string>
+	<string id="ui_mcm_raidx_insurance_percent_desc">
+		<text>Chance to save items in slots after buying "insurance" from informant.</text>
+	</string>
+
+	<string id="ui_mcm_raidx_keep_items_on_death">
+		<text>Keep items on death</text>
+	</string>
+	<string id="ui_mcm_raidx_keep_items_on_death_desc">
+		<text>The number of items guaranteed to remain after death.</text>
+	</string>
+
+	<string id="ui_mcm_raidx_rank_loss_on_death">
+		<text>Rank points loss on death %</text>
+	</string>
+
+	<string id="ui_mcm_raidx_simulation_spawn_mult">
+		<text>Simulation spawn multiplier</text>
+	</string>
+
+</string_table>

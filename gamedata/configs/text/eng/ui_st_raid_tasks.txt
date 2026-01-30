@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+	<!-- task titles -->
+	<string id="st_raid_task_title_tier">
+		<text>Task tier:</text>
+	</string>
+	<string id="st_raid_task_title_urgency">
+		<text>Time:</text>
+	</string>
+	<string id="st_raid_task_title_level">
+		<text>Level:</text>
+	</string>
+	<string id="st_raid_task_title_type">
+		<text>Task type:</text>
+	</string>
+	<string id="st_raid_task_title_reward">
+		<text>Reward</text>
+	</string>
+	<string id="st_raid_task_title_penalties">
+		<text>Penalty</text>
+	</string>
+
+	<string id="st_raid_task_title_reward_money">
+		<text>Money:</text>
+	</string>
+	<string id="st_raid_task_title_reward_items">
+		<text>Items:</text>
+	</string>
+	<string id="st_raid_task_title_reward_rank">
+		<text>Rank:</text>
+	</string>
+	<string id="st_raid_task_title_reward_goodwill">
+		<text>Goodwill:</text>
+	</string>
+	<string id="st_raid_task_title_reward_goodwill_penalty">
+		<text>Goodwill of others:</text>
+	</string>
+	<string id="st_raid_task_title_reward_cost">
+		<text>Item cost</text>
+	</string>
+
+	<string id="st_raid_task_title_giver">
+		<text>Client</text>
+	</string>
+	<string id="st_raid_task_title_descr">
+		<text>Description</text>
+	</string>
+	<string id="st_raid_task_title_headreward">
+		<text>Reward</text>
+	</string>
+	<string id="st_raid_task_title_informant">
+		<text>Informant</text>
+	</string>
+	<string id="st_raid_task_title_details">
+		<text>Details</text>
+	</string>
+	<string id="st_raid_task_title_accept">
+		<text>Accept</text>
+	</string>
+
+	<string id="st_raid_task_urgency_1">
+		<text>Urgent (%s h.)</text>
+	</string>
+	<string id="st_raid_task_urgency_2">
+		<text>Standard (%s h.)</text>
+	</string>
+	<string id="st_raid_task_urgency_3">
+		<text>Not urgent (%s h.)</text>
+	</string>
+	<string id="st_raid_task_urgency_4">
+		<text>No limit (%s h.)</text>
+	</string>
+
+	<string id="st_raid_task_return">
+		<text>Return to the shelter</text>
+	</string>
+
+	<string id="st_raid_task_informant_btn_1">
+		<text>+%s Tasks on next reset %s ru</text>
+	</string>
+	<string id="st_raid_task_informant_btn_2">
+		<text>%s%% To keep equipped items on death %s ru</text>
+	</string>
+	<string id="st_raid_task_informant_btn_3">
+		<text>+%s Raid minutes %s ru</text>
+	</string>
+	<string id="st_raid_task_informant_btn_4">
+		<text>Sell stalker PDAs</text>
+	</string>
+	<string id="st_raid_task_informant_btn_5">
+		<text>Reset tasks (for test)</text>
+	</string>
+
+	<string id="st_raid_task_sold_pda_news">
+		<text>Sold PDA for %s ru</text>
+	</string>
+
+
+	<!-- task types -->
+	<string id="st_raid_task_delivery_in">
+		<text>Deliver item (to place)</text>
+	</string>
+	<string id="st_raid_task_delivery_out">
+		<text>Deliver item (from place)</text>
+	</string>
+	<string id="st_raid_task_delivery_out_world">
+		<text>Deliver item (from place)</text>
+	</string>
+	<string id="st_raid_task_delivery_mines">
+		<text>Mine area</text>
+	</string>
+
+	<string id="st_raid_task_scout">
+		<text>Scout</text>
+	</string>
+
+	<string id="st_raid_task_kill_stalker">
+		<text>Kill stalker</text>
+	</string>
+	<string id="st_raid_task_kill_stalker_squad">
+		<text>Kill stalker squad</text>
+	</string>
+	<string id="st_raid_task_kill_mutant_squad">
+		<text>Kill mutants</text>
+	</string>
+	<string id="st_raid_task_kill_strong_stalker_squad">
+		<text>Kill strong stalker squad</text>
+	</string>
+	<string id="st_raid_task_kill_strong_mutant_squad">
+		<text>Kill strong mutants</text>
+	</string>
+
+	<string id="st_raid_task_guide">
+		<text>Guide</text>
+	</string>
+	<string id="st_raid_task_evacuation">
+		<text>Evacuation</text>
+	</string>
+
+	<string id="st_raid_task_find_weapon">
+		<text>Find weapon</text>
+	</string>
+	<string id="st_raid_task_find_outfit">
+		<text>Find outfit</text>
+	</string>
+	<string id="st_raid_task_find_artefact">
+		<text>Find artefact</text>
+	</string>
+
+
+	<!-- task descr -->
+		<!-- stalker -->
+	<string id="st_raid_task_delivery_in_stalker_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_out_stalker_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_out_world_stalker_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_mines_stalker_descr">
+		<text>Mine area long description</text>
+	</string>
+
+	<string id="st_raid_task_scout_stalker_descr">
+		<text>Scout long description</text>
+	</string>
+
+	<string id="st_raid_task_kill_stalker_stalker_descr">
+		<text>Kill stalker long description</text>
+	</string>
+	<string id="st_raid_task_kill_stalker_squad_stalker_descr">
+		<text>Kill stalker squad long description</text>
+	</string>
+	<string id="st_raid_task_kill_mutant_squad_stalker_descr">
+		<text>Kill mutants long description</text>
+	</string>
+	<string id="st_raid_task_kill_strong_stalker_squad_stalker_descr">
+		<text>Kill strong stalker squad long description</text>
+	</string>
+	<string id="st_raid_task_kill_strong_mutant_squad_stalker_descr">
+		<text>Kill strong mutants long description</text>
+	</string>
+
+	<string id="st_raid_task_guide_stalker_descr">
+		<text>Guide long description</text>
+	</string>
+	<string id="st_raid_task_evacuation_stalker_descr">
+		<text>Evacuation long description</text>
+	</string>
+
+	<string id="st_raid_task_find_weapon_stalker_descr">
+		<text>Find weapon long description</text>
+	</string>
+	<string id="st_raid_task_find_outfit_stalker_descr">
+		<text>Find outfit long description</text>
+	</string>
+	<string id="st_raid_task_find_artefact_stalker_descr">
+		<text>Find artefact long description</text>
+	</string>
+
+		<!-- duty -->
+	<string id="st_raid_task_delivery_in_duty_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_out_duty_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_out_world_duty_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_mines_duty_descr">
+		<text>Mine area long description</text>
+	</string>
+
+	<string id="st_raid_task_scout_duty_descr">
+		<text>Scout long description</text>
+	</string>
+
+	<string id="st_raid_task_kill_stalker_duty_descr">
+		<text>Kill stalker long description</text>
+	</string>
+	<string id="st_raid_task_kill_stalker_squad_duty_descr">
+		<text>Kill stalker squad long description</text>
+	</string>
+	<string id="st_raid_task_kill_mutant_squad_duty_descr">
+		<text>Kill mutants long description</text>
+	</string>
+	<string id="st_raid_task_kill_strong_stalker_squad_duty_descr">
+		<text>Kill strong stalker squad long description</text>
+	</string>
+	<string id="st_raid_task_kill_strong_mutant_squad_duty_descr">
+		<text>Kill strong mutants long description</text>
+	</string>
+
+	<string id="st_raid_task_guide_duty_descr">
+		<text>Guide long description</text>
+	</string>
+	<string id="st_raid_task_evacuation_duty_descr">
+		<text>Evacuation long description</text>
+	</string>
+
+	<string id="st_raid_task_find_weapon_duty_descr">
+		<text>Find weapon long description</text>
+	</string>
+	<string id="st_raid_task_find_outfit_duty_descr">
+		<text>Find outfit long description</text>
+	</string>
+	<string id="st_raid_task_find_artefact_duty_descr">
+		<text>Find artefact long description</text>
+	</string>
+
+		<!-- freedom -->
+	<string id="st_raid_task_delivery_in_freedom_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_out_freedom_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_out_world_freedom_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_mines_freedom_descr">
+		<text>Mine area long description</text>
+	</string>
+
+	<string id="st_raid_task_scout_freedom_descr">
+		<text>Scout long description</text>
+	</string>
+
+	<string id="st_raid_task_kill_stalker_freedom_descr">
+		<text>Kill stalker long description</text>
+	</string>
+	<string id="st_raid_task_kill_stalker_squad_freedom_descr">
+		<text>Kill stalker squad long description</text>
+	</string>
+	<string id="st_raid_task_kill_mutant_squad_freedom_descr">
+		<text>Kill mutants long description</text>
+	</string>
+	<string id="st_raid_task_kill_strong_stalker_squad_freedom_descr">
+		<text>Kill strong stalker squad long description</text>
+	</string>
+	<string id="st_raid_task_kill_strong_mutant_squad_freedom_descr">
+		<text>Kill strong mutants long description</text>
+	</string>
+
+	<string id="st_raid_task_guide_freedom_descr">
+		<text>Guide long description</text>
+	</string>
+	<string id="st_raid_task_evacuation_freedom_descr">
+		<text>Evacuation long description</text>
+	</string>
+
+	<string id="st_raid_task_find_weapon_freedom_descr">
+		<text>Find weapon long description</text>
+	</string>
+	<string id="st_raid_task_find_outfit_freedom_descr">
+		<text>Find outfit long description</text>
+	</string>
+	<string id="st_raid_task_find_artefact_freedom_descr">
+		<text>Find artefact long description</text>
+	</string>
+
+		<!-- ecolog -->
+	<string id="st_raid_task_delivery_in_ecolog_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_out_ecolog_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_out_world_ecolog_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_mines_ecolog_descr">
+		<text>Mine area long description</text>
+	</string>
+
+	<string id="st_raid_task_scout_ecolog_descr">
+		<text>Scout long description</text>
+	</string>
+
+	<string id="st_raid_task_kill_stalker_ecolog_descr">
+		<text>Kill stalker long description</text>
+	</string>
+	<string id="st_raid_task_kill_stalker_squad_ecolog_descr">
+		<text>Kill stalker squad long description</text>
+	</string>
+	<string id="st_raid_task_kill_mutant_squad_ecolog_descr">
+		<text>Kill mutants long description</text>
+	</string>
+	<string id="st_raid_task_kill_strong_stalker_squad_ecolog_descr">
+		<text>Kill strong stalker squad long description</text>
+	</string>
+	<string id="st_raid_task_kill_strong_mutant_squad_ecolog_descr">
+		<text>Kill strong mutants long description</text>
+	</string>
+
+	<string id="st_raid_task_guide_ecolog_descr">
+		<text>Guide long description</text>
+	</string>
+	<string id="st_raid_task_evacuation_ecolog_descr">
+		<text>Evacuation long description</text>
+	</string>
+
+	<string id="st_raid_task_find_weapon_ecolog_descr">
+		<text>Find weapon long description</text>
+	</string>
+	<string id="st_raid_task_find_outfit_ecolog_descr">
+		<text>Find outfit long description</text>
+	</string>
+	<string id="st_raid_task_find_artefact_ecolog_descr">
+		<text>Find artefact long description</text>
+	</string>
+
+		<!-- other -->
+	<string id="st_raid_task_delivery_in_other_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_out_other_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_out_world_other_descr">
+		<text>Deliver item long description</text>
+	</string>
+	<string id="st_raid_task_delivery_mines_other_descr">
+		<text>Mine area long description</text>
+	</string>
+
+	<string id="st_raid_task_scout_other_descr">
+		<text>Scout long description</text>
+	</string>
+
+	<string id="st_raid_task_kill_stalker_other_descr">
+		<text>Kill stalker long description</text>
+	</string>
+	<string id="st_raid_task_kill_stalker_squad_other_descr">
+		<text>Kill stalker squad long description</text>
+	</string>
+	<string id="st_raid_task_kill_mutant_squad_other_descr">
+		<text>Kill mutants long description</text>
+	</string>
+	<string id="st_raid_task_kill_strong_stalker_squad_other_descr">
+		<text>Kill strong stalker squad long description</text>
+	</string>
+	<string id="st_raid_task_kill_strong_mutant_squad_other_descr">
+		<text>Kill strong mutants long description</text>
+	</string>
+
+	<string id="st_raid_task_guide_other_descr">
+		<text>Guide long description</text>
+	</string>
+	<string id="st_raid_task_evacuation_other_descr">
+		<text>Evacuation long description</text>
+	</string>
+
+	<string id="st_raid_task_find_weapon_other_descr">
+		<text>Find weapon long description</text>
+	</string>
+	<string id="st_raid_task_find_outfit_other_descr">
+		<text>Find outfit long description</text>
+	</string>
+	<string id="st_raid_task_find_artefact_other_descr">
+		<text>Find artefact long description</text>
+	</string>
+
+
+	<!-- task short descr -->
+	<string id="st_raid_task_delivery_in_short_descr">
+		<text>Deliver item short descr</text>
+	</string>
+	<string id="st_raid_task_delivery_in_short_descr_2">
+		<text>Pick up the item</text>
+	</string>
+	<string id="st_raid_task_delivery_out_short_descr">
+		<text>Deliver item short descr</text>
+	</string>
+	<string id="st_raid_task_delivery_out_world_short_descr">
+		<text>Deliver item short descr</text>
+	</string>
+	<string id="st_raid_task_delivery_mines_short_descr">
+		<text>Mine area short descr</text>
+	</string>
+
+	<string id="st_raid_task_scout_short_descr">
+		<text>Scout short descr</text>
+	</string>
+
+	<string id="st_raid_task_kill_stalker_short_descr">
+		<text>Kill stalker short descr</text>
+	</string>
+	<string id="st_raid_task_kill_stalker_squad_short_descr">
+		<text>Kill stalker squad short descr</text>
+	</string>
+	<string id="st_raid_task_kill_mutant_squad_short_descr">
+		<text>Kill mutants short descr</text>
+	</string>
+	<string id="st_raid_task_kill_strong_stalker_squad_short_descr">
+		<text>Kill strong stalker squad short descr</text>
+	</string>
+	<string id="st_raid_task_kill_strong_mutant_squad_short_descr">
+		<text>Kill strong mutants short descr</text>
+	</string>
+
+	<string id="st_raid_task_guide_short_descr">
+		<text>Guide short descr</text>
+	</string>
+	<string id="st_raid_task_evacuation_short_descr">
+		<text>Evacuation short descr</text>
+	</string>
+
+	<string id="st_raid_task_find_weapon_short_descr">
+		<text>Find weapon short descr</text>
+	</string>
+	<string id="st_raid_task_find_outfit_short_descr">
+		<text>Find outfit short descr</text>
+	</string>
+	<string id="st_raid_task_find_artefact_short_descr">
+		<text>Find artefact short descr</text>
+	</string>
+
+
+	<!-- groups translation -->
+	<string id="st_raid_task_pkm_100">
+		<text>7.62x54 mm PP</text>
+	</string>
+	<string id="st_raid_task_magnum_300">
+		<text>.338 Lapua Magnum</text>
+	</string>
+	<string id="st_raid_task_357_hp">
+		<text>.357 HP</text>
+	</string>
+
+	<string id="st_raid_task_af_class_gravi">
+		<text>Gravitational</text>
+	</string>
+	<string id="st_raid_task_af_class_thermo">
+		<text>Thermal</text>
+	</string>
+	<string id="st_raid_task_af_class_chem">
+		<text>Chemical</text>
+	</string>
+	<string id="st_raid_task_af_class_electro">
+		<text>Electrical</text>
+	</string>
+
+	<string id="st_raid_task_pistol">
+		<text>Pistol</text>
+	</string>
+	<string id="st_raid_task_smg">
+		<text>SMG</text>
+	</string>
+	<string id="st_raid_task_shotgun">
+		<text>Shotgun</text>
+	</string>
+	<string id="st_raid_task_rifle">
+		<text>Rifle</text>
+	</string>
+	<string id="st_raid_task_sniper">
+		<text>Sniper rifle</text>
+	</string>
+	<string id="st_raid_task_o_light">
+		<text>Light outfit</text>
+	</string>
+	<string id="st_raid_task_o_medium">
+		<text>Medium armor</text>
+	</string>
+	<string id="st_raid_task_o_sci">
+		<text>Scientific outfit</text>
+	</string>
+	<string id="st_raid_task_o_heavy">
+		<text>Heavy armor</text>
+	</string>
+	<string id="st_raid_task_attach">
+		<text>Attachment</text>
+	</string>
+
+
+	<!-- secondary groups translation -->
+	<string id="st_raid_task_jartefact">
+		<text>Artefacts (junk)</text>
+	</string>
+	<string id="st_raid_task_artefact">
+		<text>Artefacts</text>
+	</string>
+	<string id="st_raid_task_food">
+		<text>Food</text>
+	</string>
+	<string id="st_raid_task_junk">
+		<text>Junk</text>
+	</string>
+	<string id="st_raid_task_medicine">
+		<text>Medicine</text>
+	</string>
+	<string id="st_raid_task_kit">
+		<text>Tools</text>
+	</string>
+	<string id="st_raid_task_repair">
+		<text>Repair</text>
+	</string>
+	<string id="st_raid_task_upgrade">
+		<text>Upgrades</text>
+	</string>
+	<string id="st_raid_task_helmet">
+		<text>Helmets</text>
+	</string>
+	<string id="st_raid_task_device">
+		<text>Devices</text>
+	</string>
+	<string id="st_raid_task_backpack">
+		<text>Backpacks</text>
+	</string>
+	<string id="st_raid_task_mutant_hide">
+		<text>Pelts</text>
+	</string>
+	<string id="st_raid_task_mutant_parts">
+		<text>Mutant parts</text>
+	</string>
+	<string id="st_raid_task_mutant_food">
+		<text>Mutant food</text>
+	</string>
+	<string id="st_raid_task_mutant_meat">
+		<text>Mutant meat</text>
+	</string>
+
+
+	<!-- news -->
+	<string id="st_raid_krug">
+		<text>•</text>
+	</string>
+	<string id="st_raid_reward_news">
+		<text>Reward for task</text>
+	</string>
+	<string id="st_faction_other">
+		<text>Third-party customers</text>
+	</string>
+
+</string_table>

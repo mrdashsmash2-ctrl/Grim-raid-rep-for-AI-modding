@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+
+	<string id="ui_mcm_raidx_title">
+		<text>Рейд во Мрак</text>
+	</string>
+	<string id="ui_mcm_menu_raidx">
+		<text>Рейд во Мрак</text>
+	</string>
+
+		<!-- MAIN -->
+	<string id="ui_mcm_raidx_campfire_saves">
+		<text>Включить опцию сохранения у костров.</text>
+	</string>
+	<string id="ui_mcm_raidx_campfire_saves_desc">
+		<text>Позволяет сохраняться у костров. При включенной опции так же работают консольные сохранения вида "save имя сохранения". Внимание! Рекомендуется отказаться от сохранений во время Рейда, так как это испортит Ваш опыт игры.</text>
+	</string>
+
+	<string id="ui_mcm_raidx_insurance_percent">
+		<text>Шанс успеха страховки Информатора, в %</text>
+	</string>
+	<string id="ui_mcm_raidx_insurance_percent_desc">
+		<text>Шанс сохранения надетых предметов в инвентаре после покупки "страховки" у Информатора.</text>
+	</string>
+
+	<string id="ui_mcm_raidx_keep_items_on_death">
+		<text>Количество предметов, которые сохраняются после смерти</text>
+	</string>
+	<string id="ui_mcm_raidx_keep_items_on_death_desc">
+		<text>Процент надетых предметов, гарантированно сохраняющихся в инвентаре после смерти. Например при значении 60% из 10 предметов у Вас останется 6 случайных предметов.</text>
+	</string>
+
+	<string id="ui_mcm_raidx_rank_loss_on_death">
+		<text>Потеря очков ранга при смерти, в %</text>
+	</string>
+	<string id="ui_mcm_raidx_rank_loss_on_death_desc">
+		<text>Процент теряемого ранга при смерти. Влияет на прогресс развития персонажа.</text>
+	</string>
+
+	<string id="ui_mcm_raidx_simulation_spawn_mult">
+		<text>Множитель спавна симуляции.</text>
+	</string>
+	<string id="ui_mcm_raidx_simulation_spawn_mult_desc">
+		<text>По умолчанию 100% означает работу исходных конфигов симуляции. Для ощутимой разницы меняйте значения на 20-50%.</text>
+	</string>
+</string_table>

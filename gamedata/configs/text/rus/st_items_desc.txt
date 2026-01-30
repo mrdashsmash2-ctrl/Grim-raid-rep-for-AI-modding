@@ -1,0 +1,10 @@
+<string_table>
+
+	<string id="item_cost_text">
+		<text>Базовая стоимость:</text>
+	</string>
+	<string id="item_art_text">
+		<text>Тип артефакта:</text>
+	</string>	
+
+</string_table>
