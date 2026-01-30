@@ -1,0 +1,193 @@
+-- items notebook menu
+-- buy items
+
+local gt = game.translate_string
+local RaidNotebook = raid_notebook_gui.RaidNotebook
+
+local ctime_to_t = utils_data.CTime_to_table
+local t_to_ctime = utils_data.CTime_from_table
+
+-- do not touch "active"
+-- "req" is index
+raid_items = {
+	{ tmr = false, 		name = "ammo", 				cost = 60000, 				func = "spawn_ammo", 			cd = 12 },
+	{ tmr = false, 		name = "pill", 					cost = 30000, 				func = "spawn_pill", 					cd = 48 },
+	{ tmr = false, 		name = "injector_1", 		cost = 15000, 				func = "spawn_injector_1", 		cd = 24 },
+	{ tmr = false, 		name = "injector_2", 		cost = 25000, 				func = "spawn_injector_2", 		cd = 24 },
+	{ tmr = false, 		name = "injector_3", 		cost = 55000, 				func = "spawn_injector_3", 		cd = 24 },
+	{ tmr = false, 		name = "injector_4", 		cost = 65000, 				func = "spawn_injector_4", 		cd = 24 },
+	{ tmr = false, 		name = "injector_5", 		cost = 90000, 			func = "spawn_injector_5", 		cd = 24 },
+	{ tmr = false, 		name = "rpg", 					cost = 110000, 			func = "spawn_rpg", 				cd = 48 },
+	{ tmr = false, 		name = "bulldog", 			cost = 135000, 			func = "spawn_bulldog", 			cd = 48 },
+	{ tmr = false, 		name = "visor", 				cost = 150000, 			func = "spawn_visor", 				cd = 48 },
+}
+
+
+function RaidNotebook:BuildItemsMenu()
+	local xml = self.xml
+
+	self.items_menu_cont = xml:InitStatic("items_menu_cont", self.bg)
+	self.items_menu_cont:Show(false)
+
+	-- scroll
+	self.items_scroll = xml:InitScrollView("items_menu_cont:items_scrollbar", self.items_menu_cont)
+
+	-- scroll cont
+	self.items_scroll_cont = xml:InitStatic("items_menu_cont:scroll_cont", self.items_scroll)
+	self.items_scroll_cont:SetAutoDelete(false)
+
+	self.items_cont_y_gap = 30
+	for i = 1, #raid_items do
+		self.items_conts[i] = {}
+
+		-- cont and its position
+		self.items_conts[i].cont = xml:InitStatic("items_menu_cont:cont", self.items_scroll_cont)
+
+		local pos = self.items_conts[i].cont:GetWndPos()
+		local height = self.items_conts[i].cont:GetHeight()
+		local new_y = pos.y + (height + self.items_cont_y_gap) * (i - 1)
+		self.items_conts[i].cont:SetWndPos(vector2():set(pos.x, new_y))
+
+		-- icon
+		self.items_conts[i].icon = xml:InitStatic("items_menu_cont:cont:icon", self.items_conts[i].cont)
+		local texture = "raid_special_items_icon_" .. raid_items[i].name
+		self.items_conts[i].icon:InitTexture(texture)
+
+		-- title
+		self.items_conts[i].title = xml:InitTextWnd("items_menu_cont:cont:title", self.items_conts[i].cont)
+		local title_str = gt("st_raid_special_items_" .. raid_items[i].name .. "_title")
+		self.items_conts[i].title:SetText(title_str)
+
+		-- descr
+		self.items_conts[i].descr = xml:InitTextWnd("items_menu_cont:cont:descr", self.items_conts[i].cont)
+		local descr_str = gt("st_raid_special_items_" .. raid_items[i].name .. "_descr")
+		self.items_conts[i].descr:SetText(gt(descr_str))
+
+		-- btn
+		self.items_conts[i].btn = xml:Init3tButton("items_menu_cont:cont:btn", self.items_conts[i].cont)
+		local btn_str = string.format(gt("st_raid_special_items_buy"), raid_items[i].cost)
+		self.items_conts[i].btn:TextControl():SetText(btn_str)
+		self:Register(self.items_conts[i].btn, "items_buy_btn_" .. i)
+	end
+
+
+	-- resize scroll cont
+	local items_cont_height = self.items_conts[1].cont:GetHeight()
+	local items_cont_width = self.items_scroll_cont:GetWidth()
+	self.items_scroll_cont:SetWndSize(vector2():set(items_cont_width, #raid_items * (items_cont_height + self.items_cont_y_gap) ))
+
+	-- add container to scroll
+	self.items_scroll:Clear()
+	self.items_scroll:AddWindow(self.items_scroll_cont, true)
+	self.items_scroll_cont:SetAutoDelete(false)
+
+
+	self:UpdateItemsMenu()
+end
+
+function RaidNotebook:UpdateItemsMenu()
+	for i = 1, #raid_items do
+		-- disable/enable button if enough money
+		local has_money = db.actor:money() > raid_items[i].cost
+		self.items_conts[i].btn:Enable(has_money)
+
+		if raid_items[i].tmr then
+			local time_diff = raid_items[i].cd * 3600 - game.get_game_time():diffSec(t_to_ctime(raid_items[i].tmr))
+			-- disable if timer still running
+			if time_diff > 0 then
+				local hrs = math.ceil(time_diff / 3600)
+				self.items_conts[i].btn:TextControl():SetText(string.format(gt("st_raid_special_items_bought"), hrs))
+				self.items_conts[i].btn:Enable(false)
+
+			-- enable if timer runs out and reset
+			else
+				raid_items[i].tmr = false
+				self.items_conts[i].btn:TextControl():SetText(string.format(gt("st_raid_special_items_buy"), raid_items[i].cost))
+				self.items_conts[i].btn:Enable(has_money)		-- still has money check
+			end
+		end
+
+	end
+
+end
+
+function RaidNotebook:OnBuyItem(i)
+	-- buy upgrade
+	if db.actor:money() > raid_items[i].cost then
+		-- take money
+		db.actor:give_money(-raid_items[i].cost)
+
+		-- set timer
+		raid_items[i].tmr = ctime_to_t(game.get_game_time())
+
+		-- exec
+		this[raid_items[i].func]()		
+	end
+
+	self:UpdateItemsMenu()
+end
+
+
+------------------------------------------------------------------
+------------------------------------------------------------------
+function spawn_ammo()
+	alife_create_item("ammo_12x70_raid", db.actor)
+end
+
+function spawn_pill()
+	alife_create_item("pill_raid", db.actor)
+end
+
+function spawn_injector_1()
+	alife_create_item("raid_injector_1", db.actor)
+end
+
+function spawn_injector_2()
+	alife_create_item("raid_injector_2", db.actor)
+end
+
+function spawn_injector_3()
+	alife_create_item("raid_injector_3", db.actor)
+end
+
+function spawn_injector_4()
+	alife_create_item("raid_injector_4", db.actor)
+end
+
+function spawn_injector_5()
+	alife_create_item("raid_injector_5", db.actor)
+end
+
+function spawn_bulldog()
+	alife_create_item("wpn_rg-6", db.actor)
+	for i = 1, 18 do
+		alife_create_item("ammo_vog-25", db.actor)
+	end
+end
+
+function spawn_rpg()
+	alife_create_item("wpn_rpg7", db.actor)
+	for i = 1, 3 do
+		alife_create_item("ammo_og-7b", db.actor)
+	end
+end
+
+function spawn_visor()
+	alife_create_item("raid_anomaly_visor", db.actor)
+end
+
+
+------------------------------------------------------------------
+------------------------------------------------------------------
+function save_state(m_data)
+	m_data.raid_special_items = raid_items
+end
+
+function load_state(m_data)
+	raid_items = m_data.raid_special_items or raid_items
+end
+
+function on_game_start()
+	RegisterScriptCallback("save_state", save_state)
+	RegisterScriptCallback("load_state", load_state)
+end

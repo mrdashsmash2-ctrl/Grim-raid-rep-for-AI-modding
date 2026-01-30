@@ -1,0 +1,289 @@
+local gt = game.translate_string
+
+function set_profile_general(a, b, s)
+	local npc = dialogs.who_is_npc(a, b)
+	trade_manager.trade_init(npc, "items\\trade\\" .. s .. ".ltx")
+	trade_manager.update(npc, true)
+end
+
+function set_nimble_profile(a, b)
+	set_profile_general(a, b, "trade_stalker_nimble")
+end
+
+function set_barman_profile(a, b)
+	set_profile_general(a, b, "trade_duty")
+end
+
+function set_skryaga_profile(a, b)
+	set_profile_general(a, b, "trade_freedom")
+end
+
+function set_sidorovich_profile(a, b)
+	set_profile_general(a, b, "trade_stalker_sidorovich")
+end
+
+function set_herman_profile(a, b)
+	set_profile_general(a, b, "trade_ecolog_sakharov")
+end
+
+function set_spore_profile(a, b)
+	local npc = dialogs.who_is_npc(a, b)
+	placeable_items_trade.update(npc)
+end																	 
+---------------------------------------------------------------
+function check_goodwill_general(comm)
+	return raid_tasks_main.raid_tasks_t[comm].goodwill > raid_tables.min_trade_goodwill
+end
+
+function check_nimble_goodwill(a, b)
+    return true
+    --return check_goodwill_general("stalker")
+end
+
+function check_barman_goodwill(a, b)
+	return check_goodwill_general("duty")
+end
+
+function check_skryaga_goodwill(a, b)
+	return check_goodwill_general("freedom")
+end
+
+function check_sidorovich_goodwill(a, b)
+	return check_goodwill_general("stalker")
+end
+
+function check_herman_goodwill(a, b)
+	return check_goodwill_general("ecolog")
+end
+function check_hideout_furniture(a, b)
+	if (hf_version) and (hf_version.VERSION ~= nil) then
+		return true 
+	else
+		return false
+	end
+end													 
+
+---------------------------------------------------------------
+function get_general_str(name)
+	-- buy
+	local buy_disc_t = raid_tables.trader_group_discount_buy[name]
+
+	local buy_cat_ar = {}
+	for k, v in spairs(buy_disc_t, function(t, a, b) return t[a] < t[b] end) do
+		buy_cat_ar[#buy_cat_ar + 1] = k
+	end
+
+	local extra_disc = get_item_extra_discount(name) or 0
+
+	local disc_from_achieve = ((raid_achievements) and raid_achievements.get_disc_from_achieve(name)) or 0																									   
+	local buy_cat_str = ""
+	for i = #buy_cat_ar, 1 , -1 do
+		local key = buy_cat_ar[i]
+		local buy_val = buy_disc_t[key] and buy_disc_t[key] + extra_disc * 100 + disc_from_achieve * 100
+		if buy_val and buy_val > 0 then
+			if buy_val > 99 then buy_val = 99 end
+			buy_cat_str = buy_cat_str .. "-" .. buy_val .. "% " .. gt("st_raid_task_" .. key) .. ", "
+		end
+	end
+	buy_cat_str = string.sub(buy_cat_str, 1, -3)
+	buy_cat_str = buy_cat_str == "" and gt("st_raid_general_answer_none") or buy_cat_str
+
+	-- sell
+	local sell_disc_t = raid_tables.trader_group_discount_sell[name]
+
+	local sell_cat_ar = {}
+	for k, v in spairs(sell_disc_t, function(t, a, b) return t[a] < t[b] end) do
+		sell_cat_ar[#sell_cat_ar + 1] = k
+	end
+
+	local sell_cat_str = ""
+	for i = #sell_cat_ar, 1, -1 do
+		local key = sell_cat_ar[i]
+		local sell_val = sell_disc_t[key] + disc_from_achieve * 100
+		if sell_val and sell_val > 0 then
+			sell_cat_str = sell_cat_str .. "+" .. sell_val .. "% " .. gt("st_raid_task_" .. key) .. ", "
+		end
+	end
+	sell_cat_str = string.sub(sell_cat_str, 1, -3)
+	sell_cat_str = sell_cat_str == "" and gt("st_raid_general_answer_none") or sell_cat_str
+
+	return "[" .. gt("st_raid_general_answer_buy") .. " " .. buy_cat_str .. "] \\n \\n[" .. gt("st_raid_general_answer_sell") .. " " .. sell_cat_str .. "]"
+end
+
+function get_nimble_str(a, b)
+	return gt("st_raid_nimble_answer") .. "\\n \\n" .. get_general_str("nimble")
+end
+
+function get_barman_str(a, b)
+	return gt("st_raid_nimble_answer") .. "\\n \\n" .. get_general_str("duty")
+end
+
+function get_skryaga_str(a, b)
+	return gt("st_raid_nimble_answer") .. "\\n \\n" .. get_general_str("freedom")
+end
+
+function get_sidorovich_str(a, b)
+	return gt("st_raid_nimble_answer") .. "\\n \\n" .. get_general_str("sidorovich")
+end
+
+function get_herman_str(a, b)
+	return gt("st_raid_nimble_answer") .. "\\n \\n" .. get_general_str("sakharov")
+end
+
+function get_spore_str(a, b)
+	return gt("st_raid_nimble_answer") .. "\\n \\n" .. gt("st_raid_spore_trade_general")
+end							
+function get_mechanic_str(a, b)
+	local npc = dialogs.who_is_npc(a, b)
+	trade_manager.update(npc, true)									 						
+	return get_general_str("mechanic")
+end
+
+function get_medic_str(a, b)
+	local npc = dialogs.who_is_npc(a, b)
+	trade_manager.update(npc, true)									 				
+	return get_general_str("medic")
+end
+
+function get_butcher_str(a, b)
+	local npc = dialogs.who_is_npc(a, b)
+	trade_manager.update(npc, true)									 						
+	return get_general_str("butcher")
+end
+
+
+---------------------------------------------------------------
+xr_conditions.raid_goodwill_check = function(actor, npc, p)
+	if not (p[1] and p[2]) then return end
+
+	local comm = p[1]
+	if comm == "dolg" then comm = "duty" end
+	local gw = raid_tasks_main and raid_tasks_main.raid_tasks_t and raid_tasks_main.raid_tasks_t[comm] and raid_tasks_main.raid_tasks_t[comm].goodwill
+	if not (gw and gw >= p[2]) then return end
+
+	return true
+end
+
+
+------------------------- donations --------------------------------
+function ui_inventory.UIInventory.Action_Donate(self, obj, bag)
+	obj = self:CheckItem(obj, "Action_Donate")
+
+	local npc = self.npc_id and get_object_by_id(self.npc_id)
+	local profile = npc and trade_manager.get_trade_profile(npc:id(), "cfg_ltx")
+	if (not profile) then return end
+
+	for comm, _ in pairs(raid_tasks_main.raid_tasks_t) do
+		if string.find(profile, comm) then
+			--local cost = ini_sys:r_float_ex(obj:section(), "cost")
+			local cost = obj:cost()
+			local add_gw = cost
+
+			-- multiuse
+			if IsItem("multiuse", obj:section()) then
+				local max_uses = ini_sys:r_float_ex(obj:section(), "max_uses")
+				local cur_uses = obj:get_remaining_uses()
+				add_gw = (cur_uses / max_uses) * cost
+
+			-- condition
+			elseif obj.condition and obj:condition() then
+				add_gw = obj:condition() * cost
+
+			end
+
+			-- add goodwill
+			add_gw = round(add_gw / raid_tables.item_donation_koef)
+			raid_tasks_main.raid_tasks_t[comm].goodwill = raid_tasks_main.raid_tasks_t[comm].goodwill + add_gw
+			if raid_tasks_main.raid_tasks_t[comm].goodwill > raid_tables.max_goodwill then
+				raid_tasks_main.raid_tasks_t[comm].goodwill = raid_tables.max_goodwill
+			end
+
+			-- send msg
+			if add_gw > 0 then
+				local comm_str = comm
+				if comm_str == "duty" then comm_str = "dolg" end
+				local str = strformat(gt("st_raid_item_donation"), gt("st_faction_" .. comm_str), add_gw)
+				news_manager.send_tip(db.actor, str, 0, nil, 10000)
+			end
+
+			break
+		end
+	end
+
+	self:On_Item_Exchange(db.actor, npc, obj)
+end
+
+
+-------------------------- cost -------------------------------------
+function get_item_group_discount(mode, path, group)
+	if not (mode and path and group) then return end
+
+	local discount_t = (mode == "buy" and raid_tables.trader_group_discount_buy) or (mode == "sell" and raid_tables.trader_group_discount_sell)
+
+	for name, group_t in pairs(discount_t) do
+		if string.find(path, name) then
+			if group_t[group] then
+				return group_t[group] / 100
+			end
+		end
+	end
+end
+
+function get_item_extra_discount(path)
+    if not path then return end
+    if string.find(path, "nimble") then return end        
+
+    local mult_ar = { [-5] = -750, [-4] = -600, [-3] = -450, [-2] = -300, [-1] = -150, [0] = 0, [1] = 400, [2] = 600, [3] = 800, [4] = 1000 }
+
+    for comm, t in pairs(raid_tasks_main.raid_tasks_t) do
+        if string.find(path, comm) then
+            for i = 4, -5, -1 do
+                if t.goodwill >= mult_ar[i] then
+                    return (i * raid_tables.trade_progressive_discount) / 100
+                end
+            end
+        end
+    end
+end
+
+function on_get_item_cost(kind, item, profile, vanilla_cost, ret)
+	-- base on this and new mults, override vanilla entirely
+	--local item_cost = ini_sys:r_float_ex(item:section(), "cost")
+	local item_cost = item:cost()
+
+	local profile_path = profile and profile.cfg
+	local item_group = raid_utils.get_item_group(item:section())
+
+	-- multiuse and condition mults
+	local multiuse_mult = 1
+	local cond_mult = 1
+	if IsItem("multiuse", item:section()) then
+		local max_uses = ini_sys:r_float_ex(item:section(), "max_uses")
+		local cur_uses = item:get_remaining_uses()
+		multiuse_mult = cur_uses / max_uses
+	elseif item.condition and item:condition() then
+		cond_mult = item:condition() > 0.05 and item:condition() or 0.05
+	end
+
+	-- from achievement
+	local disc_from_achieve = ((raid_achievements) and raid_achievements.get_disc_from_achieve(profile_path)) or 0																														   
+	-- buy from npc
+	if profile.mode == 2 then
+		local buy_disc = get_item_group_discount("buy", profile_path, item_group) or 0
+		local extra_disc = get_item_extra_discount(profile_path) or 0
+		buy_disc = buy_disc + extra_disc + disc_from_achieve
+		if buy_disc > 0.99 then buy_disc = 0.99 end
+		ret.new_cost = ((ret.new_cost or item_cost) * raid_tables.trade_mult_general_buy * (1 - buy_disc) * multiuse_mult * cond_mult)^1.045
+
+	-- sell to npc
+	elseif profile.mode == 1 then
+		local sell_disc = get_item_group_discount("sell", profile_path, item_group) or 0
+		sell_disc = sell_disc + disc_from_achieve								   
+		ret.new_cost = (ret.new_cost or item_cost) * raid_tables.trade_mult_general_sell * (1 + sell_disc) * multiuse_mult * cond_mult
+	end
+
+end
+
+function on_game_start()
+	RegisterScriptCallback("on_get_item_cost", on_get_item_cost)
+end

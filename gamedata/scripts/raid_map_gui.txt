@@ -1,0 +1,497 @@
+local gt = game.translate_string
+
+picked_map = "nil"
+
+GUI = nil
+
+xr_effects.open_raid_map_gui = function()
+	if (not GUI) then
+		GUI = RaidMap()
+	end
+
+	if (GUI) and (not GUI:IsShown()) then
+		GUI:ShowDialog(true)
+		Register_UI("RaidMap", "raid_map")
+	end
+end
+
+class "RaidMap" (CUIScriptWnd)
+
+function RaidMap:__init() super()
+	self:InitControls()
+	self:InitCallBacks()
+end
+
+function RaidMap:InitControls()
+	self:SetWndRect(Frect():set(0, 0, 1024, 768))
+	self:SetAutoDelete(true)
+
+	self.xml = CScriptXmlInit()
+	self.xml:ParseFile("ui_raid_map.xml")
+	local xml = self.xml
+
+	-- background
+	self.bg = xml:InitStatic("bg", self)
+
+	-- main map
+	self.map_btns = {}
+	self:BuildMapMain()
+
+	-- map details
+	self.map_events = {}
+	self:BuildMapDetails()
+
+
+	-- close button
+	self.map_main_close_btn = xml:Init3tButton("map_main_close_btn", self.bg)
+	self:Register(self.map_main_close_btn, "map_main_close_btn")
+
+	-- hint tooltip
+	self.hint_tooltip = xml:Init3tButton("hint_tooltip", self.bg)
+	self.hint_tooltip_bg = xml:InitStatic("hint_tooltip_bg", self.bg)
+	self.hint_tooltip_bg:Show(false)
+	self.hint_tooltip_text = xml:InitTextWnd("hint_tooltip_bg:hint_tooltip_text", self.hint_tooltip_bg)
+
+end
+
+function RaidMap:InitCallBacks()
+	-- map close btn
+	self:AddCallback("map_main_close_btn", ui_events.BUTTON_CLICKED, self.Close, self)
+
+	-- map buttons
+	for lname, _ in pairs(raid_simulation.raid_sim_t) do
+		if raid_utils.level_exist(lname) then
+			RaidMap["OnClickMap_" .. lname] = function(self)
+				self:OnClickMap(lname)
+			end
+			self:AddCallback("map_btn_" .. lname, ui_events.BUTTON_CLICKED, self["OnClickMap_" .. lname], self)
+		end
+	end
+
+	-- details back btn
+	self:AddCallback("map_details_back_btn", ui_events.BUTTON_CLICKED, self.Reset, self)
+
+	-- details informant
+	self:AddCallback("map_informant_btn", ui_events.BUTTON_CLICKED, self.OnClickDetailsInformant, self)
+	self:AddCallback("map_informant_close", ui_events.BUTTON_CLICKED, self.OnClickMapInformantClose, self)
+
+	for i = 1, 5 do
+		RaidMap["OnClickMapInformantOption_" .. i] = function(self)
+			self:OnClickMapInformantOption(i)
+		end
+		self:AddCallback("map_informator_opt_" .. i, ui_events.BUTTON_CLICKED, self["OnClickMapInformantOption_" .. i], self)
+	end
+
+	-- details back and go btns
+	self:AddCallback("map_back_btn", ui_events.BUTTON_CLICKED, self.Reset, self)
+	self:AddCallback("map_go_btn", ui_events.BUTTON_CLICKED, self.OnClickDetailsGo, self)
+
+end
+
+
+-- =========================================
+-- ================== Map ===================
+-- =========================================
+function RaidMap:BuildMapMain()
+	local xml = self.xml
+
+	self.map_main_cont = xml:InitStatic("map_main_cont", self.bg)
+
+	-- map scroll
+	self.map_scroll = xml:InitScrollView("map_main_cont:map_scroll", self.map_main_cont)
+	raid_utils.align_element(self, self.map_scroll, self.map_main_cont, "c", "c")
+
+	-- map cont
+	self.map_cont = xml:InitStatic("map_main_cont:map_cont", self.map_scroll)
+	self.map_cont:SetAutoDelete(false)
+
+	-- map
+	self.map = xml:InitStatic("map_main_cont:map_cont:map", self.map_cont)
+	raid_utils.align_element(self, self.map, self.map_cont, "c", "c")
+
+	-- map buttons
+	for lname, _ in pairs(raid_simulation.raid_sim_t) do
+		if raid_utils.level_exist(lname) then
+			self.map_btns[lname] = {}
+
+			self.map_btns[lname].btn = xml:Init3tButton("map_main_cont:map_" .. lname .. "_btn", self.map)
+			self:Register(self.map_btns[lname].btn, "map_btn_" .. lname)
+
+			-- task mark
+			self.map_btns[lname].mark = xml:InitStatic("map_main_cont:map_task_mark", self.map_btns[lname].btn)
+			raid_utils.align_element(self, self.map_btns[lname].mark, self.map_btns[lname].btn, "c", "c")
+			self.map_btns[lname].mark:Show(raid_utils.get_tasks_on_level(lname) > 0)
+		end
+	end
+
+end
+
+function RaidMap:OnClickMap(level_name)
+	-- hide everything
+	self:HideAll()
+
+	-- show map details
+--	self.map_details_cont:Show(true)
+	self.details_bg:Show(true)
+
+	-- update tasks
+	self:UpdateMapDetails(level_name)
+end
+
+function RaidMap:UpdateTaskMarks()		-- updated with details update and in GUI_on_show
+	for lname, t in pairs(self.map_btns) do
+		self.map_btns[lname].mark:Show(raid_utils.get_tasks_on_level(lname) > 0)
+	end
+end
+
+
+-- =========================================
+-- ================== Details ==================
+-- =========================================
+function RaidMap:BuildMapDetails()
+	local xml = self.xml
+
+	self.details_bg = xml:InitStatic("details_bg", self.bg)
+	self.details_bg:Show(false)
+
+	self.map_details_cont = xml:InitStatic("map_details_cont", self.details_bg)
+
+	-- back button
+	self.map_details_back_btn = xml:Init3tButton("map_details_cont:map_details_back_btn", self.map_details_cont)
+	self:Register(self.map_details_back_btn, "map_details_back_btn")
+
+	-- level header
+	self.map_level_header = xml:InitStatic("map_details_cont:map_level_header", self.map_details_cont)
+--	raid_utils.align_element(self, self.map_level_header, self.map_details_cont, "c", "t")
+
+	-- level image
+	self.map_level_image_cont = xml:InitStatic("map_details_cont:map_level_cont", self.map_details_cont)
+	self.map_level_image = xml:InitStatic("map_details_cont:map_level_cont:map_image", self.map_level_image_cont)
+
+	-- events
+	self.map_event_cont = xml:InitStatic("map_details_cont:map_event_cont", self.map_details_cont)
+	self.map_event_header = xml:InitStatic("map_details_cont:map_event_cont:event_header", self.map_event_cont)
+
+	for i = 1, 4 do
+		self.map_events[i] = {}
+		self.map_events[i].elem = xml:InitStatic("map_details_cont:map_event_cont:event_" .. i, self.map_event_cont)
+		self.map_events[i].elem:TextControl():SetText("")
+		self.map_events[i].opened = false
+		self.map_events[i].event = ""
+	end
+
+	-- events tooltip
+	self.event_tooltip = xml:InitStatic("map_details_cont:event_tooltip_cont", self.map_details_cont)
+	self.event_tooltip:Show(false)
+	self.event_image = xml:InitStatic("map_details_cont:event_tooltip_cont:event_image", self.event_tooltip)
+
+	self.event_tooltip_descr_cont = xml:InitStatic("map_details_cont:event_tooltip_cont:event_tooltip_descr_cont", self.event_tooltip)
+	self.event_title = xml:InitStatic("map_details_cont:event_tooltip_cont:event_tooltip_descr_cont:event_title", self.event_tooltip_descr_cont)
+	self.event_descr = xml:InitStatic("map_details_cont:event_tooltip_cont:event_tooltip_descr_cont:event_descr", self.event_tooltip_descr_cont)
+
+	-- descr
+	self.map_descr = xml:InitStatic("map_details_cont:map_descr", self.map_details_cont)
+
+	-- long descr
+	self.map_long_descr = xml:InitStatic("map_details_cont:map_long_descr", self.map_details_cont)
+
+	-- another back button (for whatever reason)
+	self.map_back_btn = xml:Init3tButton("map_details_cont:map_back_btn", self.map_details_cont)
+	self:Register(self.map_back_btn, "map_back_btn")
+
+	-- go button
+	self.map_go_btn = xml:Init3tButton("map_details_cont:map_go_btn", self.map_details_cont)
+	self:Register(self.map_go_btn, "map_go_btn")
+
+
+	-- informant button
+	self.map_informant_btn = xml:Init3tButton("map_details_cont:map_informant_btn", self.map_details_cont)
+	self:Register(self.map_informant_btn, "map_informant_btn")
+
+	-- informant menu
+	self.map_informant_cont = xml:InitStatic("map_details_cont:map_informant_cont", self.map_details_cont)
+	raid_utils.align_element(self, self.map_informant_cont, self.map_details_cont, "c", "c")
+	self.map_informant_cont:Show(false)
+
+	self.map_informant_close_btn = xml:Init3tButton("map_details_cont:map_informant_cont:informant_close_btn", self.map_informant_cont)
+	self:Register(self.map_informant_close_btn, "map_informant_close")
+
+	self.map_informant_opt = {}
+	for i = 1, 5 do
+		self.map_informant_opt[i] = {}
+
+		self.map_informant_opt[i].btn = xml:Init3tButton("map_details_cont:map_informant_cont:informant_opt_btn", self.map_informant_cont)
+		self:Register(self.map_informant_opt[i].btn, "map_informator_opt_" .. i)
+		self.map_informant_opt[i].btn:Enable(false)
+
+		local inf_opt_pos, inf_opt_h = self.map_informant_opt[i].btn:GetWndPos(), self.map_informant_opt[i].btn:GetHeight()
+	--	local new_y = i <= 1 and inf_opt_pos.y or (inf_opt_h * (i-1)) + (inf_opt_pos.y * i)
+		local y_gap = 20
+		local new_y = i <= 1 and inf_opt_pos.y or (inf_opt_pos.y) + (inf_opt_h * (i-1)) + (y_gap * (i-1))
+		self.map_informant_opt[i].btn:SetWndPos(vector2():set(inf_opt_pos.x, new_y))
+	end
+
+end
+
+function RaidMap:UpdateMapDetails(level_name)
+	picked_map = level_name
+
+	-- set header text
+	self.map_level_header:TextControl():SetText(gt(level_name))
+
+	-- show image
+	local cont_w, cont_h = self.map_level_image_cont:GetWidth(), self.map_level_image_cont:GetHeight()
+	if raid_notebook_gui.tooltip_maps_width[level_name] then
+		cont_w = cont_w * raid_notebook_gui.tooltip_maps_width[level_name]
+	end
+	self.map_level_image:SetWndSize(vector2():set(cont_w, cont_h))
+	self.map_level_image:InitTexture("raid_map_" .. level_name)
+	raid_utils.align_element(self, self.map_level_image, self.map_level_image_cont, "c", "c")
+
+	-- descr
+	local level_tier_str = gt("st_raid_map_level_tier") .. " " .. gt("st_raid_map_level_tier_name_" .. raid_simulation.raid_sim_t[level_name].level_tier) .. "\\n \\n"
+	local road_time_str = gt("st_raid_map_road_time") .. " " .. raid_simulation.raid_sim_t[level_name].level_tier .. " " .. gt("st_raid_hours") .. "\\n \\n"
+	local tasks_str = gt("st_raid_map_tasks") .. " " .. raid_utils.get_tasks_on_level(level_name) .. "\\n \\n"
+	local raid_time_str = gt("st_raid_map_raid_time") .. " " .. raid_utils.calc_raid_time(true) .. " " .. gt("st_raid_minutes")
+	local descr_str = level_tier_str .. road_time_str .. tasks_str .. raid_time_str
+	self.map_descr:TextControl():SetText(descr_str)
+
+	-- long descr
+	self.map_long_descr:TextControl():SetText(gt("st_raid_map_long_descr_" .. level_name))
+
+	-- first reset text and activity of all event buttons
+	for i = 1, #self.map_events do
+		self.map_events[i].elem:TextControl():SetText("")
+		self.map_events[i].opened = false
+		self.map_events[i].event = ""
+	end
+
+	-- fill events
+	local level_t = raid_events.raid_active_events[level_name]
+	for i = 1, #level_t do
+		local str = level_t[i].opened and (gt("st_raid_event_" .. level_t[i].event)) or "[???]"
+		self.map_events[i].elem:TextControl():SetText(i .. ") " .. str)
+		self.map_events[i].opened = level_t[i].opened
+		self.map_events[i].event = level_t[i].event
+	end
+
+
+	-- and update tasks text on main map buttons
+	self:UpdateTaskMarks()
+
+end
+
+function RaidMap:UpdateMapInformant()
+	local cur_btn = 1
+
+	-- reset all options
+	for i = 1, #self.map_informant_opt do
+		self.map_informant_opt[i].event_idx = nil
+		self.map_informant_opt[i].btn:Enable(false)
+		self.map_informant_opt[i].btn:TextControl():SetText("")
+	end
+
+	-- fill options
+	local ar = raid_events.raid_active_events[picked_map]		-- array with events, index is event number
+
+	for i = 1, #ar do
+		if ar[i].opened == false then		-- find first closed event
+			local has_money = db.actor:money() > raid_tables.informant_open_event_cost
+			-- if has enough money - enable first button
+			self.map_informant_opt[5].btn:Enable(has_money)
+			self.map_informant_opt[5].btn:TextControl():SetText(string.format(gt("st_raid_map_open_event"), raid_tables.informant_open_event_cost))		-- show open event text
+			break
+		end
+	end
+
+	--Rojok. For treasures
+	if (treasure_manager.flagConnection ~= nil) and (treasure_manager.level_researched[picked_map] == false) then
+		-- Price depending on the level of the lock
+		lvl_tier = raid_simulation.raid_sim_t[picked_map].level_tier
+		local lcost = raid_tables.informant_show_treasures_on_level_cost[lvl_tier]
+		
+		local has_money = db.actor:money() > lcost
+		-- if has enough money - enable first button
+		self.map_informant_opt[4].btn:Enable(has_money)
+		self.map_informant_opt[4].btn:TextControl():SetText(string.format(gt("st_raid_treasures_show_event"), raid_tables.number_of_caches, lcost))		-- show open event text
+	end
+	
+	-- other informant options
+	for i = 1, #ar do
+		if ar[i].opened and ar[i].modified then
+
+			-- if not active yet
+			if ar[i].modified == "disabled" then
+				local has_money = db.actor:money() > ar[i].modified_cost
+				self.map_informant_opt[cur_btn].btn:Enable(has_money)
+				self.map_informant_opt[cur_btn].btn:TextControl():SetText(string.format(gt("st_raid_map_mod_event_" .. ar[i].event), ar[i].modified_cost))
+
+			-- if active
+			elseif ar[i].modified == "active" then
+				self.map_informant_opt[cur_btn].btn:Enable(false)
+				self.map_informant_opt[cur_btn].btn:TextControl():SetText(gt("st_raid_map_mod_event_" .. ar[i].event .. "_active"))
+			end
+
+			-- save event name for that index and increment button order
+			self.map_informant_opt[cur_btn].event_idx = i
+			cur_btn = cur_btn + 1
+		end
+	end
+
+end
+
+function RaidMap:OnClickMapInformantOption(idx)
+	local ar = raid_events.raid_active_events[picked_map]
+	local ev_idx = self.map_informant_opt[idx].event_idx
+
+	--Rojok. For treasures	
+	if (treasure_manager.flagConnection ~= nil) and  (idx == 4) and (treasure_manager.level_researched[picked_map] == false) then
+		-- Price depending on the level of the lock
+		lvl_tier = raid_simulation.raid_sim_t[picked_map].level_tier
+		local lcost = raid_tables.informant_show_treasures_on_level_cost[lvl_tier]
+		
+		db.actor:give_money(-lcost)		-- take money
+		treasure_manager.level_researched[picked_map] = true			-- set event as opened
+		treasure_manager.show_treasures_on_level(picked_map, raid_tables.number_of_caches)
+	end
+	
+
+	-- open new event
+	for i = 1, #ar do
+		if idx == 5 and ar[i].opened == false then	-- find first closed event
+			db.actor:give_money(-raid_tables.informant_open_event_cost)		-- take money
+			ar[i].opened = true		-- set event as opened
+			break
+		end
+	end
+
+	-- modify event
+	if idx < 5 and ar[ev_idx] then
+		db.actor:give_money(-ar[ev_idx].modified_cost)		-- take money
+		ar[ev_idx].modified = "active"	-- set event modifier active
+	end
+
+
+	-- update map details and informant menu
+	self:UpdateMapDetails(picked_map)
+	self:UpdateMapInformant()
+end
+
+function RaidMap:OnClickDetailsInformant()
+	-- show informant menu
+	local show_cond = (not self.map_informant_cont:IsShown())
+	self.map_informant_cont:Show(show_cond)
+
+	-- update map informant
+	self:UpdateMapInformant()
+end
+
+function RaidMap:OnClickMapInformantClose()
+	self.map_informant_cont:Show(false)
+end
+
+function RaidMap:OnClickDetailsGo()
+	-- prevent treasures from updating during a raid --Rojok. For treasures
+	if (treasure_manager.flagConnection ~= nil) then	
+		grok_stashes_on_corpses.reset_the_counter()
+	end
+	
+	-- teleport player
+	raid_travel_manager.raid_teleport(picked_map)
+
+	-- close
+	self:Close()
+
+end
+
+function RaidMap:Update()
+	CUIScriptWnd.Update(self)
+
+	-- task tooltip
+	if self.event_tooltip:IsShown() then
+		for i = 1, #self.map_events do
+			self.map_events[i].elem:TextControl():SetTextColor(GetARGB(255, 190, 190, 190))
+		end
+		self.event_tooltip:Show(false)
+	end
+
+	for idx, t in ipairs(self.map_events) do
+		if t.elem:IsCursorOverWindow() and t.opened and (not self.map_informant_cont:IsShown()) then
+			self.event_image:InitTexture("raid_event_image_" .. t.event)
+			self.event_title:TextControl():SetText(gt("st_raid_event_" .. t.event))
+			self.event_descr:TextControl():SetText(gt("st_raid_event_" .. t.event .. "_descr"))
+			self.map_events[idx].elem:TextControl():SetTextColor(GetARGB(255, 255, 255, 255))
+			self.event_tooltip:Show(true)
+			break
+		end
+	end
+
+
+	-- hint tooltip
+	self.hint_tooltip_bg:Show(self.hint_tooltip:IsCursorOverWindow())
+
+end
+
+
+-- =========================================
+-- =========================================
+-- =========================================
+function RaidMap:HideAll()
+	picked_map = "nil"
+
+	-- hide main map menu
+	self.map_main_cont:Show(false)
+
+	-- hide informant menu
+	self.map_informant_cont:Show(false)
+
+	-- hide event tooltip
+	self.event_tooltip:Show(false)
+
+	-- hide map details
+--	self.map_details_cont:Show(false)
+	self.details_bg:Show(false)
+
+end
+
+function RaidMap:Reset()
+	self:HideAll()
+	self.map_main_cont:Show(true)
+end
+
+function RaidMap:OnKeyboard(key, keyboard_action)
+	local res = CUIScriptWnd.OnKeyboard(self, key, keyboard_action)
+	if (res == false) then
+		if keyboard_action == ui_events.WINDOW_KEY_PRESSED then
+			if key == DIK_keys.DIK_ESCAPE then
+				self:Close()
+			end
+		end
+	end
+	return res
+end
+
+function RaidMap:Close()
+	self:Reset()
+
+	if self:IsShown() then
+		self:HideDialog()
+		self:Show(false)
+
+		Unregister_UI("RaidMap")
+	end
+end
+
+function RaidMap:__finalize()
+end
+
+
+function GUI_on_show()
+	if GUI ~= nil then
+		GUI:UpdateTaskMarks()
+	end
+end
+
+function on_game_start()
+	RegisterScriptCallback("GUI_on_show", GUI_on_show)
+end

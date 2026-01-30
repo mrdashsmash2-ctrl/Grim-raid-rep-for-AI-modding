@@ -1,0 +1,25 @@
+local tmr = 0
+function actor_on_update()
+	local tg = time_global()
+	if tmr > tg then return end
+	tmr = tg + 30000
+	
+	if (level.name() == "jupiter") then
+		for i=1, 65534 do
+			local se_obj = alife():object(i)
+			if (se_obj and IsArtefact(se_obj)) then
+				local name = se_obj:name()
+				local lvl_id = game_graph():vertex(se_obj.m_game_vertex_id):level_id()
+				local lvl_name = lvl_id and alife():level_name(lvl_id)
+				if (lvl_name == "jupiter" and string.find(name, "af_oasis_heart")) and (db.actor:object("af_oasis_heart") == nil) then
+					alife_create_item("medkit_ai3", { vector():set(se_obj.position.x, se_obj.position.y + 1, se_obj.position.z), se_obj.m_level_vertex_id, se_obj.m_game_vertex_id } )
+					alife_release(se_obj)
+				end
+			end
+		end	
+	end
+end
+
+function on_game_start()
+	RegisterScriptCallback("actor_on_update", actor_on_update)
+end

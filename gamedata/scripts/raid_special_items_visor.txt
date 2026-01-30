@@ -1,0 +1,207 @@
+local zones_t = {
+	electr = "electro", 		acid = "acid", 	studen = "acid", 	hvatalka = "acid",
+	liana = "acid",		gravi = "gravity",		therm = "fire",		steam = "fire",		zharka = "fire",	
+	
+	-- Arrival
+	-- часть_названия_аномалии = "тип(иконка) отображения"
+	umbra = "gravity", ghost = "electro", gold = "acid", flash = "acid", sloth = "acid", mefistotel = "electro", net = "electro", point = "electro",
+	cdf = "gravity", sphere = "gravity", acid = "acid", electra = "electro", springboard = "gravity", vortex = "gravity", blast = "gravity",
+	zharka = "fire", vapour = "fire", seed = "gravity", thorn = "gravity", shatterpoint = "gravity"
+}
+
+-------------- visor general --------------
+local visor_consumption = 0.03		-- battery (0.03 similar to last nvg)
+local visor_radius = 35
+local visor_ppe = false
+
+local visor_tmr = 0
+local visor_sec = "raid_anomaly_visor"
+local visor_id					-- for in slot check
+local visor_on = false		-- for toggle
+
+item_device_can_toggle = item_device.can_toggle_torch
+function item_device.can_toggle_torch()
+	local itm = db.actor:item_in_slot(10)
+	if itm and itm:section() == visor_sec then
+		return false
+	end
+	return item_device_can_toggle()
+end
+
+function visor_on_first_update()
+	item_device.dev_critical[visor_sec] = ini_sys:r_float_ex(visor_sec, "power_critical")
+	item_device.dev_consumption[visor_sec] = {}		-- for drag and drop batteries callback
+end
+
+function visor_on_update()
+	local tg = time_global()
+	if visor_tmr > tg then return end
+	visor_tmr = tg + 500
+
+	local itm = visor_id and level.object_by_id(visor_id)
+	if not (itm and visor_on) then return end
+
+	-- if critical and on then turn off
+	if not item_device.is_device_charged(itm) then
+		visor_toggle_off()
+		return
+	end
+
+	-- battery consumption
+	local mult = 25
+	item_device.drain_device(itm, visor_sec, visor_consumption * mult)
+end
+
+function visor_toggle_button(k)
+	local itm = visor_id and level.object_by_id(visor_id)
+	if not itm then return end
+
+	local bind = dik_to_bind(k)
+	if bind ~= key_bindings.kNIGHT_VISION then return end
+
+	-- turn off
+	if visor_on then
+		visor_toggle_off()
+	-- turn on if charged
+	elseif item_device.is_device_charged(itm) then
+		visor_toggle_on()
+	end
+end
+
+function visor_toggle_on()
+	-- contrast.ppe		2
+	if visor_ppe then
+		level.add_pp_effector("helm_tactic_nv.ppe", 989199, true)
+		level.set_pp_effector_factor(989199, 0.3)
+	end
+	utils_obj.play_sound("interface\\inv_nv_start")
+	visor_on = true
+	hud_visor_on()
+end
+
+function visor_toggle_off()
+	level.remove_pp_effector(989199)
+	utils_obj.play_sound("interface\\inv_nv_off")
+	visor_on = false
+	hud_visor_off()
+end
+
+function visor_slot_in(obj)
+	if obj and obj:section() == visor_sec then
+		visor_id = obj:id()
+	end
+end
+
+function visor_slot_out(obj)
+	if visor_id and obj:id() == visor_id then
+		visor_id = nil
+		if visor_on then
+			visor_toggle_off()
+		end
+	end
+end
+
+
+-------------- visor hud --------------
+HUD = nil
+
+function hud_visor_on()
+	if HUD == nil then
+		HUD = visor_hud()
+		get_hud():AddDialogToRender(HUD)
+	end
+end
+
+function hud_visor_off()
+	if HUD ~= nil then
+		get_hud():RemoveDialogToRender(HUD)
+		HUD = nil
+	end
+end
+
+class "visor_hud" (CUIScriptWnd)
+function visor_hud:__init() super()
+	self:InitControls()
+end
+
+function visor_hud:InitControls()
+	self:SetWndRect(Frect():set(0,0,1024,768))
+	self:SetAutoDelete(true)
+
+	self.xml = CScriptXmlInit()
+	local xml = self.xml
+	xml:ParseFile("actor_menu.xml")
+
+	self.anomalies = {}
+
+	self.elems = {}
+	for i = 1, 40 do
+		self.elems[i] = xml:InitStatic("helmet_over", self)
+		self.elems[i]:InitTexture("ui_mmap_stask_last_02")
+		self.elems[i]:SetWndSize(vector2():set(20*0.75, 20))
+		self.elems[i]:Show(false)
+	end
+
+end
+
+function visor_hud:Update()
+	CUIScriptWnd.Update(self)
+
+	-- gather new anomalies every 1 sec
+	self:FindAnomalies()
+
+	-- display anomalies
+	for i = 1, #self.elems do
+		self.elems[i]:Show(false)
+		if self.anomalies[i] then
+			local obj = level.object_by_id(self.anomalies[i][1])
+			local wui_pos = obj and vector2():set( game.world2ui(obj:position()) )
+			if wui_pos then
+				self.elems[i]:InitTexture("ui_inGame2_Detector_icon_" .. self.anomalies[i][2] .. "_big")
+				self.elems[i]:SetWndPos(vector2():set(wui_pos.x, wui_pos.y))
+				self.elems[i]:Show(true)
+			end
+		end
+	end
+
+end
+
+local find_tmr = 0
+function visor_hud:FindAnomalies()
+	local tg = time_global()
+	if find_tmr > tg then return end
+	find_tmr = tg + 1000
+
+	iempty_table(self.anomalies)
+
+	local function itr_nearest(obj)
+		if IsAnomaly(obj) then
+			for str, val in pairs(zones_t) do
+				if string.find(obj:section(), str) then
+					self.anomalies[#self.anomalies + 1] = { obj:id(), val }
+					break
+				end
+			end
+		end
+	end
+	level.iterate_nearest(db.actor:position(), visor_radius, itr_nearest)
+
+end
+
+function visor_hud:__finalize()
+end
+
+--------------------------------------------------------
+
+function on_game_start()
+	RegisterScriptCallback("actor_on_first_update", visor_on_first_update)
+	RegisterScriptCallback("actor_on_update", visor_on_update)
+	RegisterScriptCallback("on_key_release", visor_toggle_button)
+
+	RegisterScriptCallback("actor_item_to_slot", visor_slot_in)
+	RegisterScriptCallback("actor_item_to_ruck", visor_slot_out)
+	RegisterScriptCallback("actor_on_item_drop", visor_slot_out)
+
+	RegisterScriptCallback("actor_on_net_destroy", hud_visor_off)
+	RegisterScriptCallback("actor_on_before_death", hud_visor_off)
+end
