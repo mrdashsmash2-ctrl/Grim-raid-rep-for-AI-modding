@@ -1,0 +1,28 @@
+<w>
+	<file name="ui\raid_textures\achivments\ui_actor_achivments_raid">
+	    <texture id="encyclopedia_achievements_reaper_image" x="1029" y="0" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_true_veteran_image" x="344" y="344" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_true_expert_image" x="1" y="0" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_true_master_image" x="344" y="172" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_true_legend_image" x="858" y="515" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_savage_image" x="1029" y="172" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_trader_sidorovich_image" x="1200" y="0" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_trader_freedom_image" x="1200" y="172" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_trader_duty_image" x="1200" y="344" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_trader_sakharov_image" x="1200" y="516" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_trader_nimble_image" x="1373" y="0" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_killler_image" x="344" y="0" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_sekach_image" x="858" y="172" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_traders_all_image" x="1" y="172" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_sucful_compl_raids_image" x="174" y="515" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_tasks_one_raid_image" x="344" y="515" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_sucful_nights_raids_image" x="516" y="515" width="169" height="172"/>
+    </file>	
+	
+	<file name="ui\raid_textures\achivments\ui_actor_achivments_raid_easy">
+	    <texture id="encyclopedia_achievements_notrue_veteran_image" x="344" y="344" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_notrue_expert_image" x="1" y="0" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_notrue_master_image" x="344" y="172" width="169" height="172"/>
+	    <texture id="encyclopedia_achievements_notrue_legend_image" x="858" y="515" width="169" height="172"/>	
+    </file>	
+</w>
