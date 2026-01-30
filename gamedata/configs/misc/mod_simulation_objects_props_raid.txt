@@ -1,0 +1,87 @@
+; --- stalkers only
+; all_stalker = 1
+; territory = 1
+
+; --- mutants only
+; all_monster = 1
+; lair					= 1
+
+; --- all
+; all = 1
+; territory = 1
+; lair = 1
+
+
+@[default_resource]
+all = 1
+territory = 1
+lair = 1
+
+@[default_base]
+all = 1
+territory = 1
+lair = 1
+
+@[default_lair]
+all = 1
+territory = 1
+lair = 1
+
+@[weak_lair]
+all = 1
+territory = 1
+lair = 1
+
+@[default_territory]
+all = 1
+territory = 1
+lair = 1
+
+
+![rad2_loner_0000]
+sim_avail 	            = false
+
+![rad2_loner_0001]
+sim_avail 	            = false
+
+![rad2_loner_0002]
+sim_avail 	            = false
+
+![rad_after_valley]
+sim_avail 	            = false
+
+![rad_antenna_camper]
+sim_avail 	            = false
+
+![rad_antenna_monolith]
+sim_avail 	            = false
+
+![rad_antenna_patrol]
+sim_avail 	            = false
+
+![rad_bloodsucker]
+sim_avail 	            = false
+
+![rad_entrance]
+sim_avail 	            = false
+
+![rad_pseudodogs]
+sim_avail 	            = false
+
+![rad_snork1]
+sim_avail 	            = false
+
+![rad_snork2]
+sim_avail 	            = false
+
+![rad_valley]
+sim_avail 	            = false
+
+![rad_valley_dogs]
+sim_avail 	            = false
+
+![rad_zombied1]
+sim_avail 	            = false
+
+![rad_zombied2]
+sim_avail 	            = false

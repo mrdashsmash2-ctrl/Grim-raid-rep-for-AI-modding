@@ -1,0 +1,146 @@
+[ammo_12x70_raid]:ammo_base
+GroupControlSection	= spawn_group
+discovery_dependency =
+$spawn			= "weapons\ammo\ammo_12x70_raid"
+class			= AMMO_S
+cform           = skeleton
+visual          = dynamics\weapons\wpn_ammo\ammo_12x70_buck.ogf
+description		= ammo-12x70-raid_descr
+$prefetch 		= 64
+
+icons_texture = ui\raid_textures\raid_special_items
+cost			= 50000
+
+box_size		= 15
+
+inv_name		= ammo-12x70-raid
+inv_name_short	= ammo-12x70-raid_s
+inv_weight		= .45
+
+inv_grid_width	= 2
+inv_grid_height	= 1
+inv_grid_x		= 0
+inv_grid_y		= 0
+
+k_dist			= 0.75
+k_disp			= 4.6
+k_hit			= 0.4 ;  0.4
+k_impulse		= 2.33
+k_ap			= 0.05
+buck_shot		= 9
+tracer			= on
+tracer_color_ID                          = 2
+4to1_tracer		= false
+wm_size         = 0.022
+k_air_resistance = 2.0
+
+tier                                     = 3
+
+
+[pill_raid]:identity_immunities
+GroupControlSection                                = spawn_group 
+discovery_dependency                               = 
+$spawn 				                               = "devices\pill_raid"
+cform                                              = skeleton 
+class                                              = II_ATTCH 
+kind			                               		= i_misc
+
+visual						                       = dynamics\devices\dev_antirad\dev_antirad.ogf
+description					                       = st_raid_pill_descr
+inv_name					                       = st_raid_pill
+inv_name_short				                       = st_raid_pill
+icons_texture = ui\raid_textures\raid_special_items
+cost						                       = 20000
+inv_weight					                       = 0.05
+
+inv_grid_width	                                   = 1
+inv_grid_height		                               = 1
+inv_grid_x			                               = 7
+inv_grid_y			                               = 0
+attach_angle_offset		                           = -0.287979, 1.560923, 1.544060
+attach_position_offset		                       = 0.096910, -0.013594, 0.107925
+attach_bone_name                                   = bip01_l_hand 
+auto_attach                                        = false 
+tier = 5
+
+
+[raid_injector_general]:booster
+$spawn 						                       = "food and drugs\medkit_scientic"
+visual						                       = dynamics\equipments\medical\stim3.ogf
+kind			                               	   = i_medical
+icons_texture 								       = ui\raid_textures\raid_special_items
+description					                       = st_stim_scientic_descr
+;cost						                       = 10000
+inv_name					                       = st_stim_scientic
+inv_name_short				                       = st_stim_scientic
+inv_weight					                       = 0.1
+inv_grid_width     			                       = 1
+inv_grid_height    			                       = 1
+inv_grid_x         			                       = 2
+inv_grid_y         			                       = 0
+upgr_icon_path								 	   = ui\actor_items\ui_actor_items_2
+upgr_icon_x								 	 	   = 0
+upgr_icon_y								 	 	   = 650
+upgr_icon_width						 	 	 	   = 150
+upgr_icon_height						 	 	   = 150
+;boost_time					                       = 0
+use_sound					                       = interface\inv_stim_4p3
+tier = 5
+
+[raid_injector_1]:raid_injector_general
+$spawn 						                       = "food and drugs\raid_injector_1"
+description					                       = st_raid_injector_1_descr
+inv_name					                       = st_raid_injector_1
+inv_name_short				                       = st_raid_injector_1
+inv_grid_x         			                       = 2
+cost						                       = 12000
+
+[raid_injector_2]:raid_injector_general
+$spawn 						                       = "food and drugs\raid_injector_2"
+description					                       = st_raid_injector_2_descr
+inv_name					                       = st_raid_injector_2
+inv_name_short				                       = st_raid_injector_2
+inv_grid_x         			                       = 3
+cost						                       = 25000
+
+[raid_injector_3]:raid_injector_general
+$spawn 						                       = "food and drugs\raid_injector_3"
+description					                       = st_raid_injector_3_descr
+inv_name					                       = st_raid_injector_3
+inv_name_short				                       = st_raid_injector_3
+inv_grid_x         			                       = 4
+cost						                       = 40000
+
+[raid_injector_4]:raid_injector_general
+$spawn 						                       = "food and drugs\raid_injector_4"
+description					                       = st_raid_injector_4_descr
+inv_name					                       = st_raid_injector_4
+inv_name_short				                       = st_raid_injector_4
+inv_grid_x         			                       = 5
+cost						                       = 50000
+
+[raid_injector_5]:raid_injector_general
+$spawn 						                       = "food and drugs\raid_injector_5"
+description					                       = st_raid_injector_5_descr
+inv_name					                       = st_raid_injector_5
+inv_name_short				                       = st_raid_injector_5
+inv_grid_x         			                       = 6
+cost						                       = 60000
+
+
+[raid_anomaly_visor]:tch_device,device_torch
+inv_name					                       = st_raid_anomaly_visor
+inv_name_short				                       = st_raid_anomaly_visor
+description					                       = st_raid_anomaly_visor_descr
+
+icons_texture = ui\raid_textures\raid_special_items
+inv_grid_width	= 1
+inv_grid_height	= 1
+inv_grid_x		= 8
+inv_grid_y		= 0
+
+cost												   = 80000
+default_to_ruck                          		       = true
+anim_item								 			   = false
+condition_bar									       = power_progess_bar
+tier                                                   = 5

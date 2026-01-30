@@ -1,0 +1,71 @@
+;----------------------- fuel tank ----------------------------
+[raid_fuel_item]:identity_immunities
+GroupControlSection                                = spawn_group 
+discovery_dependency                               = 
+$spawn 				                               = "devices\raid_fuel_item"
+cform                                              = skeleton 
+class                                              = II_ATTCH 
+kind			                               		= i_misc
+
+visual                                             = dynamics\balon\kanistra.ogf
+description			                               = st_raid_fuel_descr
+inv_name			                               = st_raid_fuel
+inv_name_short		                               = st_raid_fuel
+cost				                               = 12400
+inv_weight			                               = 4.48
+
+inv_grid_width	                                   = 2
+inv_grid_height		                               = 2
+inv_grid_x			                               = 2
+inv_grid_y			                               = 30
+attach_angle_offset		                           = -0.287979, 1.560923, 1.544060
+attach_position_offset		                       = 0.096910, -0.013594, 0.107925
+attach_bone_name                                   = bip01_l_hand 
+auto_attach                                        = false 
+tier = 2
+
+
+;----------------------- event container items ----------------------------
+[stalker_raid_event_item]:identity_immunities
+GroupControlSection                      = spawn_group
+discovery_dependency                     =
+$spawn                                   = "quest_items\stalker_raid_event_item"
+kind			                     = i_misc
+class                                    = II_ATTCH
+cform                                    = skeleton
+visual									           = dynamics\equipments\quest\notes_document_case_2.ogf
+inv_weight                               = 5.42
+inv_grid_width                           = 2
+inv_grid_height                          = 2
+inv_grid_x                               = 4
+inv_grid_y                               = 77
+inv_name                                 = st_stalker_event_package_name
+inv_name_short                           = st_stalker_event_package_name
+description                              = st_stalker_event_package_desc
+cost                                     = 81100
+auto_attach                              = false
+radius                                   = 1
+use1_functor         		             = itms_manager.menu_unpack
+use1_action_functor  		             = raid_utils.unpack_event_item
+
+[ecolog_raid_event_item]:identity_immunities
+GroupControlSection                      = spawn_group
+discovery_dependency                     =
+$spawn                                   = "quest_items\ecolog_raid_event_item"
+kind			                     = i_misc
+class                                    = II_ATTCH
+cform                                    = skeleton
+visual						                       = dynamics\equipments\medical\item_aptechka.ogf
+inv_weight					                       = 1.6
+inv_grid_width				                       = 1
+inv_grid_height				                       = 1
+inv_grid_x         			                       = 16
+inv_grid_y         			                       = 66
+inv_name                                 = st_eco_event_package_name
+inv_name_short                           = st_eco_event_package_name
+description                              = st_eco_event_package_desc
+cost                                     = 85300
+auto_attach                              = false
+radius                                   = 1
+use1_functor         		             = itms_manager.menu_unpack
+use1_action_functor  		             = raid_utils.unpack_event_item
